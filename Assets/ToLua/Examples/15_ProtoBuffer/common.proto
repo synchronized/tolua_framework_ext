@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+message Header 
+{
+  required int64 cmd = 1;
+  required int32 seq = 2;
+}
