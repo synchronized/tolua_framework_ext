@@ -34,6 +34,8 @@ public class DelegateFactory
 		dict.Add(typeof(System.Action<UnityEngine.AsyncOperation>), factory.System_Action_UnityEngine_AsyncOperation);
 		dict.Add(typeof(UnityEngine.AudioClip.PCMReaderCallback), factory.UnityEngine_AudioClip_PCMReaderCallback);
 		dict.Add(typeof(UnityEngine.AudioClip.PCMSetPositionCallback), factory.UnityEngine_AudioClip_PCMSetPositionCallback);
+		dict.Add(typeof(System.Action<byte[]>), factory.System_Action_bytes);
+		dict.Add(typeof(System.Action<bool,int>), factory.System_Action_bool_int);
 
 		DelegateTraits<System.Action>.Init(factory.System_Action);
 		DelegateTraits<UnityEngine.Events.UnityAction>.Init(factory.UnityEngine_Events_UnityAction);
@@ -52,6 +54,8 @@ public class DelegateFactory
 		DelegateTraits<System.Action<UnityEngine.AsyncOperation>>.Init(factory.System_Action_UnityEngine_AsyncOperation);
 		DelegateTraits<UnityEngine.AudioClip.PCMReaderCallback>.Init(factory.UnityEngine_AudioClip_PCMReaderCallback);
 		DelegateTraits<UnityEngine.AudioClip.PCMSetPositionCallback>.Init(factory.UnityEngine_AudioClip_PCMSetPositionCallback);
+		DelegateTraits<System.Action<byte[]>>.Init(factory.System_Action_bytes);
+		DelegateTraits<System.Action<bool,int>>.Init(factory.System_Action_bool_int);
 
 		TypeTraits<System.Action>.Init(factory.Check_System_Action);
 		TypeTraits<UnityEngine.Events.UnityAction>.Init(factory.Check_UnityEngine_Events_UnityAction);
@@ -70,6 +74,8 @@ public class DelegateFactory
 		TypeTraits<System.Action<UnityEngine.AsyncOperation>>.Init(factory.Check_System_Action_UnityEngine_AsyncOperation);
 		TypeTraits<UnityEngine.AudioClip.PCMReaderCallback>.Init(factory.Check_UnityEngine_AudioClip_PCMReaderCallback);
 		TypeTraits<UnityEngine.AudioClip.PCMSetPositionCallback>.Init(factory.Check_UnityEngine_AudioClip_PCMSetPositionCallback);
+		TypeTraits<System.Action<byte[]>>.Init(factory.Check_System_Action_bytes);
+		TypeTraits<System.Action<bool,int>>.Init(factory.Check_System_Action_bool_int);
 
 		StackTraits<System.Action>.Push = factory.Push_System_Action;
 		StackTraits<UnityEngine.Events.UnityAction>.Push = factory.Push_UnityEngine_Events_UnityAction;
@@ -88,6 +94,8 @@ public class DelegateFactory
 		StackTraits<System.Action<UnityEngine.AsyncOperation>>.Push = factory.Push_System_Action_UnityEngine_AsyncOperation;
 		StackTraits<UnityEngine.AudioClip.PCMReaderCallback>.Push = factory.Push_UnityEngine_AudioClip_PCMReaderCallback;
 		StackTraits<UnityEngine.AudioClip.PCMSetPositionCallback>.Push = factory.Push_UnityEngine_AudioClip_PCMSetPositionCallback;
+		StackTraits<System.Action<byte[]>>.Push = factory.Push_System_Action_bytes;
+		StackTraits<System.Action<bool,int>>.Push = factory.Push_System_Action_bool_int;
 	}
     
     public static Delegate CreateDelegate(Type t, LuaFunction func = null)
@@ -1175,6 +1183,122 @@ public class DelegateFactory
 	}
 
 	void Push_UnityEngine_AudioClip_PCMSetPositionCallback(IntPtr L, UnityEngine.AudioClip.PCMSetPositionCallback o)
+	{
+		ToLua.Push(L, o);
+	}
+
+	class System_Action_bytes_Event : LuaDelegate
+	{
+		public System_Action_bytes_Event(LuaFunction func) : base(func) { }
+		public System_Action_bytes_Event(LuaFunction func, LuaTable self) : base(func, self) { }
+
+		public void Call(byte[] param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+
+		public void CallWithSelf(byte[] param0)
+		{
+			func.BeginPCall();
+			func.Push(self);
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public System.Action<byte[]> System_Action_bytes(LuaFunction func, LuaTable self, bool flag)
+	{
+		if (func == null)
+		{
+			System.Action<byte[]> fn = delegate(byte[] param0) { };
+			return fn;
+		}
+
+		if(!flag)
+		{
+			System_Action_bytes_Event target = new System_Action_bytes_Event(func);
+			System.Action<byte[]> d = target.Call;
+			target.method = d.Method;
+			return d;
+		}
+		else
+		{
+			System_Action_bytes_Event target = new System_Action_bytes_Event(func, self);
+			System.Action<byte[]> d = target.CallWithSelf;
+			target.method = d.Method;
+			return d;
+		}
+	}
+
+	bool Check_System_Action_bytes(IntPtr L, int pos)
+	{
+		return TypeChecker.CheckDelegateType<System.Action<byte[]>>(L, pos);
+	}
+
+	void Push_System_Action_bytes(IntPtr L, System.Action<byte[]> o)
+	{
+		ToLua.Push(L, o);
+	}
+
+	class System_Action_bool_int_Event : LuaDelegate
+	{
+		public System_Action_bool_int_Event(LuaFunction func) : base(func) { }
+		public System_Action_bool_int_Event(LuaFunction func, LuaTable self) : base(func, self) { }
+
+		public void Call(bool param0, int param1)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.PCall();
+			func.EndPCall();
+		}
+
+		public void CallWithSelf(bool param0, int param1)
+		{
+			func.BeginPCall();
+			func.Push(self);
+			func.Push(param0);
+			func.Push(param1);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public System.Action<bool,int> System_Action_bool_int(LuaFunction func, LuaTable self, bool flag)
+	{
+		if (func == null)
+		{
+			System.Action<bool,int> fn = delegate(bool param0, int param1) { };
+			return fn;
+		}
+
+		if(!flag)
+		{
+			System_Action_bool_int_Event target = new System_Action_bool_int_Event(func);
+			System.Action<bool,int> d = target.Call;
+			target.method = d.Method;
+			return d;
+		}
+		else
+		{
+			System_Action_bool_int_Event target = new System_Action_bool_int_Event(func, self);
+			System.Action<bool,int> d = target.CallWithSelf;
+			target.method = d.Method;
+			return d;
+		}
+	}
+
+	bool Check_System_Action_bool_int(IntPtr L, int pos)
+	{
+		return TypeChecker.CheckDelegateType<System.Action<bool,int>>(L, pos);
+	}
+
+	void Push_System_Action_bool_int(IntPtr L, System.Action<bool,int> o)
 	{
 		ToLua.Push(L, o);
 	}

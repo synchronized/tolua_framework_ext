@@ -210,6 +210,15 @@ public static class CustomSettings
         _GT(typeof(RenderTexture)),
         _GT(typeof(Resources)),     
         _GT(typeof(LuaProfiler)),
+
+
+        //Cricket.Game
+        _GT(typeof(Cricket.Common.NetManager)),
+        _GT(typeof(Cricket.Game.AppConst)),
+        _GT(typeof(Cricket.Game.GameArchWrap)),
+        _GT(typeof(Cricket.Game.MsgDispatcherPB)),
+        _GT(typeof(Cricket.Game.MsgSenderPB)),
+
     };
 
     public static List<Type> dynamicList = new List<Type>()
