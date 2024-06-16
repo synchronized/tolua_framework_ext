@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 using QFramework;
-using Google.Protobuf;
 
 using Cricket.Common;
 
@@ -31,7 +30,7 @@ namespace Cricket.Game
             };
             this.RegisterUtility<IMsgDispatcher<byte[]>>(dispatcher);
             this.RegisterUtility<INetManager<byte[]>>(netManager);
-            this.RegisterUtility<IMsgSender<byte[], IMessage>>(msgSender);
+            this.RegisterUtility<IMsgSender<byte[], byte[]>>(msgSender);
         }
 
     }

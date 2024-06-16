@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 using QFramework;
-using Google.Protobuf;
 
 using Cricket.Common;
 
@@ -24,8 +23,8 @@ namespace Cricket.Game
             return GetArchitecture().GetUtility<INetManager<byte[]>>();
         }
 
-        public static IMsgSender<byte[], IMessage> GetMsgSender() {
-            return GetArchitecture().GetUtility<IMsgSender<byte[], IMessage>>();
+        public static IMsgSender<byte[], byte[]> GetMsgSender() {
+            return GetArchitecture().GetUtility<IMsgSender<byte[], byte[]>>();
         }
 
 

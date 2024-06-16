@@ -51,7 +51,7 @@ public class Cricket_Game_MsgSenderPBWrap
 			{
 				Cricket.Game.MsgSenderPB obj = (Cricket.Game.MsgSenderPB)ToLua.CheckObject<Cricket.Game.MsgSenderPB>(L, 1);
 				string arg0 = ToLua.CheckString(L, 2);
-				Google.Protobuf.IMessage arg1 = (Google.Protobuf.IMessage)ToLua.CheckObject<Google.Protobuf.IMessage>(L, 3);
+				byte[] arg1 = ToLua.CheckByteBuffer(L, 3);
 				obj.SendMessage(arg0, arg1);
 				return 0;
 			}
@@ -59,7 +59,7 @@ public class Cricket_Game_MsgSenderPBWrap
 			{
 				Cricket.Game.MsgSenderPB obj = (Cricket.Game.MsgSenderPB)ToLua.CheckObject<Cricket.Game.MsgSenderPB>(L, 1);
 				string arg0 = ToLua.CheckString(L, 2);
-				Google.Protobuf.IMessage arg1 = (Google.Protobuf.IMessage)ToLua.CheckObject<Google.Protobuf.IMessage>(L, 3);
+				byte[] arg1 = ToLua.CheckByteBuffer(L, 3);
 				System.Action<bool,int> arg2 = (System.Action<bool,int>)ToLua.CheckDelegate<System.Action<bool,int>>(L, 4);
 				obj.SendMessage(arg0, arg1, arg2);
 				return 0;

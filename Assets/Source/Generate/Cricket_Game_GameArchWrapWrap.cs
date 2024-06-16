@@ -94,7 +94,7 @@ public class Cricket_Game_GameArchWrapWrap
 		try
 		{
 			ToLua.CheckArgsCount(L, 0);
-			Cricket.Common.IMsgSender<byte[],Google.Protobuf.IMessage> o = Cricket.Game.GameArchWrap.GetMsgSender();
+			Cricket.Common.IMsgSender<byte[],byte[]> o = Cricket.Game.GameArchWrap.GetMsgSender();
 			ToLua.PushObject(L, o);
 			return 1;
 		}

@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System;
 
-using Google.Protobuf;
 using QFramework;
 using Cricket.Common;
 using Proto;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Cricket.Game
 {
-    public class MsgSenderPB : IMsgSender<byte[], IMessage>
+    public class MsgSenderPB : IMsgSender<byte[], byte[]>
     {
 
         private uint m_SessionId = 0;
@@ -31,30 +29,25 @@ namespace Cricket.Game
             }
         } 
 
-        public void SendMessage(string name, IMessage protobuf) {
-            this.SendMessage(name, protobuf, null);
+        public void SendMessage(string name, byte[] body_data) {
+            this.SendMessage(name, body_data, null);
         }
 
-        public void SendMessage(string name, IMessage protobuf, Action<bool, int> cb) {
+        public void SendMessage(string name, byte[] body_data, Action<bool, int> cb) {
             if (NetManager == null) {
                 LogKit.E("[Network]NetManager is not set");
                 return;
             }
-            req_msgheader req = new()
-            {
-                MsgName = name
-            };
+            uint client_session_id = 0;
             if (cb != null) {
                 m_SessionId++;
-                req.Session = (int)m_SessionId;
-                m_SessionMap[m_SessionId] = cb;
+                client_session_id = m_SessionId;
+                m_SessionMap[client_session_id] = cb;
             }
-            byte[] header_data = req.ToByteArray();
-            byte[] body_data = protobuf.ToByteArray();
 
             ByteBuffer buff = new();
-            buff.WriteNetworkUInt16((ushort)header_data.Length);
-            buff.WriteBytes(header_data);
+            buff.WriteNetworkStringUInt16(name);
+            buff.WriteNetworkUInt32(client_session_id);
             buff.WriteNetworkUInt16((ushort)body_data.Length);
             buff.WriteBytes(body_data);
 

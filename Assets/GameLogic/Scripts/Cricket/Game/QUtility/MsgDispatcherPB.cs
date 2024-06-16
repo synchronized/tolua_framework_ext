@@ -25,14 +25,12 @@ namespace Cricket.Game
 
         public void Dispatcher(byte[] bytearray) {
             ByteBuffer buff = new ByteBuffer(bytearray);
-            ushort header_size = buff.ReadNetworkUInt16();
-            byte[] header_body = buff.ReadBytes(header_size);
+            string msgName = buff.ReadNetworkStringUInt16();
             ushort body_size = buff.ReadNetworkUInt16();
             byte[] body_body = buff.ReadBytes(body_size);
-            res_msgheader header = res_msgheader.Parser.ParseFrom(header_body);
 
-            LogKit.I("[Network]Dispatcher msgname: {0}", header.MsgName);
-            m_EventSystem.Send(header.MsgName, body_body);
+            LogKit.I("[Network]Dispatcher msgname: {0}", msgName);
+            m_EventSystem.Send(msgName, body_body);
         }
 
     }
