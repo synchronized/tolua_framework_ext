@@ -249,7 +249,7 @@ namespace LuaInterface
             Push(LuaDLL.tolua_tag());
             LuaSetGlobal("tolua_tag");
 #if UNITY_EDITOR
-            if (UnityEditor.EditorPrefs.GetInt(Application.dataPath + "InjectStatus") == 1)
+            if (UnityEditor.EditorPrefs.GetInt(LuaConst.frameworkRoot + "InjectStatus") == 1)
             { 
 #endif
                 DoFile("System/Injection/LuaInjectionStation.lua");

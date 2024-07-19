@@ -90,8 +90,7 @@ public class InjectionBlackListGenerator : EditorWindow
 
     string SelectFolder()
     {
-        string dataPath = Application.dataPath;
-        string selectedPath = EditorUtility.OpenFolderPanel("Path", dataPath, "");
+        string selectedPath = EditorUtility.OpenFolderPanel("Path", LuaConst.frameworkRoot, "");
         if (!string.IsNullOrEmpty(selectedPath))
         {
             return GetRelativePath(selectedPath);
@@ -101,9 +100,9 @@ public class InjectionBlackListGenerator : EditorWindow
 
     string GetRelativePath(string absolutePath)
     {
-        if (absolutePath.StartsWith(Application.dataPath))
+        if (absolutePath.StartsWith(LuaConst.frameworkRoot))
         {
-            return "Assets/" + absolutePath.Substring(Application.dataPath.Length + 1);
+            return "Assets/" + absolutePath.Substring(LuaConst.frameworkRoot.Length + 1);
         }
         else
         {
@@ -355,7 +354,7 @@ public class InjectionBlackListGenerator : EditorWindow
             paths.Add(toluaPath + "Misc/");
             paths.Add(toluaPath + "Injection/");
             paths.Add(toluaPath + "Misc/");
-            paths.Add(Application.dataPath + "/Plugins/");
+            paths.Add(LuaConst.frameworkRoot + "/Plugins/");
             paths.Add(CustomSettings.toluaBaseType);
             paths.Add(GetRelativePath(CustomSettings.saveDir));
         }
