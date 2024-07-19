@@ -12,10 +12,10 @@ using UnityEngine.Networking;
 
 public static class CustomSettings
 {
-    public static string saveDir = Application.dataPath + "/Source/Generate/";    
-    public static string toluaBaseType = Application.dataPath + "/ToLua/BaseType/";
-    public static string baseLuaDir = Application.dataPath + "/Tolua/Lua/";
-    public static string injectionFilesPath = Application.dataPath + "/ToLua/Injection/";
+    public static string saveDir = LuaConst.frameworkRoot + "/Source/Generate/";    
+    public static string toluaBaseType = LuaConst.frameworkRoot + "/ToLua/BaseType/";
+    public static string baseLuaDir = LuaConst.frameworkRoot + "/Tolua/Lua/";
+    public static string injectionFilesPath = LuaConst.frameworkRoot + "/ToLua/Injection/";
 
     //lua print或者error重定向
     public const int PRINTLOGLINE = 208;                //ToLua.Print函数中Debugger.Log位置

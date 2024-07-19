@@ -2,8 +2,14 @@
 
 public static class LuaConst
 {
-    public static string luaDir = Application.dataPath + "/Lua";                //lua逻辑代码目录
-    public static string toluaDir = Application.dataPath + "/ToLua/Lua";        //tolua lua文件目录
+    public readonly static string frameworkRoot = Application.dataPath + "/ToLuaFrameworkExt";
+    public readonly static string toluaRoot = frameworkRoot + "/ToLua";
+    public readonly static string luaDir = frameworkRoot + "/Lua";                //lua逻辑代码目录
+    public readonly static string toluaDir = frameworkRoot + "/ToLua/Lua";        //tolua lua文件目录
+    public readonly static string luaEncoderRoot = frameworkRoot + "/LuaEncoder";
+    public readonly static string localABPath = Application.persistentDataPath + "/LuaRes";
+    public const string MD5FileName = "files.txt";
+    public const string ExtName = ".zip";//用.u3d容易被服务器MIME限制
 
 #if UNITY_STANDALONE
     public static string osDir = "Win";
