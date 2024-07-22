@@ -30,7 +30,7 @@ namespace ToLuaGameFramework
         /// </summary>
         void OpenLibs()
         {
-            lua.OpenLibs(LuaDLL.luaopen_pb);
+            //lua.OpenLibs(LuaDLL.luaopen_pb);
 #if !LUAC_5_3
 #if UNITY_ANDROID
             lua.OpenLibs(LuaDLL.luaopen_ffi);
@@ -43,6 +43,17 @@ namespace ToLuaGameFramework
             lua.OpenLibs(LuaDLL.luaopen_mime_core);
             lua.OpenLibs(LuaDLL.luaopen_cjson);
             lua.OpenLibs(LuaDLL.luaopen_cjson_safe);
+
+            lua.BeginPreLoad();                        
+            lua.AddPreLoadLib("pb", new LuaCSFunction(LuaDLL.luaopen_pb));
+            lua.AddPreLoadLib("pb.io", new LuaCSFunction(LuaDLL.luaopen_pb_io));
+            lua.AddPreLoadLib("pb.conv", new LuaCSFunction(LuaDLL.luaopen_pb_conv));
+            lua.AddPreLoadLib("pb.buffer", new LuaCSFunction(LuaDLL.luaopen_pb_buffer));
+            lua.AddPreLoadLib("pb.slice", new LuaCSFunction(LuaDLL.luaopen_pb_slice));
+            lua.AddPreLoadLib("pb.unsafe", new LuaCSFunction(LuaDLL.luaopen_pb_unsafe));
+            lua.AddPreLoadLib("sproto.core", new LuaCSFunction(LuaDLL.luaopen_sproto_core));
+            lua.AddPreLoadLib("crypt", new LuaCSFunction(LuaDLL.luaopen_crypt));
+            lua.EndPreLoad();          
         }
 
         //cjson 比较特殊，只new了一个table，没有注册库，这里注册一下

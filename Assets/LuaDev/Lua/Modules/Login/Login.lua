@@ -8,14 +8,14 @@ end
 function Login:Awake()
     self.super.Awake(self)
 
-    local btnStart = self.transform:Find("BtnStart")
+    local btnStart = self.transform:Find("Panel/BtnStart")
     btnStart:OnClick(
         function()
-            CommandManager.Execute(CommandID.OpenUI, "LobbyMainMgr")
+            CommandManager.Execute(CommandID.DoLogin)
         end
     )
 
-    local btnRegister = self.transform:Find("BtnRegister")
+    local btnRegister = self.transform:Find("Panel/BtnRegister")
     btnRegister:OnClick(
         function()
             --CommandManager.Execute(CommandID.OpenUI, "LoginMgr", "Register")

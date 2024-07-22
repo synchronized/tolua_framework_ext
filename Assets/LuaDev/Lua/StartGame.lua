@@ -4,6 +4,8 @@ local StartGame = {}
 
 function StartGame.Run()
 
+    LProtoMgr.OnInit()
+
     if LuaConfig.UseResBundle then
         --进入第一个游戏界面：预加载资源进度条
         local PreloadUI = require "Modules.ResPreload.ResPreload"

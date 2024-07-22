@@ -57,6 +57,13 @@ namespace ToLuaGameFramework
             m_SocketClient.OnRemove();
         }
 
+        public void CheckConnect(string address, int port)
+        {
+            if (IsConnected() == false) {
+                SendConnect(address, port);
+            }
+        }
+
         /// <summary>
         /// 发送链接请求
         /// </summary>
@@ -69,7 +76,7 @@ namespace ToLuaGameFramework
         /// <summary>
         /// 关闭连接
         /// </summary>
-        public void CloseSocket()
+        public void CloseConnect()
         {
             m_SocketClient.Close();
         }

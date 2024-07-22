@@ -1,5 +1,16 @@
 CommandID = {
-    OpenUI = "OpenUI"
+    OpenUI = "OpenUI",
+    CloseUI = "CloseUI",
+
+    TryLogin = "TryLogin",
+    DoLogin = "DoLogin",
+}
+
+TryLoginType = {
+    ConnectFail = "ConnectFail", --连接服务器失败
+    Disconnect = "Disconnect", --断开连接
+    RequestTimeout = "RequestTimeout", --请求超时
+    PingTimeout = "PingTimeout", --ping超时
 }
 
 --[[

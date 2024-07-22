@@ -7,8 +7,11 @@ local queue = nil
 local function mainThreadUpdate()
     while not Queue.IsEmpty(queue) do
         local command = Queue.Pop(queue)
-        local listeners = listenerGroups[command.id]
-        if listeners then
+        local listeners
+        if command ~= nil then
+            listeners = listenerGroups[command.id]
+        end
+        if listeners and command then
             for key, value in pairs(listeners) do
                 local paramsCount = #command.params
                 if paramsCount == 0 then

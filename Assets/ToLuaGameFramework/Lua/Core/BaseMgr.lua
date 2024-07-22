@@ -9,6 +9,7 @@ end
 
 function BaseMgr:Ctor()
     CommandManager.Add(CommandID.OpenUI, self.OnReceiveOpenUICmd, self)
+    CommandManager.Add(CommandID.CloseUI, self.OnReceiveCloseUICmd, self)
 end
 
 -- 子类在构造Ctor()里调用添加UI类(子类构造加super)
@@ -31,6 +32,12 @@ end
 function BaseMgr:OnReceiveOpenUICmd(moduleName, uiKey, parent)
     if moduleName == self.__cname then
         self:OpenUI(uiKey, parent)
+    end
+end
+
+function BaseMgr:OnReceiveCloseUICmd(moduleName, uiKey)
+    if moduleName == self.__cname then
+        self:CloseUI(uiKey)
     end
 end
 

@@ -40,7 +40,6 @@ namespace ToLuaGameFramework
                 easyEvent.Register(onEvent);
             }
         }
-        
 
         public void UnRegister(string key, Action<byte[]> onEvent)
         {
@@ -60,16 +59,18 @@ namespace ToLuaGameFramework
             return false;
         }
 
-        public void Dispatcher(byte[] bytearray) {
+        public void Dispatcher(byte[] bytearray) 
+        {
             ByteBuffer buff = new ByteBuffer(bytearray);
             string msgName = buff.ReadNetworkStringUInt16();
-            ushort body_size = buff.ReadNetworkUInt16();
-            byte[] body_body = buff.ReadBytes(body_size);
+            ushort bodySize = buff.ReadNetworkUInt16();
+            byte[] bodyBytes = buff.ReadBytes(bodySize);
 
             Debug.Log(string.Format("[Network]Dispatcher msgname: {0}", msgName));
-            if (this.Send(msgName, body_body) == false) {
+            if (this.Send(msgName, bodyBytes) == false) {
                 //通知lua
-                LuaManager.instance.CallFunction(msgName, body_body);
+                string bodyStr = System.Text.Encoding.Default.GetString(bodyBytes);
+                LuaManager.instance.CallFunction("LNetMgr.OnReceveServerData", msgName, bodyStr);
             }
         }
     }

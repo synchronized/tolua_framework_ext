@@ -10,8 +10,9 @@ public class ToLuaGameFramework_NetManagerWrap
 		L.RegFunction("RegisterReceiveEvent", new LuaCSFunction(RegisterReceiveEvent));
 		L.RegFunction("DoUpdate", new LuaCSFunction(DoUpdate));
 		L.RegFunction("DoClose", new LuaCSFunction(DoClose));
+		L.RegFunction("CheckConnect", new LuaCSFunction(CheckConnect));
 		L.RegFunction("SendConnect", new LuaCSFunction(SendConnect));
-		L.RegFunction("CloseSocket", new LuaCSFunction(CloseSocket));
+		L.RegFunction("CloseConnect", new LuaCSFunction(CloseConnect));
 		L.RegFunction("IsConnected", new LuaCSFunction(IsConnected));
 		L.RegFunction("SendMessage", new LuaCSFunction(SendMessage));
 		L.RegFunction("AddEvent", new LuaCSFunction(AddEvent));
@@ -70,6 +71,24 @@ public class ToLuaGameFramework_NetManagerWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int CheckConnect(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 3);
+			ToLuaGameFramework.NetManager obj = (ToLuaGameFramework.NetManager)ToLua.CheckObject<ToLuaGameFramework.NetManager>(L, 1);
+			string arg0 = ToLua.CheckString(L, 2);
+			int arg1 = (int)LuaDLL.luaL_checkinteger(L, 3);
+			obj.CheckConnect(arg0, arg1);
+			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int SendConnect(IntPtr L)
 	{
 		try
@@ -88,13 +107,13 @@ public class ToLuaGameFramework_NetManagerWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int CloseSocket(IntPtr L)
+	static int CloseConnect(IntPtr L)
 	{
 		try
 		{
 			ToLua.CheckArgsCount(L, 1);
 			ToLuaGameFramework.NetManager obj = (ToLuaGameFramework.NetManager)ToLua.CheckObject<ToLuaGameFramework.NetManager>(L, 1);
-			obj.CloseSocket();
+			obj.CloseConnect();
 			return 0;
 		}
 		catch (Exception e)
