@@ -1,6 +1,6 @@
 LNetMgr = LNetMgr or {}
 local protobuf = require "pb"
-
+local cjsonutil = require "cjson.util"
 
 local split = function(input, delimiter)
     input = tostring(input)
@@ -16,7 +16,7 @@ local split = function(input, delimiter)
 end
 
 function LNetMgr.CheckConnect()
-    LogError(string.format("LNetMgr.CheckConnect(%s, %d)", ServerConfig.Address, ServerConfig.Port))
+    Log(string.format("LNetMgr.CheckConnect(%s, %d)", ServerConfig.Address, ServerConfig.Port))
     NetManager.Instance:CheckConnect(ServerConfig.Address, ServerConfig.Port)
 end
 
@@ -25,7 +25,12 @@ function LNetMgr.CloseConnect()
 end
 
 function LNetMgr.OnReceveServerData(msgname, bytes_body)
-    LogError("msgname:"..tostring(msgname)..", bytes_body:"..tostring(bytes_body))
+
+    --local protoBytes = ResManager.LLoadBinaryAssetSyn("Proto/Protobuf/Protocol")
+    --local isOk, n = pb.load(protoBytes)
+    --local load = assert(pb.load(protoBytes))
+
+    --LogError("-------------------pb.load isOk:", isOk, ", n:", n)
     local resp = assert(protobuf.decode('proto.'..msgname, bytes_body))
-    local a, b = split(msgname, 2)
+    Log(cjsonutil.serialise_value(resp))
 end

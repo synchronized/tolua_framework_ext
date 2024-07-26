@@ -157,7 +157,7 @@ function LogError(...)
     if G_IS_EDITOR then
         _log("", 3, ...)
     else
-        _log("", 1, ...)
+        _log("", 3, ...)
     end
 end
 

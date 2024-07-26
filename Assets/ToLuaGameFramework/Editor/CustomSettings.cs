@@ -160,6 +160,7 @@ public static class CustomSettings
         _GT(typeof(Texture2D)),
         _GT(typeof(Shader)),
         _GT(typeof(Renderer)),
+        _GT(typeof(TextAsset)),
 
 #if !UNITY_5_4_OR_NEWER || UNITY_4_6 || UNITY_4_7
         _GT(typeof(WWW)),

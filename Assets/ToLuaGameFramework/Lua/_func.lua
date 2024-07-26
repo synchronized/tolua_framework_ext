@@ -201,3 +201,25 @@ function Random(min, max)
 	math.randomseed(tostring(seed))
 	return math.random(min, max)
 end
+
+--将二进制数据转换为16进制
+function BinaryToHexString(bytesData, width)
+    if bytesData == nil then
+        return ""
+    end
+    local strResult = ""
+    local colWidth = width or 16
+    local col = 0
+    for index = 1, #bytesData do
+        col = col + 1
+        -- 返回ascii码值
+        local b = string.byte(bytesData, index)
+        -- 转成16进制字符
+        strResult = strResult .. string.format("%02X", b) .. " "
+        if col >= colWidth then
+            strResult = strResult .. "\n"
+            col = 0
+        end
+    end
+    return strResult
+end

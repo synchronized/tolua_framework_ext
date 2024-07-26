@@ -15,6 +15,8 @@ public class ToLuaGameFramework_ResManagerWrap
 		L.RegFunction("SpawnPrefab", new LuaCSFunction(SpawnPrefab));
 		L.RegFunction("SpawnPrefabAsyn", new LuaCSFunction(SpawnPrefabAsyn));
 		L.RegFunction("OnSpawnDestroy", new LuaCSFunction(OnSpawnDestroy));
+		L.RegFunction("LLoadBinaryAssetSyn", new LuaCSFunction(LLoadBinaryAssetSyn));
+		L.RegFunction("LoadAssetSyn", new LuaCSFunction(LoadAssetSyn));
 		L.RegFunction("ClearMemory", new LuaCSFunction(ClearMemory));
 		L.RegFunction("__eq", new LuaCSFunction(op_Equality));
 		L.RegFunction("__tostring", new LuaCSFunction(ToLua.op_ToString));
@@ -209,6 +211,74 @@ public class ToLuaGameFramework_ResManagerWrap
 			bool arg1 = LuaDLL.luaL_checkboolean(L, 3);
 			obj.OnSpawnDestroy(arg0, arg1);
 			return 0;
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int LLoadBinaryAssetSyn(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+
+			if (count == 1)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				byte[] o = ToLuaGameFramework.ResManager.LLoadBinaryAssetSyn(arg0);
+				LuaDLL.tolua_pushlstring(L, o, o.Length);
+				return 1;
+			}
+			else if (count == 2)
+			{
+				string arg0 = ToLua.CheckString(L, 1);
+				bool arg1 = LuaDLL.luaL_checkboolean(L, 2);
+				byte[] o = ToLuaGameFramework.ResManager.LLoadBinaryAssetSyn(arg0, arg1);
+				LuaDLL.tolua_pushlstring(L, o, o.Length);
+				return 1;
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: ToLuaGameFramework.ResManager.LLoadBinaryAssetSyn");
+			}
+		}
+		catch (Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int LoadAssetSyn(IntPtr L)
+	{
+		try
+		{
+			int count = LuaDLL.lua_gettop(L);
+
+			if (count == 2)
+			{
+				System.Type arg0 = ToLua.CheckMonoType(L, 1);
+				string arg1 = ToLua.CheckString(L, 2);
+				UnityEngine.Object o = ToLuaGameFramework.ResManager.LoadAssetSyn(arg0, arg1);
+				ToLua.Push(L, o);
+				return 1;
+			}
+			else if (count == 3)
+			{
+				System.Type arg0 = ToLua.CheckMonoType(L, 1);
+				string arg1 = ToLua.CheckString(L, 2);
+				bool arg2 = LuaDLL.luaL_checkboolean(L, 3);
+				UnityEngine.Object o = ToLuaGameFramework.ResManager.LoadAssetSyn(arg0, arg1, arg2);
+				ToLua.Push(L, o);
+				return 1;
+			}
+			else
+			{
+				return LuaDLL.luaL_throw(L, "invalid arguments to method: ToLuaGameFramework.ResManager.LoadAssetSyn");
+			}
 		}
 		catch (Exception e)
 		{

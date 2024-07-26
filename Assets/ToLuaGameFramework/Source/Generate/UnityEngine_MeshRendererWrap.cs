@@ -13,8 +13,6 @@ public class UnityEngine_MeshRendererWrap
 		L.RegVar("additionalVertexStreams", new LuaCSFunction(get_additionalVertexStreams), new LuaCSFunction(set_additionalVertexStreams));
 		L.RegVar("enlightenVertexStream", new LuaCSFunction(get_enlightenVertexStream), new LuaCSFunction(set_enlightenVertexStream));
 		L.RegVar("subMeshStartIndex", new LuaCSFunction(get_subMeshStartIndex), null);
-		L.RegVar("scaleInLightmap", new LuaCSFunction(get_scaleInLightmap), new LuaCSFunction(set_scaleInLightmap));
-		L.RegVar("stitchLightmapSeams", new LuaCSFunction(get_stitchLightmapSeams), new LuaCSFunction(set_stitchLightmapSeams));
 		L.EndClass();
 	}
 
@@ -118,44 +116,6 @@ public class UnityEngine_MeshRendererWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int get_scaleInLightmap(IntPtr L)
-	{
-		object o = null;
-
-		try
-		{
-			o = ToLua.ToObject(L, 1);
-			UnityEngine.MeshRenderer obj = (UnityEngine.MeshRenderer)o;
-			float ret = obj.scaleInLightmap;
-			LuaDLL.lua_pushnumber(L, ret);
-			return 1;
-		}
-		catch(Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e, o, "attempt to index scaleInLightmap on a nil value");
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int get_stitchLightmapSeams(IntPtr L)
-	{
-		object o = null;
-
-		try
-		{
-			o = ToLua.ToObject(L, 1);
-			UnityEngine.MeshRenderer obj = (UnityEngine.MeshRenderer)o;
-			bool ret = obj.stitchLightmapSeams;
-			LuaDLL.lua_pushboolean(L, ret);
-			return 1;
-		}
-		catch(Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e, o, "attempt to index stitchLightmapSeams on a nil value");
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int set_additionalVertexStreams(IntPtr L)
 	{
 		object o = null;
@@ -190,44 +150,6 @@ public class UnityEngine_MeshRendererWrap
 		catch(Exception e)
 		{
 			return LuaDLL.toluaL_exception(L, e, o, "attempt to index enlightenVertexStream on a nil value");
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int set_scaleInLightmap(IntPtr L)
-	{
-		object o = null;
-
-		try
-		{
-			o = ToLua.ToObject(L, 1);
-			UnityEngine.MeshRenderer obj = (UnityEngine.MeshRenderer)o;
-			float arg0 = (float)LuaDLL.luaL_checknumber(L, 2);
-			obj.scaleInLightmap = arg0;
-			return 0;
-		}
-		catch(Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e, o, "attempt to index scaleInLightmap on a nil value");
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int set_stitchLightmapSeams(IntPtr L)
-	{
-		object o = null;
-
-		try
-		{
-			o = ToLua.ToObject(L, 1);
-			UnityEngine.MeshRenderer obj = (UnityEngine.MeshRenderer)o;
-			bool arg0 = LuaDLL.luaL_checkboolean(L, 2);
-			obj.stitchLightmapSeams = arg0;
-			return 0;
-		}
-		catch(Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e, o, "attempt to index stitchLightmapSeams on a nil value");
 		}
 	}
 }

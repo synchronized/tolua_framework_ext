@@ -420,26 +420,42 @@ namespace ToLuaGameFramework
         }
 
         /// <summary>
+        /// lua调用，获取二进制数据
+        /// </summary>
+        [LuaByteBufferAttribute]
+        public static byte[] LLoadBinaryAssetSyn(string assetPath, bool unloadABAfterSpawn = false)
+        {
+            TextAsset asset = LoadAssetSyn<TextAsset>(assetPath, unloadABAfterSpawn);
+            return asset.bytes;
+        }
+
+
+        public static T LoadAssetSyn<T>(string assetPath, bool unloadABAfterSpawn = false) where T : UnityEngine.Object
+        {
+            return LoadAssetSyn(typeof(T), assetPath, unloadABAfterSpawn) as T;
+        }
+
+        /// <summary>
         /// 同步获取资源(assetPath不带后缀名)
         /// </summary>
-        public static T LoadAssetSyn<T>(string assetPath, bool unloadABAfterSpawn = false) where T : UnityEngine.Object
+        public static UnityEngine.Object LoadAssetSyn(Type type, string assetPath, bool unloadABAfterSpawn = false)
         {
             if (LuaConfig.UseResBundle)
             {
                 string abName = null;
                 string assetName = null;
                 ParseAssetPath(assetPath, out abName, out assetName);
-                return LoadAssetFromAssetBundleSyn<T>(abName, assetName, unloadABAfterSpawn);
+                return LoadAssetFromAssetBundleSyn(type, abName, assetName, unloadABAfterSpawn);
             }
             else
             {
 #if UNITY_EDITOR
                 string prefabFullPath = AddSuffix(Application.dataPath + "/" + LuaConfig.LuaDevPath + "/" + assetPath);
                 prefabFullPath = prefabFullPath.Substring(prefabFullPath.IndexOf("Assets/"));
-                T asset = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(prefabFullPath);
+                var asset = UnityEditor.AssetDatabase.LoadAssetAtPath(prefabFullPath, type);
                 return asset;
 #else
-                return default(T);
+                return null;
 #endif
             }
         }
@@ -501,12 +517,17 @@ namespace ToLuaGameFramework
         }
 
 
+        static T LoadAssetFromAssetBundleSyn<T>(string abName, string assetName, bool unloadABAfterSpawn = false) where T : UnityEngine.Object
+        {
+            return LoadAssetFromAssetBundleSyn(typeof(T), abName, assetName, unloadABAfterSpawn) as T;
+        }
+
         /// <summary>
         /// 从AssetBundle里同步获取资源
         /// </summary>
-        static T LoadAssetFromAssetBundleSyn<T>(string abName, string assetName, bool unloadABAfterSpawn = false) where T : UnityEngine.Object
+        static UnityEngine.Object LoadAssetFromAssetBundleSyn(Type type, string abName, string assetName, bool unloadABAfterSpawn = false) 
         {
-            T prefab = null;
+            UnityEngine.Object prefab = null;
             AssetBundleInfo abInfo = null;
             loadedAssetBundles.TryGetValue(abName, out abInfo);
             if (abInfo == null)
@@ -515,20 +536,20 @@ namespace ToLuaGameFramework
                 AssetBundle ab = AssetBundle.LoadFromFile(localUrl);
                 if (unloadABAfterSpawn)
                 {
-                    prefab = ab.LoadAsset<T>(assetName);
+                    prefab = ab.LoadAsset(assetName, type);
                     ab.Unload(false);
                 }
                 else
                 {
                     abInfo = new AssetBundleInfo(ab);
-                    prefab = abInfo.ab.LoadAsset<T>(assetName);
+                    prefab = abInfo.ab.LoadAsset(assetName, type);
                     abInfo.referencedCount++;
                     loadedAssetBundles.Add(abName, abInfo);
                 }
             }
             else
             {
-                prefab = abInfo.ab.LoadAsset<T>(assetName);
+                prefab = abInfo.ab.LoadAsset(assetName, type);
                 abInfo.referencedCount++;
                 if (unloadABAfterSpawn)
                 {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using LuaInterface;
 
 namespace ToLuaGameFramework
 {	
@@ -70,7 +71,12 @@ namespace ToLuaGameFramework
             if (this.Send(msgName, bodyBytes) == false) {
                 //通知lua
                 string bodyStr = System.Text.Encoding.Default.GetString(bodyBytes);
-                LuaManager.instance.CallFunction("LNetMgr.OnReceveServerData", msgName, bodyStr);
+                var lfunc = LuaManager.instance.GetFunction("LNetMgr.OnReceveServerData");
+                lfunc.BeginPCall();
+                lfunc.PushGeneric(msgName);
+                lfunc.PushGeneric(bodyBytes);
+                lfunc.PCall();
+                lfunc.EndPCall();
             }
         }
     }

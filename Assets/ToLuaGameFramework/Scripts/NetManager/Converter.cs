@@ -281,5 +281,19 @@ namespace ToLuaGameFramework
             return GetBigEndian(value);
         }
         #endregion
+
+        public static string BinaryToHexString(byte[] bytesData, int colWidth = 16) {
+            string strResult = "";
+            int col = 0;
+            foreach (byte b in bytesData) {
+                col++;
+                strResult = strResult + b.ToString("X2") + " ";
+                if (col >= colWidth) {
+                    strResult += "\n";
+                    col = 0;
+                }
+            }
+            return strResult;
+        }
     }
 }

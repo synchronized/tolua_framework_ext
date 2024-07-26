@@ -182,6 +182,8 @@ public static class ToLuaExport
         "Type.IsSZArray",
         "Net.WriteStreamClosedEventHandler",
         "MeshRenderer.receiveGI",
+        "MeshRenderer.scaleInLightmap",
+        "MeshRenderer.stitchLightmapSeams",
     };
 
     class _MethodBase
