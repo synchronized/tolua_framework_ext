@@ -23,7 +23,7 @@ namespace ToLuaGameFramework
         private Dictionary<uint, Action<bool, int>> m_SessionMap = new();
 
         private MsgSender() {
-            MsgDispatcher.Instance.Register("res_msgresult", OnResMsgresult);
+            //MsgDispatcher.Instance.Register("res_msgresult", OnResMsgresult);
         }
 
         public void OnInit() {}

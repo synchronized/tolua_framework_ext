@@ -104,6 +104,7 @@ namespace ToLuaGameFramework
         public void SendMessage(byte[] buffer)
         {
             ByteBuffer byteBuffer = new ByteBuffer();
+            byteBuffer.WriteNetworkUInt16((ushort)buffer.Length);
             byteBuffer.WriteBytes(buffer);
             SendMessage(byteBuffer);
         }

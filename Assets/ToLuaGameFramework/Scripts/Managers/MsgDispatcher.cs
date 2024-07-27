@@ -67,16 +67,13 @@ namespace ToLuaGameFramework
             ushort bodySize = buff.ReadNetworkUInt16();
             byte[] bodyBytes = buff.ReadBytes(bodySize);
 
-            Debug.Log(string.Format("[Network]Dispatcher msgname: {0}", msgName));
+            Debug.Log(string.Format("[Network]Dispatcher msgname: {0} data: {1}", 
+                msgName, Convert.ToBase64String(bodyBytes)));
             if (this.Send(msgName, bodyBytes) == false) {
                 //通知lua
                 string bodyStr = System.Text.Encoding.Default.GetString(bodyBytes);
                 var lfunc = LuaManager.instance.GetFunction("LNetMgr.OnReceveServerData");
-                lfunc.BeginPCall();
-                lfunc.PushGeneric(msgName);
-                lfunc.PushGeneric(bodyBytes);
-                lfunc.PCall();
-                lfunc.EndPCall();
+                lfunc.Call(msgName, new LuaByteBuffer(bodyBytes));
             }
         }
     }

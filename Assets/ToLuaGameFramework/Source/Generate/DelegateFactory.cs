@@ -69,6 +69,7 @@ public class DelegateFactory
 		dict.Add(typeof(UnityEngine.Canvas.WillRenderCanvases), factory.UnityEngine_Canvas_WillRenderCanvases);
 		dict.Add(typeof(UnityEngine.RectTransform.ReapplyDrivenProperties), factory.UnityEngine_RectTransform_ReapplyDrivenProperties);
 		dict.Add(typeof(UnityEngine.UI.InputField.OnValidateInput), factory.UnityEngine_UI_InputField_OnValidateInput);
+		dict.Add(typeof(TMPro.TMP_InputField.OnValidateInput), factory.TMPro_TMP_InputField_OnValidateInput);
 		dict.Add(typeof(System.Action<ToLuaGameFramework.BaseMsg>), factory.System_Action_ToLuaGameFramework_BaseMsg);
 		dict.Add(typeof(System.Action<string,float,bool>), factory.System_Action_string_float_bool);
 		dict.Add(typeof(ToLuaGameFramework.TweenEvent), factory.ToLuaGameFramework_TweenEvent);
@@ -128,6 +129,7 @@ public class DelegateFactory
 		DelegateTraits<UnityEngine.Canvas.WillRenderCanvases>.Init(factory.UnityEngine_Canvas_WillRenderCanvases);
 		DelegateTraits<UnityEngine.RectTransform.ReapplyDrivenProperties>.Init(factory.UnityEngine_RectTransform_ReapplyDrivenProperties);
 		DelegateTraits<UnityEngine.UI.InputField.OnValidateInput>.Init(factory.UnityEngine_UI_InputField_OnValidateInput);
+		DelegateTraits<TMPro.TMP_InputField.OnValidateInput>.Init(factory.TMPro_TMP_InputField_OnValidateInput);
 		DelegateTraits<System.Action<ToLuaGameFramework.BaseMsg>>.Init(factory.System_Action_ToLuaGameFramework_BaseMsg);
 		DelegateTraits<System.Action<string,float,bool>>.Init(factory.System_Action_string_float_bool);
 		DelegateTraits<ToLuaGameFramework.TweenEvent>.Init(factory.ToLuaGameFramework_TweenEvent);
@@ -187,6 +189,7 @@ public class DelegateFactory
 		TypeTraits<UnityEngine.Canvas.WillRenderCanvases>.Init(factory.Check_UnityEngine_Canvas_WillRenderCanvases);
 		TypeTraits<UnityEngine.RectTransform.ReapplyDrivenProperties>.Init(factory.Check_UnityEngine_RectTransform_ReapplyDrivenProperties);
 		TypeTraits<UnityEngine.UI.InputField.OnValidateInput>.Init(factory.Check_UnityEngine_UI_InputField_OnValidateInput);
+		TypeTraits<TMPro.TMP_InputField.OnValidateInput>.Init(factory.Check_TMPro_TMP_InputField_OnValidateInput);
 		TypeTraits<System.Action<ToLuaGameFramework.BaseMsg>>.Init(factory.Check_System_Action_ToLuaGameFramework_BaseMsg);
 		TypeTraits<System.Action<string,float,bool>>.Init(factory.Check_System_Action_string_float_bool);
 		TypeTraits<ToLuaGameFramework.TweenEvent>.Init(factory.Check_ToLuaGameFramework_TweenEvent);
@@ -246,6 +249,7 @@ public class DelegateFactory
 		StackTraits<UnityEngine.Canvas.WillRenderCanvases>.Push = factory.Push_UnityEngine_Canvas_WillRenderCanvases;
 		StackTraits<UnityEngine.RectTransform.ReapplyDrivenProperties>.Push = factory.Push_UnityEngine_RectTransform_ReapplyDrivenProperties;
 		StackTraits<UnityEngine.UI.InputField.OnValidateInput>.Push = factory.Push_UnityEngine_UI_InputField_OnValidateInput;
+		StackTraits<TMPro.TMP_InputField.OnValidateInput>.Push = factory.Push_TMPro_TMP_InputField_OnValidateInput;
 		StackTraits<System.Action<ToLuaGameFramework.BaseMsg>>.Push = factory.Push_System_Action_ToLuaGameFramework_BaseMsg;
 		StackTraits<System.Action<string,float,bool>>.Push = factory.Push_System_Action_string_float_bool;
 		StackTraits<ToLuaGameFramework.TweenEvent>.Push = factory.Push_ToLuaGameFramework_TweenEvent;
@@ -3368,6 +3372,71 @@ public class DelegateFactory
 	}
 
 	void Push_UnityEngine_UI_InputField_OnValidateInput(IntPtr L, UnityEngine.UI.InputField.OnValidateInput o)
+	{
+		ToLua.Push(L, o);
+	}
+
+	class TMPro_TMP_InputField_OnValidateInput_Event : LuaDelegate
+	{
+		public TMPro_TMP_InputField_OnValidateInput_Event(LuaFunction func) : base(func) { }
+		public TMPro_TMP_InputField_OnValidateInput_Event(LuaFunction func, LuaTable self) : base(func, self) { }
+
+		public char Call(string param0, int param1, char param2)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.Push(param2);
+			func.PCall();
+			char ret = (char)func.CheckInteger();
+			func.EndPCall();
+			return ret;
+		}
+
+		public char CallWithSelf(string param0, int param1, char param2)
+		{
+			func.BeginPCall();
+			func.Push(self);
+			func.Push(param0);
+			func.Push(param1);
+			func.Push(param2);
+			func.PCall();
+			char ret = (char)func.CheckInteger();
+			func.EndPCall();
+			return ret;
+		}
+	}
+
+	public TMPro.TMP_InputField.OnValidateInput TMPro_TMP_InputField_OnValidateInput(LuaFunction func, LuaTable self, bool flag)
+	{
+		if (func == null)
+		{
+			TMPro.TMP_InputField.OnValidateInput fn = delegate(string param0, int param1, char param2) { return '\0'; };
+			return fn;
+		}
+
+		if(!flag)
+		{
+			TMPro_TMP_InputField_OnValidateInput_Event target = new TMPro_TMP_InputField_OnValidateInput_Event(func);
+			TMPro.TMP_InputField.OnValidateInput d = target.Call;
+			target.method = d.Method;
+			return d;
+		}
+		else
+		{
+			TMPro_TMP_InputField_OnValidateInput_Event target = new TMPro_TMP_InputField_OnValidateInput_Event(func, self);
+			TMPro.TMP_InputField.OnValidateInput d = target.CallWithSelf;
+			target.method = d.Method;
+			return d;
+		}
+	}
+
+	bool Check_TMPro_TMP_InputField_OnValidateInput(IntPtr L, int pos)
+	{
+		return TypeChecker.CheckDelegateType<TMPro.TMP_InputField.OnValidateInput>(L, pos);
+	}
+
+	void Push_TMPro_TMP_InputField_OnValidateInput(IntPtr L, TMPro.TMP_InputField.OnValidateInput o)
 	{
 		ToLua.Push(L, o);
 	}

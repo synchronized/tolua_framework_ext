@@ -233,6 +233,9 @@ public static class CustomSettings
         _GT(typeof(UnityEngine.UI.VerticalLayoutGroup)),
         _GT(typeof(UnityEngine.UI.LayoutRebuilder)),
 
+        //TMPro
+        _GT(typeof(TMPro.TMP_InputField)),
+
         //ToLuaGameFramework
         _GT(typeof(LuaConfig)),
         _GT(typeof(PlayerPrefs)),
@@ -250,6 +253,7 @@ public static class CustomSettings
         _GT(typeof(BEaseType)),
         _GT(typeof(LMD5)),
         _GT(typeof(LAES)),
+        _GT(typeof(LButtonClick)),
 
         _GT(typeof(NetManager)),
         _GT(typeof(MsgDispatcher)),

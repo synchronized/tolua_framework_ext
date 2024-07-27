@@ -143,6 +143,9 @@ public static class LuaBinder
 		L.RegFunction("UnityAction_bool", new LuaCSFunction(UnityEngine_Events_UnityAction_bool));
 		L.EndModule();
 		L.EndModule();
+		L.BeginModule("TMPro");
+		TMPro_TMP_InputFieldWrap.Register(L);
+		L.EndModule();
 		L.BeginModule("ToLuaGameFramework");
 		ToLuaGameFramework_LuaConfigWrap.Register(L);
 		ToLuaGameFramework_MessageCenterWrap.Register(L);
@@ -159,6 +162,7 @@ public static class LuaBinder
 		ToLuaGameFramework_BEaseTypeWrap.Register(L);
 		ToLuaGameFramework_LMD5Wrap.Register(L);
 		ToLuaGameFramework_LAESWrap.Register(L);
+		ToLuaGameFramework_LButtonClickWrap.Register(L);
 		ToLuaGameFramework_NetManagerWrap.Register(L);
 		ToLuaGameFramework_MsgDispatcherWrap.Register(L);
 		ToLuaGameFramework_MsgSenderWrap.Register(L);
