@@ -1,7 +1,7 @@
 # 介绍
-fork from https://github.com/danyow/unity-tolua-gameframework
+Forked from https://github.com/danyow/unity-tolua-gameframework
 ## 改动部分
-- 更新tolua为tolua_runtime_ext: https://github.com/synchronized/tolua_runtime_ext(加入lua-protobuf,sproto,skynet.crypt)
+- 更新tolua为tolua_runtime_ext(加入lua-protobuf,sproto,skynet.crypt): https://github.com/synchronized/tolua_runtime_ext
 - 增加网络功能，服务器地址: https://github.com/synchronized/some-mmorpg
 
 
