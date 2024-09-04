@@ -6,7 +6,6 @@ public class SceneEventDefine
     {
         public static void SendEventMessage()
         {
-            UnityEngine.Debug.Log("ChangeToLoginScene");
             var msg = new ChangeToLoginScene();
             UniEvent.SendMessage(msg);
         }

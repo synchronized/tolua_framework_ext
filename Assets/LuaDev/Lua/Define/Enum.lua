@@ -4,6 +4,10 @@ CommandID = {
 
     TryLogin = "TryLogin",
     DoLogin = "DoLogin",
+
+    NetworkConnected = "NetworkConnected", --链接成功
+    NetworkClose = "NetworkClose",         --链接关闭
+    NetworkError = "NetworkError",         --链接错误
 }
 
 TryLoginType = {

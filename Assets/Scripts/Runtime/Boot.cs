@@ -28,8 +28,6 @@ namespace GameLogic.BootLogic
             UniEvent.Initalize();
 
             LuaManager.Instance.Initalize(this);
-            MsgDispatcher.Initalize();
-            MsgSender.Initalize();
 
             // 加载更新页面
             var patchPrefabs = Resources.Load<GameObject>("PatchWindow");
@@ -41,13 +39,13 @@ namespace GameLogic.BootLogic
 
         void Update()
         {
-            NetManager.Instance.DoUpdate();
+            GameClient.Network.NetManager.Update(Time.deltaTime, Time.unscaledDeltaTime);
             ResManager.Instance.DoUpdate();
         }
 
-        private void OnDestroy()
+        void OnDestroy()
         {
-            NetManager.Instance.DoClose();
+            GameClient.Network.NetManager.Shutdown();
         }
     }
 }
