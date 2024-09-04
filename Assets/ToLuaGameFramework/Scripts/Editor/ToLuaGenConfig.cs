@@ -1,12 +1,10 @@
 #define USING_DOTWEENING
 using System;
 using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
 using LuaInterface;
 using LuaInterface.Editor;
 
-namespace GameLogic.Config
+namespace ToLuaGameFramework.Config
 {
 
     public static class ToLuaGenConfig {
@@ -169,8 +167,6 @@ namespace GameLogic.Config
             _GT(typeof(ToLuaGameFramework.LButtonClick)),
 
             _GT(typeof(ToLuaGameFramework.NetManager)),
-            //_GT(typeof(ToLuaGameFramework.MsgDispatcher)),
-            //_GT(typeof(ToLuaGameFramework.MsgSender)),
         };
 
         [ToLuaCSharpCallLua]

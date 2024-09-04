@@ -1,21 +1,53 @@
-
+﻿using UnityEngine;
+using UniFramework.Event;
 using ToLuaGameFramework;
-using UnityEngine;
 
-public class Boot : MonoBehaviour {
-    private void Awake() {
-        LuaManager.Instance.Initalize(this);
-    }
+namespace GameLogic.BootLogic
+{
 
-    private void Start() {
-        LuaManager.Instance.StartLua();
-    }
+    public class Boot : MonoBehaviour
+    {
+        /// <summary>
+        /// 资源系统运行模式
+        /// </summary>
+        public ResLoadMode resLoadMode = ResLoadMode.SimulateMode;
 
-    private void Update() {
-        NetManager.Instance.DoUpdate();
-    }
+        void Awake()
+        {
+            GlobalManager.ResLoadMode = resLoadMode;
+            GlobalManager.Behaviour = this;
 
-    private void OnDestroy() {
-        NetManager.Instance.DoClose();
+            Debug.Log($"资源加载模式运行模式：{resLoadMode}");
+            Application.targetFrameRate = 60;
+            Application.runInBackground = true;
+            DontDestroyOnLoad(gameObject);
+        }
+        void Start()
+        {
+            // 初始化事件系统
+            UniEvent.Initalize();
+
+            LuaManager.Instance.Initalize(this);
+            MsgDispatcher.Initalize();
+            MsgSender.Initalize();
+
+            // 加载更新页面
+            var patchPrefabs = Resources.Load<GameObject>("PatchWindow");
+            var pitchWnd = Instantiate(patchPrefabs);
+            pitchWnd.AddComponent<PatchWindow>();
+
+            PatchManager.Instance.StartCheckUpdate();
+        }
+
+        void Update()
+        {
+            NetManager.Instance.DoUpdate();
+            ResManager.Instance.DoUpdate();
+        }
+
+        private void OnDestroy()
+        {
+            NetManager.Instance.DoClose();
+        }
     }
 }
