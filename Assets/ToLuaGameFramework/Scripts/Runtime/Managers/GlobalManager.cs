@@ -27,5 +27,7 @@ namespace ToLuaGameFramework
         }
 
         public static MonoBehaviour Behaviour;
+
+        public static string DefaultPackage = "";
     }
 }

@@ -24,7 +24,7 @@ namespace ToLuaGameFramework
         /// </summary>
         public readonly static string LuaDevPath = "LuaDev";
 
-        public readonly static string GameResPath = $"{LuaDevPath}/GameRes";
+        public readonly static string GameResPath = $"Assets/{LuaDevPath}/GameRes";
 
         /// <summary>
         /// 导出AB包的路径，导出后资源从该目录上传到远程服务器，并本地清除，切勿留着导入包内，建议定义在工程目录外，如"E:/ExportAssetBundles"

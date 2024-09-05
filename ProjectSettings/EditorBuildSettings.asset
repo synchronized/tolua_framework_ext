@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Res/Scenes/Boot.unity
     guid: 7820a6331768d5c42918d4d8a37f93cc
   - enabled: 1
-    path: Assets/Res/Scenes/Main.unity
+    path: Assets/LuaDev/GameRes/Scenes/SceneMain.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}

@@ -14,7 +14,7 @@ function LuaBehaviour:CreateGameObject(parent)
         parent = self:GetParent()
     end
     local go =
-        ResManager.SpawnPrefab(prefabPath, parent, self:DestroyABAfterSpawn(), self:DestroyABAfterAllSpawnDestroy())
+        ResManager.SpawnPrefab(prefabPath, parent)
     self:OnGameObjectSpawn(go)
 end
 

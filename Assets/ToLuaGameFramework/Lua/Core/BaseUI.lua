@@ -32,9 +32,7 @@ function BaseUI:CreateGameObject(parent)
         parent,
         self:IsUIStack(),
         self:KeepActive(),
-        self:IsFloat(),
-        self:DestroyABAfterSpawn(),
-        self:DestroyABAfterAllSpawnDestroy()
+        self:IsFloat()
     )
     self:OnGameObjectSpawn(go)
 end

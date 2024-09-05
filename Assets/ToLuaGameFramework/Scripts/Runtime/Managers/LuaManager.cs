@@ -67,13 +67,6 @@ namespace ToLuaGameFramework
         /// </summary>
         public void StartLua()
         {
-
-#if UNITY_EDITOR
-            if (GlobalManager.ResLoadMode == ResLoadMode.NormalMode)
-#endif
-            {
-                InitLuaBundle();
-            }
             lua.Start();
 
             lua.DoFile("Main.lua");

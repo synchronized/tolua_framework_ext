@@ -19,7 +19,7 @@ namespace ToLuaGameFramework
         /// <summary>
         /// 创建UI
         /// </summary>
-        public static GameObject SpawnUI(string prefabPath, Transform parent, bool isUIStack = true, bool keepActive = false, bool isFloat = false, bool unloadABAfterSpawn = false, bool unloadABAfterAllSpawnDestroy = false)
+        public static GameObject SpawnUI(string prefabPath, Transform parent, bool isUIStack = true, bool keepActive = false, bool isFloat = false)
         {
             if (string.IsNullOrEmpty(prefabPath))
             {
@@ -45,12 +45,11 @@ namespace ToLuaGameFramework
                     _luaBehaviour.isUIStack = isUIStack;
                     _luaBehaviour.keepActive = keepActive;
                     _luaBehaviour.isFloat = isFloat;
-                    _luaBehaviour.unloadABAfterAllSpawnDestroy = unloadABAfterAllSpawnDestroy;
                     return _luaBehaviour.gameObject;
                 }
             }
             //开始创建
-            GameObject go = ResManager.SpawnPrefab(prefabPath, parent, unloadABAfterSpawn, unloadABAfterAllSpawnDestroy);
+            GameObject go = ResManager.SpawnPrefab(prefabPath, parent);
             LuaBehaviour luaBehaviour = go.GetComponent<LuaBehaviour>();
             luaBehaviour.isUIStack = isUIStack;
             luaBehaviour.keepActive = keepActive;
@@ -73,7 +72,7 @@ namespace ToLuaGameFramework
         /// <summary>
         /// 异步创建UI
         /// </summary>
-        public static void SpawnUIAsyn(string prefabPath, Transform parent, LuaFunction callback, bool isUIStack = true, bool keepActive = false, bool isFloat = false, bool unloadABAfterSpawn = false, bool unloadABAfterAllSpawnDestroy = false)
+        public static void SpawnUIAsyn(string prefabPath, Transform parent, LuaFunction callback, bool isUIStack = true, bool keepActive = false, bool isFloat = false)
         {
             if (string.IsNullOrEmpty(prefabPath))
             {
@@ -99,7 +98,6 @@ namespace ToLuaGameFramework
                     luaBehaviour.isUIStack = isUIStack;
                     luaBehaviour.keepActive = keepActive;
                     luaBehaviour.isFloat = isFloat;
-                    luaBehaviour.unloadABAfterAllSpawnDestroy = unloadABAfterAllSpawnDestroy;
                     if (callback != null) callback.Call(luaBehaviour.gameObject, true);
                     return;
                 }
@@ -124,7 +122,7 @@ namespace ToLuaGameFramework
                     }
                 };
             }
-            ResManager.SpawnPrefabAsyn(prefabPath, parent, luaFunction, unloadABAfterSpawn, unloadABAfterAllSpawnDestroy);
+            ResManager.SpawnPrefabAsyn(prefabPath, parent, luaFunction);
         }
 
         /// <summary>

@@ -31,13 +31,7 @@ function LobbyMain:Awake()
     local btnDailyReward = self.transform:Find("BtnDailyReward")
     btnDailyReward:OnClick(
         function()
-            local abs = {"Prefabs/Activities/DailyReward"}
-            ResManager.instance:UpdateABsByNames(abs, function(name, progress, allCompleted)
-                Log(progress, name .. "progress")
-                if allCompleted then
-                    Modules.DailyReward:OpenUI("DailyReward")
-                end
-            end)
+            Modules.DailyReward:OpenUI("DailyReward")
         end
     )
 

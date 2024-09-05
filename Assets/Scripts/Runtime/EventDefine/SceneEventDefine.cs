@@ -2,11 +2,11 @@
 
 public class SceneEventDefine
 {
-    public class ChangeToLoginScene : IEventMessage
+    public class ChangeToMainScene : IEventMessage
     {
         public static void SendEventMessage()
         {
-            var msg = new ChangeToLoginScene();
+            var msg = new ChangeToMainScene();
             UniEvent.SendMessage(msg);
         }
     }

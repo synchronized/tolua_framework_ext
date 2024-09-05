@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+using Cysharp.Threading.Tasks;
 using UniFramework.Event;
-using ToLuaGameFramework;
+using UnityEngine;
+using YooAsset;
 
 public class PatchManager
 {
@@ -19,10 +19,23 @@ public class PatchManager
 
     private readonly EventGroup _eventGroup = new EventGroup();
 
+    /// <summary>
+    /// 协程启动器
+    /// </summary>
+    public MonoBehaviour Behaviour;
+
     private PatchManager()
     {
         // 注册监听事件
-        _eventGroup.AddListener<UserEventDefine.UserTryCheckPatchUpdate>(OnHandleEventMessage);
+        _eventGroup.AddListener<SceneEventDefine.ChangeToMainScene>(OnHandleEventMessage);
+    }
+
+    /// <summary>
+    /// 开启一个协程
+    /// </summary>
+    public void StartCoroutine(IEnumerator enumerator)
+    {
+        Behaviour.StartCoroutine(enumerator);
     }
 
     /// <summary>
@@ -30,30 +43,17 @@ public class PatchManager
     /// </summary>
     private void OnHandleEventMessage(IEventMessage message)
     {
-        if (message is UserEventDefine.UserTryCheckPatchUpdate)
+        if (message is SceneEventDefine.ChangeToMainScene)
         {
-            this.StartCheckUpdate();
+            UnityEngine.Debug.Log($"ChangeToMainScene");
+            OpenMainScene().Forget();
         }
     }
 
-    public void StartCheckUpdate()
+    private async UniTask OpenMainScene()
     {
-        ResManager.Instance.StartUpdateABOnStartup(
-            (string title, float progress, bool isComplete) => {
-                if (isComplete)
-                {
-                    //LuaManager.Instance.StartLua();
-                    //MessageCenter.Dispatch(MsgEnum.RunLuaMain);
-
-                    // 切换到主页面场景
-                    //SceneEventDefine.ChangeToLoginScene.SendEventMessage();
-                    SceneManager.LoadScene("Main");
-                } else {
-                    PatchEventDefine.DownloadProgressUpdate.SendEventMessage(title, progress);
-                }
-            },
-            (string title, string err) => {
-                PatchEventDefine.PatchdownloadFailed.SendEventMessage(title, err);
-            });
+        SceneHandle handle = YooAssets.LoadSceneAsync("SceneMain");
+        await handle;
+        UnityEngine.Debug.Log($"handle.LastError:{handle.LastError}");
     }
 }

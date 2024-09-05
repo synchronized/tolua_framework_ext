@@ -96,7 +96,7 @@ namespace ToLuaGameFramework
         /// </summary>
         static void HandleResBundle(Dictionary<string, string> resDic, Dictionary<string, string> excludeList = null)
         {
-            var assetsDevPath = EditorTools.GetRegularPath($"Assets/{LuaConfig.GameResPath}/");
+            var assetsDevPath = EditorTools.GetRegularPath($"{LuaConfig.GameResPath}/");
             foreach (var path in resDic.Values)
             {
                 string resPath = EditorTools.GetRegularPath(Path.Combine(assetsDevPath , path));

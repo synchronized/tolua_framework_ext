@@ -75,12 +75,10 @@ namespace ToLuaGameFramework
                 }
             }
         }
-        public string assetBundleName;
         public string prefabPath;
         public bool isUIStack;
         public bool keepActive;
         public bool isFloat;
-        public bool unloadABAfterAllSpawnDestroy;
         LuaTable lua;
         class Functions
         {
@@ -220,13 +218,6 @@ namespace ToLuaGameFramework
                 if (lua.onDestroy != null) lua.onDestroy.Call(lua.lua);
             }
             UIManager.OnUIDestroy(this);
-            if (ResManager.Instance != null)
-            {
-                if (!string.IsNullOrEmpty(assetBundleName))
-                {
-                    ResManager.Instance.OnSpawnDestroy(assetBundleName, unloadABAfterAllSpawnDestroy);
-                }
-            }
         }
 
     }
