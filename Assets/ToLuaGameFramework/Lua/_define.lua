@@ -18,8 +18,6 @@ UIManager = ToLuaGameFramework.UIManager
 SoundManager = ToLuaGameFramework.SoundManager
 HttpManager = ToLuaGameFramework.HttpManager
 NetManager = ToLuaGameFramework.NetManager
-MsgDispatcher = ToLuaGameFramework.MsgDispatcher
-MsgSender = ToLuaGameFramework.MsgSender
 
 --C#工具或方法
 MD5 = {

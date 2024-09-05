@@ -5,8 +5,8 @@ require "Modules.Login.LoginPart"
 
 function LoginMgr:Ctor()
     self.super.Ctor(self)
-    self:AddUI("Login", require "Modules.Login.Login")
-    self:AddUI("Register", require "Modules.Login.Register")
+    self:AddUI("Login", require "Modules.Login.LoginWnd")
+    self:AddUI("Register", require "Modules.Login.RegisterWnd")
 
     --TODO:注册服务器广播事件：onReceveServerData()
 

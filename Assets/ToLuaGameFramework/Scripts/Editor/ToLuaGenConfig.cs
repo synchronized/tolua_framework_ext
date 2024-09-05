@@ -135,10 +135,12 @@ namespace ToLuaGameFramework.Config
     #endif
             _GT(typeof(UnityEngine.Canvas)),
             _GT(typeof(UnityEngine.EventSystems.EventTrigger)),
+            _GT(typeof(UnityEngine.Events.UnityEvent)),
             _GT(typeof(UnityEngine.UI.Text)),
             _GT(typeof(UnityEngine.UI.Image)),
             _GT(typeof(UnityEngine.UI.RawImage)),
             _GT(typeof(UnityEngine.UI.Button)),
+            _GT(typeof(UnityEngine.UI.Button.ButtonClickedEvent)),
             _GT(typeof(UnityEngine.UI.Slider)),
             _GT(typeof(UnityEngine.UI.Toggle)).AddExtendType(typeof(ToLuaGameFramework.ToggleExtend)),
             _GT(typeof(UnityEngine.UI.InputField)),
@@ -149,6 +151,7 @@ namespace ToLuaGameFramework.Config
 
             //TMPro
             _GT(typeof(TMPro.TMP_InputField)),
+            _GT(typeof(TMPro.TMP_Text)),
 
             //ToLuaGameFramework
             _GT(typeof(ToLuaGameFramework.LuaManager)),

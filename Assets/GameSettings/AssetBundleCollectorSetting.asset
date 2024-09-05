@@ -42,14 +42,6 @@ MonoBehaviour:
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/LuaDev/GameRes/Prefabs/Preload
-        CollectorGUID: 1693fc0bdb5bc4346b8a6d6621e469be
-        CollectorType: 0
-        AddressRuleName: AddressByFolderAndFileName
-        PackRuleName: PackDirectory
-        FilterRuleName: CollectAll
-        AssetTags: 
-        UserData: 
       - CollectPath: Assets/LuaDev/GameRes/Prefabs/Login
         CollectorGUID: 655386c64b549ea428d55f3218da797f
         CollectorType: 0
@@ -66,10 +58,26 @@ MonoBehaviour:
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
-      - CollectPath: Assets/LuaDev/GameRes/Prefabs/Actors
-        CollectorGUID: 9cbd5b23902e96d44bddc36667fd8f86
+      - CollectPath: Assets/LuaDev/GameRes/Prefabs/Common
+        CollectorGUID: e98d055a2138d874d8a9bdb8ed0327b1
         CollectorType: 0
-        AddressRuleName: AddressByFolderAndFileName
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/LuaDev/GameRes/Prefabs/Activities
+        CollectorGUID: b679c0d9138b01146b23186a868217cf
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/LuaDev/GameRes/Prefabs/Battle
+        CollectorGUID: 9ea03d8995eeeb343837ff13a4885842
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory
         FilterRuleName: CollectAll
         AssetTags: 
@@ -80,7 +88,7 @@ MonoBehaviour:
       ActiveRuleName: EnableGroup
       Collectors:
       - CollectPath: Assets/ToLuaGameFramework/ToLua/Gen/Lua
-        CollectorGUID: fcc3119296f481c41b3950f9251ff4ca
+        CollectorGUID: 
         CollectorType: 0
         AddressRuleName: AddressByFolderAndFileName
         PackRuleName: PackDirectory

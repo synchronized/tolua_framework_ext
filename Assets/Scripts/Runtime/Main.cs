@@ -4,9 +4,6 @@ using UnityEngine.UI;
 
 public class Main : MonoBehaviour
 {
-    public Text text;
-    public Slider slider;
-
     private void Awake()
     {
     }

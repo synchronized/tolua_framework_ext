@@ -61,17 +61,17 @@ namespace GameLogic.BootLogic
             }
 
             // 切换到主页面场景
-            SceneEventDefine.ChangeToMainScene.SendEventMessage();
+            SceneEventDefine.ChangeToLoginScene.SendEventMessage();
         }
 
         void Update()
         {
-            GameClient.Network.NetManager.Update(Time.deltaTime, Time.unscaledDeltaTime);
+            NetManager.Update(Time.deltaTime, Time.unscaledDeltaTime);
         }
 
         void OnDestroy()
         {
-            GameClient.Network.NetManager.Shutdown();
+            NetManager.Shutdown();
         }
     }
 }

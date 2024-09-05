@@ -1,142 +1,157 @@
-using UnityEngine;
-using System.Collections.Generic;
 using System;
-using System.IO;
+
+using GameFramework.Network;
 
 namespace ToLuaGameFramework
-{  
-    public class NetManager 
+{
+    public static class NetManager
     {
 
-        private static NetManager m_Instance;
+        private static NetworkManager m_NetworkMgr = new();
 
-        public static NetManager Instance {
-            get {
-                if (m_Instance == null) {
-                    m_Instance = new NetManager();
-                }
-                return m_Instance;
-            }
+        /// <summary>
+        /// 获取网络频道数量。
+        /// </summary>
+        public static int NetworkChannelCount
+        {
+            get { return m_NetworkMgr.NetworkChannelCount; }
         }
 
         /// <summary>
-        /// Socket
+        /// 网络连接成功事件。
         /// </summary>
-        private SocketClient m_SocketClient;
-
-        /// <summary>
-        /// 事件队列
-        /// </summary>
-        private static Queue<byte[]> m_EventQueue = new Queue<byte[]>();
-
-		private Action<byte[]> mOnEvent = e => { };
-
-        private NetManager() {
-            m_SocketClient = new SocketClient(this);
-            m_SocketClient.OnRegister();
-        }
-
-        public void RegisterReceiveEvent(Action<byte[]> onEvent)
+        public static event EventHandler<NetworkConnectedEventArgs> NetworkConnected
         {
-            mOnEvent += onEvent;
+            add { m_NetworkMgr.NetworkConnected += value; }
+            remove { m_NetworkMgr.NetworkConnected -= value; }
         }
 
         /// <summary>
-        /// 刷新
+        /// 网络连接关闭事件。
         /// </summary>
-        public void DoUpdate()
+        public static event EventHandler<NetworkClosedEventArgs> NetworkClosed
         {
-            UpdateEventQueue();
-        }
-
-        public void DoClose()
-        {
-            if (m_SocketClient == null)
-                return;
-
-            m_SocketClient.OnRemove();
-        }
-
-        public void CheckConnect(string address, int port)
-        {
-            if (IsConnected() == false) {
-                SendConnect(address, port);
-            }
+            add { m_NetworkMgr.NetworkClosed += value; }
+            remove { m_NetworkMgr.NetworkClosed -= value; }
         }
 
         /// <summary>
-        /// 发送链接请求
+        /// 网络心跳包丢失事件。
         /// </summary>
-        public void SendConnect(string address, int port)
+        public static event EventHandler<NetworkMissHeartBeatEventArgs> NetworkMissHeartBeat
         {
-            m_SocketClient.Close();
-            m_SocketClient.SendConnect(address, port);
+            add { m_NetworkMgr.NetworkMissHeartBeat += value; }
+            remove { m_NetworkMgr.NetworkMissHeartBeat -= value; }
         }
 
         /// <summary>
-        /// 关闭连接
+        /// 网络错误事件。
         /// </summary>
-        public void CloseConnect()
+        public static event EventHandler<NetworkErrorEventArgs> NetworkError
         {
-            m_SocketClient.Close();
+            add { m_NetworkMgr.NetworkError += value; }
+            remove { m_NetworkMgr.NetworkError -= value; }
         }
 
         /// <summary>
-        /// 是否连接
+        /// 用户自定义网络错误事件。
         /// </summary>
-        /// <returns></returns>
-        public bool IsConnected()
+        public static event EventHandler<NetworkCustomErrorEventArgs> NetworkCustomError
         {
-            if (m_SocketClient == null)
-                return false;
+            add { m_NetworkMgr.NetworkCustomError += value; }
+            remove { m_NetworkMgr.NetworkCustomError -= value; }
+        }
 
-            return m_SocketClient.IsConnected();
+        public static void AddNetworkConnected(INetworkChannel channel, Action<NetworkConnectedEventArgs> eventHandler) {
+            m_NetworkMgr.AddNetworkConnected(channel, eventHandler);
+        }
+        public static void RemoveNetworkConnected(INetworkChannel channel, Action<NetworkConnectedEventArgs> eventHandler) {
+            m_NetworkMgr.RemoveNetworkConnected(channel, eventHandler);
+        }
+        public static void AddNetworkClosed(INetworkChannel channel, Action<NetworkClosedEventArgs> eventHandler) {
+            m_NetworkMgr.AddNetworkClosed(channel, eventHandler);
+        }
+        public static void RemoveNetworkClosed(INetworkChannel channel, Action<NetworkClosedEventArgs> eventHandler) {
+            m_NetworkMgr.RemoveNetworkClosed(channel, eventHandler);
+        }
+        public static void AddNetworkMissHeartBeat(INetworkChannel channel, Action<NetworkMissHeartBeatEventArgs> eventHandler) {
+            m_NetworkMgr.AddNetworkMissHeartBeat(channel, eventHandler);
+        }
+        public static void RemoveNetworkMissHeartBeat(INetworkChannel channel, Action<NetworkMissHeartBeatEventArgs> eventHandler) {
+            m_NetworkMgr.RemoveNetworkMissHeartBeat(channel, eventHandler);
+        }
+        public static void AddNetworkError(INetworkChannel channel, Action<NetworkErrorEventArgs> eventHandler) {
+            m_NetworkMgr.AddNetworkError(channel, eventHandler);
+        }
+        public static void RemoveNetworkError(INetworkChannel channel, Action<NetworkErrorEventArgs> eventHandler) {
+            m_NetworkMgr.RemoveNetworkError(channel, eventHandler);
+        }
+        public static void AddNetworkCustomError(INetworkChannel channel, Action<NetworkCustomErrorEventArgs> eventHandler) {
+            m_NetworkMgr.AddNetworkCustomError(channel, eventHandler);
+        }
+        public static void RemoveNetworkCustomError(INetworkChannel channel, Action<NetworkCustomErrorEventArgs> eventHandler) {
+            m_NetworkMgr.RemoveNetworkCustomError(channel, eventHandler);
         }
 
         /// <summary>
-        /// 发送SOCKET消息
+        /// 网络管理器轮询。
         /// </summary>
-        public void SendMessage(ByteBuffer buffer)
+        /// <param name="elapseSeconds">逻辑流逝时间，以秒为单位。</param>
+        /// <param name="realElapseSeconds">真实流逝时间，以秒为单位。</param>
+        public static void Update(float elapseSeconds, float realElapseSeconds)
         {
-            m_SocketClient.SendMessage(buffer);
-        }
-
-        public void SendMessage(byte[] buffer)
-        {
-            ByteBuffer byteBuffer = new ByteBuffer();
-            byteBuffer.WriteNetworkUInt16((ushort)buffer.Length);
-            byteBuffer.WriteBytes(buffer);
-            SendMessage(byteBuffer);
+            m_NetworkMgr.Update(elapseSeconds, realElapseSeconds);
         }
 
         /// <summary>
-        /// 增加事件
+        /// 关闭并清理网络管理器。
         /// </summary>
-        /// <param name="bytearray"></param>
-        public void AddEvent(byte[] bytearray)
+        public static void Shutdown()
         {
-            lock (m_EventQueue)
-            {
-                m_EventQueue.Enqueue(bytearray);
-            }
+            m_NetworkMgr.Shutdown();
         }
 
         /// <summary>
-        /// 刷新事件队列
+        /// 检查是否存在网络频道。
         /// </summary>
-        private void UpdateEventQueue()
+        /// <param name="name">网络频道名称。</param>
+        /// <returns>是否存在网络频道。</returns>
+        public static bool HasNetworkChannel(string name)
         {
-            if (m_EventQueue.Count <= 0)
-                return;
-
-            while (m_EventQueue.Count > 0) 
-            {
-                byte[] bytearray = m_EventQueue.Dequeue();
-
-                mOnEvent?.Invoke(bytearray);
-            }
+            return m_NetworkMgr.HasNetworkChannel(name);
         }
 
+        /// <summary>
+        /// 获取网络频道。
+        /// </summary>
+        /// <param name="name">网络频道名称。</param>
+        /// <returns>要获取的网络频道。</returns>
+        public static INetworkChannel GetNetworkChannel(string name)
+        {
+            return m_NetworkMgr.GetNetworkChannel(name);
+        }
+
+        /// <summary>
+        /// 创建网络频道。
+        /// </summary>
+        /// <param name="name">网络频道名称。</param>
+        /// <param name="serviceType">网络服务类型。</param>
+        /// <param name="networkChannelHelper">网络频道辅助器。</param>
+        /// <returns>要创建的网络频道。</returns>
+        public static INetworkChannel CreateNetworkChannel(string name, ServiceType serviceType, INetworkChannelHelper networkChannelHelper)
+        {
+            return m_NetworkMgr.CreateNetworkChannel(name, serviceType, networkChannelHelper);
+        }
+
+        /// <summary>
+        /// 销毁网络频道。
+        /// </summary>
+        /// <param name="name">网络频道名称。</param>
+        /// <returns>是否销毁网络频道成功。</returns>
+        public static bool DestroyNetworkChannel(string name)
+        {
+            return m_NetworkMgr.DestroyNetworkChannel(name);
+        }
     }
 }
 

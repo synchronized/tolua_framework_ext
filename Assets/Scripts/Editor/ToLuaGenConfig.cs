@@ -13,15 +13,11 @@ namespace GameClient.Config
         public static BindType[] customTypeList =
         {
             _GT(typeof(System.Net.Sockets.SocketError)),
-            _GT(typeof(ToLuaGameFramework.NetManager)),
-            //_GT(typeof(ToLuaGameFramework.MsgDispatcher)),
-            //_GT(typeof(ToLuaGameFramework.MsgSender)),
 
             _GT(typeof(GameFramework.Network.NetworkManager.NetworkChannelBase)),
             _GT(typeof(GameFramework.Network.NetworkManager.TcpNetworkChannel)),
             _GT(typeof(GameFramework.Network.ServiceType)),
 
-            _GT(typeof(GameClient.Network.NetManager)),
             _GT(typeof(GameClient.Network.GameServerPacket)),
             _GT(typeof(GameClient.Network.GameServerPacketReq)),
             _GT(typeof(GameClient.Network.GameServerNetworkChannelHelper)),

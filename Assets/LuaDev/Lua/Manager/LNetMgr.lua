@@ -12,7 +12,7 @@ local m_SessionMap = {};
 function LNetMgr.OnInit()
     local serviceType = GameFramework.Network.ServiceType.Tcp
     local helper = GameClient.Network.GameServerNetworkChannelHelper.New()
-    NetChannel = GameClient.Network.NetManager.CreateNetworkChannel("GameServer", serviceType, helper)
+    NetChannel = NetManager.CreateNetworkChannel("GameServer", serviceType, helper)
 
     CommandManager.Add(CommandID.NetworkConnected, function ()
         Log("CommandID.NetworkConnected")

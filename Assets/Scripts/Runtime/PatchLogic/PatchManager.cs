@@ -27,7 +27,7 @@ public class PatchManager
     private PatchManager()
     {
         // 注册监听事件
-        _eventGroup.AddListener<SceneEventDefine.ChangeToMainScene>(OnHandleEventMessage);
+        _eventGroup.AddListener<SceneEventDefine.ChangeToLoginScene>(OnHandleEventMessage);
     }
 
     /// <summary>
@@ -43,17 +43,16 @@ public class PatchManager
     /// </summary>
     private void OnHandleEventMessage(IEventMessage message)
     {
-        if (message is SceneEventDefine.ChangeToMainScene)
+        if (message is SceneEventDefine.ChangeToLoginScene)
         {
-            UnityEngine.Debug.Log($"ChangeToMainScene");
+            UnityEngine.Debug.Log($"ChangeToLoginScene");
             OpenMainScene().Forget();
         }
     }
 
     private async UniTask OpenMainScene()
     {
-        SceneHandle handle = YooAssets.LoadSceneAsync("SceneMain");
+        SceneHandle handle = YooAssets.LoadSceneAsync("SceneLogin");
         await handle;
-        UnityEngine.Debug.Log($"handle.LastError:{handle.LastError}");
     }
 }

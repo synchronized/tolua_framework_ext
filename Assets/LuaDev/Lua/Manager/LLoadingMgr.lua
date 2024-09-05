@@ -11,7 +11,7 @@ LLoadingCtrl = LLoadingCtrl or {
 
 local function fnOpenLoadingUI()
     LLoadingCtrl.NeedShowCongLian = true
-    CommandManager.Execute(CommandID.OpenUI, "CommonMgr", "LoadingUI")
+    CommandManager.Execute(CommandID.OpenUI, "CommonMgr", "Loading")
 end
 
 local function fnCheckCloseLoading()
@@ -20,7 +20,7 @@ local function fnCheckCloseLoading()
     end
 
     LLoadingCtrl.NeedShowCongLian = false
-    CommandManager.Execute(CommandID.CloseUI, "CommonMgr", "LoadingUI")
+    CommandManager.Execute(CommandID.CloseUI, "CommonMgr", "Loading")
 end
 
 -- =======================================================================

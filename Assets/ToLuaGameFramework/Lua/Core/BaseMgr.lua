@@ -43,6 +43,7 @@ end
 
 function BaseMgr:OpenUI(uiKey, parent)
     if not self.uiClassList then
+        LogError(string.format("OpenUI(%s) uiClassList is empty", uiKey))
         return
     end
     local clazz = nil
@@ -76,6 +77,8 @@ function BaseMgr:OpenUI(uiKey, parent)
             end
         end
         return ui
+    else
+        LogError(string.format("OpenUI(%s) key not found", uiKey))
     end
     return nil
 end
