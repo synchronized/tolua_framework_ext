@@ -12,28 +12,29 @@ end
 function DailyRewardWnd:Awake()
     self.super.Awake(self)
 
-    self.mianPanel = self.transform:Find("MainPanel")
+    self.mianPanel = self.transform:Find("UIWindow")
 
     self.menus = {}
-    for i = 1, 2 do
-        local btn = {}
-        self.menus[i] = btn
-        btn.trans = self.transform:Find("MainPanel/Menus/Btn" .. i)
-        btn.on = btn.trans:Find("On")
-        btn.off = btn.trans:Find("Off")
-        btn.trans:OnClick(self.onMenuSelect, self, i)
+    for i = 1, self.module.MenuNum do
+        local menuItem = {}
+        self.menus[i] = menuItem
+        menuItem.trans = self.transform:Find("UIWindow/Menus/Menu" .. i)
+        menuItem.btn = menuItem.trans:GetComponent("Toggle")
+        menuItem.btn:OnValueChanged(function()
+            if menuItem.btn.isOn then
+                self:onMenuSelect(i)
+            end
+        end)
     end
 
     --内容页
-    self.contentRoot = self.transform:Find("MainPanel/ContentRoot")
+    self.contentRoot = self.transform:Find("UIWindow/ContentRoot")
     self.contents = {}
 
-    local btnClose = self.transform:Find("MainPanel/BtnClose")
-    btnClose:OnClick(
-        function()
-            Destroy(self.gameObject)
-        end
-    )
+    local btnClose = self.transform:Find("UIWindow/btnClose"):GetComponent("Button")
+    btnClose.onClick:AddListener( function()
+        self:CloseUI()
+    end)
 end
 
 function DailyRewardWnd:OnEnable()
@@ -46,16 +47,11 @@ function DailyRewardWnd:OnEnable()
     self.mianPanel.anchoredPosition = Vector2(0, -200)
     self.mianPanel:DOLocalMove(Vector3.one, 0.3):SetEase(Ease.OutBack)
 
-    self:onMenuSelect(1)
+    self.menus[1].btn.isOn = false
 end
 
 function DailyRewardWnd:onMenuSelect(index)
     self.currSelectIndex = index
-    for i = 1, #self.menus do
-        local btn = self.menus[i]
-        btn.on.gameObject:SetActive(i == index)
-        btn.off.gameObject:SetActive(i ~= index)
-    end
 
     if not self.contents[index] then
         local contentIndexInModule = index

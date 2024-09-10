@@ -13,8 +13,7 @@ function LuaBehaviour:CreateGameObject(parent)
     if not parent then
         parent = self:GetParent()
     end
-    local go =
-        ResManager.SpawnPrefab(prefabPath, parent)
+    local go = ResManager.SpawnPrefab(prefabPath, parent)
     self:OnGameObjectSpawn(go)
 end
 
@@ -34,7 +33,7 @@ end
 
 --由子类重写来定义
 function LuaBehaviour:GetParent()
-    return GameObject.Find("MainCanvas").transform
+    return GlobalManager.MainCanvas
 end
 
 --由子类重写来定义

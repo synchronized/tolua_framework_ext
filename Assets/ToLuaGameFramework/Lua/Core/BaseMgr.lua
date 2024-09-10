@@ -25,6 +25,7 @@ function BaseMgr:AddUI(key, ui)
             return
         end
     end
+    ui.uikey = key
     ui.module = self
     self.uiClassList[key] = ui
 end

@@ -107,4 +107,16 @@ public class PatchEventDefine
             UniEvent.SendMessage(msg);
         }
     }
+
+    /// <summary>
+    /// 更新流程完毕
+    /// </summary>
+    public class PatchUpdaterDone : IEventMessage
+    {
+        public static void SendEventMessage()
+        {
+            var msg = new PatchUpdaterDone();
+            UniEvent.SendMessage(msg);
+        }
+    }
 }

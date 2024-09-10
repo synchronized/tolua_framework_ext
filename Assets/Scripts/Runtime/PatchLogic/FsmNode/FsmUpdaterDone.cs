@@ -13,6 +13,8 @@ internal class FsmUpdaterDone : IStateNode
     }
     void IStateNode.OnEnter()
     {
+        PatchEventDefine.PatchStatesChange.SendEventMessage("更新流程完毕 !");
+        PatchEventDefine.PatchUpdaterDone.SendEventMessage();
     }
     void IStateNode.OnUpdate()
     {

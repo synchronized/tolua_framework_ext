@@ -29,8 +29,8 @@ public class PatchWindow : MonoBehaviour
         public void Create(GameObject cloneObject)
         {
             _cloneObject = cloneObject;
-            _content = cloneObject.transform.Find("txt_content").GetComponent<TMP_Text>();
-            _btnOK = cloneObject.transform.Find("btn_ok").GetComponent<Button>();
+            _content = cloneObject.transform.Find("txtContent").GetComponent<TMP_Text>();
+            _btnOK = cloneObject.transform.Find("btnOk").GetComponent<Button>();
             _btnOK.onClick.AddListener(OnClickYes);
         }
         public void Show(string content, System.Action clickOK)
@@ -59,15 +59,23 @@ public class PatchWindow : MonoBehaviour
 
     // UGUI相关
     private GameObject _messageBoxObj;
-    private Slider _slider;
-    private TMP_Text _tips;
-
+    private Slider _slider; //进度条
+    private TMP_Text _txtTitle; //标题
+    private TMP_Text _txtTips; //进度条上方说明
+    private TMP_Text _txtProgress; //进度条里面说明X%
 
     void Awake()
     {
         _slider = transform.Find("UIWindow/Slider").GetComponent<Slider>();
-        _tips = transform.Find("UIWindow/Slider/txt_tips").GetComponent<TMP_Text>();
-        _tips.text = "Initializing the game world !";
+        _txtTitle = transform.Find("UIWindow/txtTitle").GetComponent<TMP_Text>();
+        _txtTips = transform.Find("UIWindow/txtTips").GetComponent<TMP_Text>();
+        _txtProgress = transform.Find("UIWindow/Slider/txtProgress").GetComponent<TMP_Text>();
+
+        _txtTitle.text = "资源更新";
+        _txtTips.text = "Initializing the game world !";
+
+        SetProgress(false, 0);
+
         _messageBoxObj = transform.Find("UIWindow/MessgeBox").gameObject;
         _messageBoxObj.SetActive(false);
 
@@ -78,7 +86,9 @@ public class PatchWindow : MonoBehaviour
         _eventGroup.AddListener<PatchEventDefine.PackageVersionUpdateFailed>(OnHandleEventMessage);
         _eventGroup.AddListener<PatchEventDefine.PatchManifestUpdateFailed>(OnHandleEventMessage);
         _eventGroup.AddListener<PatchEventDefine.WebFileDownloadFailed>(OnHandleEventMessage);
+        _eventGroup.AddListener<PatchEventDefine.PatchUpdaterDone>(OnHandleEventMessage);
     }
+
     void OnDestroy()
     {
         _eventGroup.RemoveAllListener();
@@ -100,13 +110,14 @@ public class PatchWindow : MonoBehaviour
         else if (message is PatchEventDefine.PatchStatesChange)
         {
             var msg = message as PatchEventDefine.PatchStatesChange;
-            _tips.text = msg.Tips;
+            _txtTips.text = msg.Tips;
         }
         else if (message is PatchEventDefine.FoundUpdateFiles)
         {
             var msg = message as PatchEventDefine.FoundUpdateFiles;
             System.Action callback = () =>
             {
+                _txtTips.text = "Begin download the update patch files";
                 UserEventDefine.UserBeginDownloadWebFiles.SendEventMessage();
             };
             float sizeMB = msg.TotalSizeBytes / 1048576f;
@@ -117,10 +128,11 @@ public class PatchWindow : MonoBehaviour
         else if (message is PatchEventDefine.DownloadProgressUpdate)
         {
             var msg = message as PatchEventDefine.DownloadProgressUpdate;
-            _slider.value = (float)msg.CurrentDownloadCount / msg.TotalDownloadCount;
+            var progressValue = (float)msg.CurrentDownloadCount / msg.TotalDownloadCount;
             string currentSizeMB = (msg.CurrentDownloadSizeBytes / 1048576f).ToString("f1");
             string totalSizeMB = (msg.TotalDownloadSizeBytes / 1048576f).ToString("f1");
-            _tips.text = $"{msg.CurrentDownloadCount}/{msg.TotalDownloadCount} {currentSizeMB}MB/{totalSizeMB}MB";
+            var progressText = $"{msg.CurrentDownloadCount}/{msg.TotalDownloadCount} {currentSizeMB}MB/{totalSizeMB}MB";
+            SetProgress(false, progressValue, progressText);
         }
         else if (message is PatchEventDefine.PackageVersionUpdateFailed)
         {
@@ -147,9 +159,27 @@ public class PatchWindow : MonoBehaviour
             };
             ShowMessageBox($"Failed to download file : {msg.FileName}", callback);
         }
+        else if (message is PatchEventDefine.PatchUpdaterDone)
+        {
+            SetProgress(false, 1);
+        }
         else
         {
             throw new System.NotImplementedException($"{message.GetType()}");
+        }
+    }
+
+    /// <summary>
+    /// 设置进度
+    /// </summary>
+    private void SetProgress(bool done, float prg, string progressText = null)
+    {
+        if (done) {
+            gameObject.SetActive(false);
+        } else {
+            prg = Mathf.Clamp01(prg);
+            _slider.value = prg;
+            _txtProgress.text = progressText != null ? progressText : string.Format("{0:0.0}%", prg*100) ;
         }
     }
 

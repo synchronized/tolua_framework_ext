@@ -12,13 +12,19 @@ end
 function DailyReward_Content_1Wnd:Awake()
     self.super.Awake(self)
 
-    local btnAlert = self.transform:Find("BtnAlert")
-    btnAlert:OnClick(
-        function()
+    local btnAlert = self.transform:Find("UIWindow/btnAlert"):GetComponent("Button")
+    btnAlert.onClick:AddListener( function()
+        local dialog = Modules.Common:OpenUI("Dialog")
+        dialog:SetContent("这是一个弹出框,可以放下大段文本")
+        dialog:OnOk(function ()
             local alert = Modules.Common:OpenUI("Alert")
-            alert:SetContent("框架已动态添加Canvas以盖住特效")
-        end
-    )
+            alert:SetContent("弹出框点击Ok")
+        end)
+        dialog:OnCancel(function ()
+            local alert = Modules.Common:OpenUI("Alert")
+            alert:SetContent("弹出框点击Cancel按钮")
+        end)
+    end)
 end
 
 return DailyReward_Content_1Wnd

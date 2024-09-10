@@ -74,14 +74,6 @@ MonoBehaviour:
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
-      - CollectPath: Assets/LuaDev/GameRes/Prefabs/Battle
-        CollectorGUID: 9ea03d8995eeeb343837ff13a4885842
-        CollectorType: 0
-        AddressRuleName: AddressByFileName
-        PackRuleName: PackDirectory
-        FilterRuleName: CollectAll
-        AssetTags: 
-        UserData: 
     - GroupName: lua
       GroupDesc: "lua\u4EE3\u7801"
       AssetTags: 

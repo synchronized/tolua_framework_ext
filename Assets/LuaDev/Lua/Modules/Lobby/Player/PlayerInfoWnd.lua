@@ -12,22 +12,16 @@ end
 function PlayerInfoWnd:Awake()
     self.super.Awake(self)
 
-    self.panel = self.transform:Find("Panel")
+    self.panel = self.transform:Find("UIWindow")
+    self.btnMask = self.panel:GetComponent("Button")
+    self.btnMask.onClick:AddListener(function ()
+        self.module:CloseUI("PlayerInfo")
+    end)
 
-    local btnBack = self.transform:Find("Panel/OverLayer/BtnBack")
-    btnBack:OnClick(
-        function()
-            Destroy(self.gameObject)
-        end
-    )
-
-    local btnAlert = self.transform:Find("Panel/OverLayer/BtnAlert")
-    btnAlert:OnClick(
-        function()
-            local alert = Modules.Common:OpenUI("Alert")
-            alert:SetContent("框架已自动添加Canvas以盖住特效")
-        end
-    )
+    local btnBack = self.transform:Find("UIWindow/OverLayer/btnBack"):GetComponent("Button")
+    btnBack.onClick:AddListener( function()
+        self.module:CloseUI("PlayerInfo")
+    end)
 end
 
 function PlayerInfoWnd:OnEnable()
@@ -37,8 +31,8 @@ function PlayerInfoWnd:OnEnable()
     self.transform:DOAlpha(0, 0.5, 0.3, Ease.OutSine, false)
 
     --小对话框动画
-    self.panel.anchoredPosition = Vector2(0, -200)
-    self.panel:DOLocalMove(Vector3.one, 0.3):SetEase(Ease.OutBack)
+    --self.panel.anchoredPosition = Vector2(0, -200)
+    --self.panel:DOLocalMove(Vector3.one, 0.3):SetEase(Ease.OutBack)
 end
 
 return PlayerInfoWnd

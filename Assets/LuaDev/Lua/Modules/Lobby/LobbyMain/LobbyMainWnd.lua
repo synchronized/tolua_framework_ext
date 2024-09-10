@@ -8,10 +8,8 @@ end
 function LobbyMainWnd:Awake()
     self.super.Awake(self)
 
-    self.updateHandler = UpdateBeat:CreateListener(self.Update, self)
-
-    local btnLogout = self.transform:Find("BtnLogout")
-    btnLogout:OnClick(
+    local btnLogout = self.transform:Find("UIWindow/btnLogout"):GetComponent("Button")
+    btnLogout.onClick:AddListener(
         function()
             Modules.Login:OpenUI("Login")
             --或
@@ -19,8 +17,16 @@ function LobbyMainWnd:Awake()
         end
     )
 
-    local btnPlayerInfo = self.transform:Find("BtnPlayerInfo")
-    btnPlayerInfo:OnClick(
+    local btnAlert = self.transform:Find("UIWindow/btnAlert"):GetComponent("Button")
+    btnAlert.onClick:AddListener(
+        function()
+            local alert = Modules.Common:OpenUI("Alert")
+            alert:SetContent("底层无特效，框架不会动态添加Canvas")
+        end
+    )
+
+    local btnPlayerInfo = self.transform:Find("UIWindow/panBottom/btnPlayerInfo"):GetComponent("Button")
+    btnPlayerInfo.onClick:AddListener(
         function()
             Modules.Player:OpenUI("PlayerInfo")
             --或
@@ -28,48 +34,32 @@ function LobbyMainWnd:Awake()
         end
     )
 
-    local btnDailyReward = self.transform:Find("BtnDailyReward")
-    btnDailyReward:OnClick(
+    local btnDailyReward = self.transform:Find("UIWindow/panBottom/btnDailyReward"):GetComponent("Button")
+    btnDailyReward.onClick:AddListener(
         function()
             Modules.DailyReward:OpenUI("DailyReward")
         end
     )
 
-    local btnBtnShop = self.transform:Find("BtnShop")
-    btnBtnShop:OnClick(
+    local btnBtnShop = self.transform:Find("UIWindow/panBottom/btnProgress"):GetComponent("Button")
+    btnBtnShop.onClick:AddListener(
         function()
-            Modules.Shop:OpenUI("Shop")
+            local progress = Modules.Common:OpenUI("Progress")
+            progress:SetSmoothness(true, 3, 1)
+            --progress:SetProgress(false, 0.1, "10%")
             --或
             --CommandManager.Execute(CommandID.OpenUI, "ShopMgr")
         end
     )
 
-    local btnFight = self.transform:Find("BtnFight")
-    btnFight:OnClick(
-        function()
-            Modules.Room:OpenUI("RoomSelect")
-            --或
-            --CommandManager.Execute(CommandID.OpenUI, "RoomMgr")
-        end
-    )
-
-    local btnAlert = self.transform:Find("BtnAlert")
-    btnAlert:OnClick(
-        function()
-            local alert = Modules.Common:OpenUI("Alert")
-            alert:SetContent("底层无特效，框架不会动态添加Canvas")
-        end
-    )
 end
 
 function LobbyMainWnd:OnEnable()
     self.super.OnEnable(self)
-    UpdateBeat:AddListener(self.updateHandler)
 end
 
 function LobbyMainWnd:OnDisable()
     self.super.OnDisable(self)
-    UpdateBeat:RemoveListener(self.updateHandler)
 end
 
 function LobbyMainWnd:Update()

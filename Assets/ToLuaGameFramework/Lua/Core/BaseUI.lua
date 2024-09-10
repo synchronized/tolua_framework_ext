@@ -77,4 +77,8 @@ function BaseUI:DialogScaleIn(dialog, black, duration)
     end
 end
 
+function BaseUI:CloseUI()
+    self.module:CloseUI(self.uikey)
+end
+
 return BaseUI

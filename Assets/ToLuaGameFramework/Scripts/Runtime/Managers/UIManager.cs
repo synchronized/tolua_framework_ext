@@ -9,8 +9,11 @@ namespace ToLuaGameFramework
     {
         public class M_LuaFunction : LuaFunction
         {
-            public M_LuaFunction(int reference, LuaState state) : base(reference, state) { }
-            public Action<GameObject> action;
+            public M_LuaFunction(int reference, LuaState state, Action<Exception, GameObject> action) : base(reference, state)
+            {
+                this.action += action;
+            }
+            public Action<Exception, GameObject> action;
         }
 
         static List<LuaBehaviour> uiStack = new List<LuaBehaviour>();
@@ -58,6 +61,7 @@ namespace ToLuaGameFramework
             Canvas canvas = go.GetComponentInChildren<Canvas>();
             if(canvas && !canvas.overrideSorting && canvas.renderMode == RenderMode.ScreenSpaceCamera && canvas.worldCamera)
             {
+                Debug.LogWarning(string.Format("prefabPath:{0} has canvas", prefabPath));
                 go.transform.SetParent(null, false);
             }
             //处理入栈
@@ -98,7 +102,7 @@ namespace ToLuaGameFramework
                     luaBehaviour.isUIStack = isUIStack;
                     luaBehaviour.keepActive = keepActive;
                     luaBehaviour.isFloat = isFloat;
-                    if (callback != null) callback.Call(luaBehaviour.gameObject, true);
+                    callback?.Call(luaBehaviour.gameObject, true);
                     return;
                 }
             }
@@ -106,9 +110,12 @@ namespace ToLuaGameFramework
             M_LuaFunction luaFunction = null;
             if (callback != null)
             {
-                luaFunction = new M_LuaFunction(0, null);
-                luaFunction.action = (GameObject go) =>
+                luaFunction = new M_LuaFunction(0, null, (Exception e, GameObject go) =>
                 {
+                    if (e != null) {
+                        callback.Call<string, GameObject>(e.Message, null);
+                        return;
+                    }
                     LuaBehaviour luaBehaviour = go.GetComponent<LuaBehaviour>();
                     luaBehaviour.isUIStack = isUIStack;
                     luaBehaviour.keepActive = keepActive;
@@ -118,9 +125,9 @@ namespace ToLuaGameFramework
                     {
                         uiStack.Add(luaBehaviour);
                         RefreshStack();
-                        callback.Call(go);
                     }
-                };
+                    callback.Call<string, GameObject>(null, go);
+                });
             }
             ResManager.SpawnPrefabAsyn(prefabPath, parent, luaFunction);
         }

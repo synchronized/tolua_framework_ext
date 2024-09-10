@@ -10,15 +10,15 @@ end
 function LoginWnd:Awake()
     self.super.Awake(self)
 
-    local txtUsername = self.transform:Find("Panel/TxtUsername"):GetComponent("TMP_InputField")
-    local txtPassword = self.transform:Find("Panel/TxtPassword"):GetComponent("TMP_InputField")
+    local txtUsername = self.transform:Find("UIWindow/panInput/txtAccount"):GetComponent("TMP_InputField")
+    local txtPassword = self.transform:Find("UIWindow/panInput/txtPassword"):GetComponent("TMP_InputField")
 
     --设置保存的用户名和密码
     txtUsername.text = PlayerPrefs.GetString("PLAYERINFO.USERNAME")
     txtPassword.text = PlayerPrefs.GetString("PLAYERINFO.PASSWORD")
 
-    local btnStart = self.transform:Find("Panel/BtnStart")
-    btnStart:OnClick(
+    local btnLogin = self.transform:Find("UIWindow/btnLogin"):GetComponent("Button");
+    btnLogin.onClick:AddListener(
         function()
             playerInfo.username = txtUsername.text
             playerInfo.password = txtPassword.text
@@ -30,15 +30,6 @@ function LoginWnd:Awake()
             --CommandManager.Execute(CommandID.DoLogin)
             --TODO 临时直接进入主界面
             CommandManager.Execute(CommandID.OpenUI, "LobbyMainMgr")
-        end
-    )
-
-    local btnRegister = self.transform:Find("Panel/BtnRegister")
-    btnRegister:OnClick(
-        function()
-            --CommandManager.Execute(CommandID.OpenUI, "LoginMgr", "Register")
-            --或
-            Modules.Login:OpenUI("Register")
         end
     )
 end

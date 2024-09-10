@@ -1,6 +1,7 @@
 using System.IO;
 using UnityEngine;
 using LuaInterface;
+using System;
 
 namespace ToLuaGameFramework
 {
@@ -22,6 +23,8 @@ namespace ToLuaGameFramework
         private LuaState lua;
         private LuaLooper loop = null;
 
+        private Action startLuaAction;
+
         private LuaManager()
         {
             lua = new LuaState();
@@ -31,7 +34,11 @@ namespace ToLuaGameFramework
             lua.LuaSetTop(0);
         }
 
-        public void Initalize(MonoBehaviour behaviour){
+        internal static void Initalize(MonoBehaviour behaviour){
+            Instance.doInitalize(behaviour);
+        }
+
+        private void doInitalize(MonoBehaviour behaviour){
             this.behaviour = behaviour;
             LuaCoroutine.Register(lua, behaviour);
         }
@@ -80,27 +87,18 @@ namespace ToLuaGameFramework
             loop.luaState = lua;
         }
 
-        /// <summary>
-        /// 初始化LuaBundle
-        /// </summary>
-        void InitLuaBundle()
-        {
-            string url = LuaConfig.localABPath + "/lua" + LuaConst.ExtName;
-            if (File.Exists(url))
-            {
-                AssetBundle bundle = AssetBundle.LoadFromFile(url);
-                if (bundle != null)
-                {
-                    var loader = LuaLoader.GetOrAddLoader<SingleAssetLuaLoader>();
-                    loader.SetSearchBundle($"lua{LuaConst.ExtName}", bundle);
-                }
-            }
-            else
-            {
-                Debug.LogError("本地找不到lua" + LuaConst.ExtName + "文件");
-            }
+        //被Lua调用
+        public static void OnStartLuaSuccess() {
+            Instance.startLuaAction?.Invoke();
         }
 
+        internal static void AddStartLuaListener(Action cb) {
+            Instance.startLuaAction += cb;
+        }
+
+        internal static void ClearStartLuaListener() {
+            Instance.startLuaAction = null;
+        }
 
         public void DoFile(string filename)
         {

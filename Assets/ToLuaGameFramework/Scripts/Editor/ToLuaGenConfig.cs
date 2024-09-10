@@ -152,8 +152,10 @@ namespace ToLuaGameFramework.Config
             //TMPro
             _GT(typeof(TMPro.TMP_InputField)),
             _GT(typeof(TMPro.TMP_Text)),
+            _GT(typeof(TMPro.TextMeshProUGUI)),
 
             //ToLuaGameFramework
+            _GT(typeof(ToLuaGameFramework.GlobalManager)),
             _GT(typeof(ToLuaGameFramework.LuaManager)),
             _GT(typeof(ToLuaGameFramework.ResManager)),
             _GT(typeof(ToLuaGameFramework.UIManager)),

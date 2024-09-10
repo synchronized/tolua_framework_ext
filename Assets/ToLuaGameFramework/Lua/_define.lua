@@ -12,7 +12,9 @@ LayoutRebuilder = UnityEngine.UI.LayoutRebuilder
 Random = UnityEngine.Random
 
 --C#对象
+GlobalManager = ToLuaGameFramework.GlobalManager
 EventManager = ToLuaGameFramework.EventManager
+LuaManager = ToLuaGameFramework.LuaManager
 ResManager = ToLuaGameFramework.ResManager
 UIManager = ToLuaGameFramework.UIManager
 SoundManager = ToLuaGameFramework.SoundManager

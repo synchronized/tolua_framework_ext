@@ -98,7 +98,7 @@ namespace ToLuaGameFramework
         /// </summary>
         /// <param name="elapseSeconds">逻辑流逝时间，以秒为单位。</param>
         /// <param name="realElapseSeconds">真实流逝时间，以秒为单位。</param>
-        public static void Update(float elapseSeconds, float realElapseSeconds)
+        internal static void Update(float elapseSeconds, float realElapseSeconds)
         {
             m_NetworkMgr.Update(elapseSeconds, realElapseSeconds);
         }

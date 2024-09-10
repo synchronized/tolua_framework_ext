@@ -21,8 +21,9 @@ namespace GameLogic.BootLogic
             GlobalManager.ResLoadMode = PlayMode == EPlayMode.EditorSimulateMode
                     ? ResLoadMode.SimulateMode : ResLoadMode.NormalMode;
             GlobalManager.Behaviour = this;
+            GlobalManager.MainCanvas = transform.Find("MainCanvas");
+            GlobalManager.MainCamera = transform.Find("MainCamera");
             GlobalManager.DefaultPackage = "DefaultPackage";
-
 
             Debug.Log($"资源加载模式运行模式：{PlayMode}");
             Application.targetFrameRate = 60;
@@ -34,10 +35,10 @@ namespace GameLogic.BootLogic
 
             PatchManager.Instance.Behaviour = this;
 
+            LuaManager.Initalize(this);
+
             // 初始化事件系统
             UniEvent.Initalize();
-
-            LuaManager.Instance.Initalize(this);
 
             // 初始化资源系统
             YooAssets.Initialize();
@@ -45,6 +46,7 @@ namespace GameLogic.BootLogic
             // 加载更新页面
             var patchPrefabs = Resources.Load<GameObject>("PatchWindow");
             var pitchWnd = Instantiate(patchPrefabs);
+            pitchWnd.transform.SetParent(GlobalManager.MainCanvas);
             pitchWnd.AddComponent<PatchWindow>();
 
             // 开始补丁更新流程
@@ -60,13 +62,19 @@ namespace GameLogic.BootLogic
                 YooAssetLuaResLoader.AddLoader(); //增加LuaLoader
             }
 
-            // 切换到主页面场景
-            SceneEventDefine.ChangeToLoginScene.SendEventMessage();
+            //添加启动完成后的清理逻辑
+            LuaManager.AddStartLuaListener(() => {
+                LuaManager.ClearStartLuaListener();
+                Destroy(pitchWnd);
+            });
+            // 启动逻辑
+            LuaManager.Instance.StartLua();
         }
 
         void Update()
         {
             NetManager.Update(Time.deltaTime, Time.unscaledDeltaTime);
+            ResManager.Update(Time.deltaTime, Time.unscaledDeltaTime);
         }
 
         void OnDestroy()

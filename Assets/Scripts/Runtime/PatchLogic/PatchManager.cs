@@ -1,7 +1,7 @@
 ﻿using System.Collections;
+using UnityEngine;
 using Cysharp.Threading.Tasks;
 using UniFramework.Event;
-using UnityEngine;
 using YooAsset;
 
 public class PatchManager
@@ -45,7 +45,6 @@ public class PatchManager
     {
         if (message is SceneEventDefine.ChangeToLoginScene)
         {
-            UnityEngine.Debug.Log($"ChangeToLoginScene");
             OpenMainScene().Forget();
         }
     }

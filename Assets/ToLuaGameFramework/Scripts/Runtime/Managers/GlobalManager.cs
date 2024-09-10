@@ -12,7 +12,7 @@ namespace ToLuaGameFramework
     public static class GlobalManager
     {
         private static ResLoadMode m_ResLoadMode = ResLoadMode.SimulateMode;
-        public static ResLoadMode ResLoadMode {
+        internal static ResLoadMode ResLoadMode {
             get {
                 return m_ResLoadMode;
             }
@@ -26,7 +26,9 @@ namespace ToLuaGameFramework
             }
         }
 
-        public static MonoBehaviour Behaviour;
+        public static MonoBehaviour Behaviour; //
+        public static Transform MainCanvas; //主摄像机
+        public static Transform MainCamera;
 
         public static string DefaultPackage = "";
     }
