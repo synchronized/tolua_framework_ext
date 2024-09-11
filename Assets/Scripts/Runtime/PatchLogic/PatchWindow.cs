@@ -8,6 +8,96 @@ using TMPro;
 
 public class PatchWindow : MonoBehaviour
 {
+
+    private class ProgressWindow
+    {
+        private Transform _myTransform;
+        private Slider _slider; //进度条
+        private TMP_Text _txtTitle; //标题
+        private TMP_Text _txtTips; //进度条上方说明
+        private TMP_Text _txtProgress; //进度条里面说明X%
+
+        private bool _progressDone; //是否结束
+        private float _targetProgress; //目标进度
+        private string _targetProgressText; //目标进度提示信息
+        private float _smoothSpeed; //当前进度到达目标进度的速度
+
+        public Action OnComplete;
+
+        public ProgressWindow(Transform progressTransform)
+        {
+            _myTransform = progressTransform;
+
+            _slider = _myTransform.Find("UIWindow/Slider").GetComponent<Slider>();
+            _txtTitle = _myTransform.Find("UIWindow/txtTitle").GetComponent<TMP_Text>();
+            _txtTips = _myTransform.Find("UIWindow/txtTips").GetComponent<TMP_Text>();
+            _txtProgress = _myTransform.Find("UIWindow/Slider/txtProgress").GetComponent<TMP_Text>();
+
+            Reset();
+        }
+
+        internal void Reset()
+        {
+            _progressDone = false;
+            _targetProgress = 0;
+            _targetProgressText = null;
+            _smoothSpeed = 1f;
+            _internalSetProgress(0);
+        }
+
+        internal void SetTitle(string title)
+        {
+            _txtTitle.text = title;
+        }
+
+        internal void SetTips(string tips)
+        {
+            _txtTips.text = tips;
+        }
+
+        internal void SetSmoothSpeed(float speed)
+        {
+            _smoothSpeed = speed <= 0 ? 1 : speed;
+        }
+
+        /// <summary>
+        /// 设置进度
+        /// </summary>
+        internal void SetProgress(float progress, string progressText = null)
+        {
+            _targetProgress = progress;
+            _targetProgressText = progressText;
+        }
+
+        internal void Update(float deltaTime)
+        {
+            if (!_progressDone)
+            {
+                if (_slider.value >= 0.99)
+                {
+                    _progressDone = true;
+                    var onComplete = OnComplete;
+                    OnComplete = null;
+                    onComplete?.Invoke();
+                }
+                else if (_targetProgress > _slider.value)
+                {
+                    var progress = _targetProgress;
+                    progress = _slider.value + progress*deltaTime/_smoothSpeed;
+                    _internalSetProgress(progress);
+                }
+            }
+        }
+
+        private void _internalSetProgress(float progress)
+        {
+            progress = Mathf.Clamp01(progress);
+            var progressText = _targetProgressText ?? string.Format("{0:0.0}%", progress*100);
+            _slider.value = progress;
+            _txtProgress.text = progressText;
+        }
+    }
+
     /// <summary>
     /// 对话框封装类
     /// </summary>
@@ -59,22 +149,15 @@ public class PatchWindow : MonoBehaviour
 
     // UGUI相关
     private GameObject _messageBoxObj;
-    private Slider _slider; //进度条
-    private TMP_Text _txtTitle; //标题
-    private TMP_Text _txtTips; //进度条上方说明
-    private TMP_Text _txtProgress; //进度条里面说明X%
+
+    private ProgressWindow _progressWindow;
 
     void Awake()
     {
-        _slider = transform.Find("UIWindow/Slider").GetComponent<Slider>();
-        _txtTitle = transform.Find("UIWindow/txtTitle").GetComponent<TMP_Text>();
-        _txtTips = transform.Find("UIWindow/txtTips").GetComponent<TMP_Text>();
-        _txtProgress = transform.Find("UIWindow/Slider/txtProgress").GetComponent<TMP_Text>();
-
-        _txtTitle.text = "资源更新";
-        _txtTips.text = "Initializing the game world !";
-
-        SetProgress(false, 0);
+        _progressWindow = new ProgressWindow(transform);
+        _progressWindow.SetTitle("资源更新");
+        _progressWindow.SetTips("Initializing the game world !");
+        _progressWindow.OnComplete += PatchEventDefine.PatchProgressComplete.SendEventMessage;
 
         _messageBoxObj = transform.Find("UIWindow/MessgeBox").gameObject;
         _messageBoxObj.SetActive(false);
@@ -87,6 +170,11 @@ public class PatchWindow : MonoBehaviour
         _eventGroup.AddListener<PatchEventDefine.PatchManifestUpdateFailed>(OnHandleEventMessage);
         _eventGroup.AddListener<PatchEventDefine.WebFileDownloadFailed>(OnHandleEventMessage);
         _eventGroup.AddListener<PatchEventDefine.PatchUpdaterDone>(OnHandleEventMessage);
+    }
+
+    void Update()
+    {
+        _progressWindow?.Update(Time.deltaTime);
     }
 
     void OnDestroy()
@@ -110,14 +198,14 @@ public class PatchWindow : MonoBehaviour
         else if (message is PatchEventDefine.PatchStatesChange)
         {
             var msg = message as PatchEventDefine.PatchStatesChange;
-            _txtTips.text = msg.Tips;
+            _progressWindow.SetTips(msg.Tips);
         }
         else if (message is PatchEventDefine.FoundUpdateFiles)
         {
             var msg = message as PatchEventDefine.FoundUpdateFiles;
             System.Action callback = () =>
             {
-                _txtTips.text = "Begin download the update patch files";
+                _progressWindow.SetTips("Begin download the update patch files");
                 UserEventDefine.UserBeginDownloadWebFiles.SendEventMessage();
             };
             float sizeMB = msg.TotalSizeBytes / 1048576f;
@@ -128,11 +216,11 @@ public class PatchWindow : MonoBehaviour
         else if (message is PatchEventDefine.DownloadProgressUpdate)
         {
             var msg = message as PatchEventDefine.DownloadProgressUpdate;
-            var progressValue = (float)msg.CurrentDownloadCount / msg.TotalDownloadCount;
+            var progress = (float)msg.CurrentDownloadCount / msg.TotalDownloadCount;
             string currentSizeMB = (msg.CurrentDownloadSizeBytes / 1048576f).ToString("f1");
             string totalSizeMB = (msg.TotalDownloadSizeBytes / 1048576f).ToString("f1");
             var progressText = $"{msg.CurrentDownloadCount}/{msg.TotalDownloadCount} {currentSizeMB}MB/{totalSizeMB}MB";
-            SetProgress(false, progressValue, progressText);
+            _progressWindow.SetProgress(progress, progressText);
         }
         else if (message is PatchEventDefine.PackageVersionUpdateFailed)
         {
@@ -161,25 +249,11 @@ public class PatchWindow : MonoBehaviour
         }
         else if (message is PatchEventDefine.PatchUpdaterDone)
         {
-            SetProgress(false, 1);
+            _progressWindow.SetProgress(1);
         }
         else
         {
             throw new System.NotImplementedException($"{message.GetType()}");
-        }
-    }
-
-    /// <summary>
-    /// 设置进度
-    /// </summary>
-    private void SetProgress(bool done, float prg, string progressText = null)
-    {
-        if (done) {
-            gameObject.SetActive(false);
-        } else {
-            prg = Mathf.Clamp01(prg);
-            _slider.value = prg;
-            _txtProgress.text = progressText != null ? progressText : string.Format("{0:0.0}%", prg*100) ;
         }
     }
 

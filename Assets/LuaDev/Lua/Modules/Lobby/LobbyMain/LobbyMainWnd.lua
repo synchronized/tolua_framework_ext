@@ -45,8 +45,11 @@ function LobbyMainWnd:Awake()
     btnBtnShop.onClick:AddListener(
         function()
             local progress = Modules.Common:OpenUI("Progress")
-            progress:SetSmoothness(true, 3, 1)
-            --progress:SetProgress(false, 0.1, "10%")
+            progress:SetProgress(2)
+            progress:SetSmoothSpeed(2)
+            progress:OnComplete(function ()
+                progress:CloseUI()
+            end)
             --或
             --CommandManager.Execute(CommandID.OpenUI, "ShopMgr")
         end

@@ -15,12 +15,12 @@ function PlayerInfoWnd:Awake()
     self.panel = self.transform:Find("UIWindow")
     self.btnMask = self.panel:GetComponent("Button")
     self.btnMask.onClick:AddListener(function ()
-        self.module:CloseUI("PlayerInfo")
+        self:CloseUI()
     end)
 
     local btnBack = self.transform:Find("UIWindow/OverLayer/btnBack"):GetComponent("Button")
     btnBack.onClick:AddListener( function()
-        self.module:CloseUI("PlayerInfo")
+        self:CloseUI()
     end)
 end
 

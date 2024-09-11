@@ -3,6 +3,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using UniFramework.Event;
 using YooAsset;
+using ToLuaGameFramework;
 
 public class PatchManager
 {
@@ -19,6 +20,10 @@ public class PatchManager
 
     private readonly EventGroup _eventGroup = new EventGroup();
 
+    public static void Initalize(MonoBehaviour behaviour) {
+        Instance.Behaviour = behaviour;
+    }
+
     /// <summary>
     /// 协程启动器
     /// </summary>
@@ -27,7 +32,7 @@ public class PatchManager
     private PatchManager()
     {
         // 注册监听事件
-        _eventGroup.AddListener<SceneEventDefine.ChangeToLoginScene>(OnHandleEventMessage);
+        _eventGroup.AddListener<PatchEventDefine.PatchProgressComplete>(OnHandleEventMessage);
     }
 
     /// <summary>
@@ -43,15 +48,9 @@ public class PatchManager
     /// </summary>
     private void OnHandleEventMessage(IEventMessage message)
     {
-        if (message is SceneEventDefine.ChangeToLoginScene)
+        if (message is PatchEventDefine.PatchProgressComplete)
         {
-            OpenMainScene().Forget();
+            LuaManager.Instance.StartLua();
         }
-    }
-
-    private async UniTask OpenMainScene()
-    {
-        SceneHandle handle = YooAssets.LoadSceneAsync("SceneLogin");
-        await handle;
     }
 }

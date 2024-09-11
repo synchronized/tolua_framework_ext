@@ -4,8 +4,8 @@ function OpenModuleUI(moduleName, uiKey, parent)
 end
 
 --关闭模块UI
-function CloseModuleUI(moduleName, uiKey, parent)
-    Modules[moduleName]:CloseUI(uiKey, parent)
+function CloseModuleUI(moduleName, uiKey)
+    Modules[moduleName]:CloseUI(uiKey)
 end
 
 function TriggerEvent(eventid,...)

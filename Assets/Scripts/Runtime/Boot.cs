@@ -33,7 +33,7 @@ namespace GameLogic.BootLogic
         async UniTask Start()
         {
 
-            PatchManager.Instance.Behaviour = this;
+            PatchManager.Initalize(this);
 
             LuaManager.Initalize(this);
 
@@ -67,8 +67,6 @@ namespace GameLogic.BootLogic
                 LuaManager.ClearStartLuaListener();
                 Destroy(pitchWnd);
             });
-            // 启动逻辑
-            LuaManager.Instance.StartLua();
         }
 
         void Update()

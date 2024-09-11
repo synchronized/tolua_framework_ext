@@ -6,7 +6,7 @@ function StartGame.Run()
 
     --加载进度条界面
     local progress = Modules.Common:OpenUI("Progress")
-    progress:SetSmoothness(true, 2)
+    progress:SetSmoothSpeed(1)
     progress:SetTips("加载资源中...")
     progress:OnComplete(function ()
         LProtoMgr.OnInit()
@@ -17,10 +17,12 @@ function StartGame.Run()
             --coroutine.wait(1) --测试用
 
             Modules.Login:OpenUI("Login")
+            progress:CloseUI()
         end)
     end)
 
     local preloadPaths = {
+        "Proto/Protobuf/Protocol",
         "Prefabs/Login/LoginWnd",
     }
     ResManager.LLoadAssetListAsyn(preloadPaths,
@@ -28,10 +30,10 @@ function StartGame.Run()
             if e then
                 error(e)
             end
-            progress:SetSmoothnessProgress(1.01)
+            progress:SetProgress(1.01)
         end,
         function (progressValue)
-            progress:SetSmoothnessProgress(progressValue)
+            progress:SetProgress(progressValue)
         end)
 end
 

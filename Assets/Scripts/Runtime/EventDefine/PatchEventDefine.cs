@@ -119,4 +119,16 @@ public class PatchEventDefine
             UniEvent.SendMessage(msg);
         }
     }
+
+    /// <summary>
+    /// 更新进度条走完
+    /// </summary>
+    public class PatchProgressComplete : IEventMessage
+    {
+        public static void SendEventMessage()
+        {
+            var msg = new PatchProgressComplete();
+            UniEvent.SendMessage(msg);
+        }
+    }
 }
