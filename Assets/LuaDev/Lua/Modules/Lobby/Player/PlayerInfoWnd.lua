@@ -12,8 +12,8 @@ end
 function PlayerInfoWnd:Awake()
     self.super.Awake(self)
 
-    self.panel = self.transform:Find("UIWindow")
-    self.btnMask = self.panel:GetComponent("Button")
+    self.bg = self.transform:Find("UIWindow/bg")
+    self.btnMask = self.transform:Find("UIWindow/bg"):GetComponent("Button")
     self.btnMask.onClick:AddListener(function ()
         self:CloseUI()
     end)
@@ -28,7 +28,7 @@ function PlayerInfoWnd:OnEnable()
     self.super.OnEnable(self)
 
     --黑色蒙版动画
-    self.transform:DOAlpha(0, 0.5, 0.3, Ease.OutSine, false)
+    self.bg:DOAlpha(0, 0.5, 0.3, Ease.OutSine, false)
 
     --小对话框动画
     --self.panel.anchoredPosition = Vector2(0, -200)

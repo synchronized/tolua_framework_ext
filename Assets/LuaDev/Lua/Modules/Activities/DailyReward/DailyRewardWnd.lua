@@ -13,6 +13,7 @@ function DailyRewardWnd:Awake()
     self.super.Awake(self)
 
     self.mianPanel = self.transform:Find("UIWindow")
+    self.bg = self.transform:Find("UIWindow/bg")
 
     self.menus = {}
     for i = 1, self.module.MenuNum do
@@ -41,7 +42,7 @@ function DailyRewardWnd:OnEnable()
     self.super.OnEnable(self)
 
     --黑色蒙版动画
-    self.transform:DOAlpha(0, 0.5, 0.3, Ease.OutSine, false)
+    self.bg:DOAlpha(0, 0.5, 0.3, Ease.OutSine, false)
 
     --小对话框动画
     self.mianPanel.anchoredPosition = Vector2(0, -200)

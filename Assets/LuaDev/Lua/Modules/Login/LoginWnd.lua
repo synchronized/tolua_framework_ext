@@ -10,14 +10,14 @@ end
 function LoginWnd:Awake()
     self.super.Awake(self)
 
-    local txtUsername = self.transform:Find("UIWindow/panInput/txtAccount"):GetComponent("TMP_InputField")
-    local txtPassword = self.transform:Find("UIWindow/panInput/txtPassword"):GetComponent("TMP_InputField")
+    local txtUsername = self.transform:Find("UIWindow/panContent/panInput/txtAccount"):GetComponent("TMP_InputField")
+    local txtPassword = self.transform:Find("UIWindow/panContent/panInput/txtPassword"):GetComponent("TMP_InputField")
 
     --设置保存的用户名和密码
     txtUsername.text = PlayerPrefs.GetString("PLAYERINFO.USERNAME")
     txtPassword.text = PlayerPrefs.GetString("PLAYERINFO.PASSWORD")
 
-    local btnLogin = self.transform:Find("UIWindow/btnLogin"):GetComponent("Button");
+    local btnLogin = self.transform:Find("UIWindow/panContent/btnLogin"):GetComponent("Button");
     btnLogin.onClick:AddListener(
         function()
             playerInfo.username = txtUsername.text

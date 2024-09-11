@@ -28,6 +28,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2853009994340095121}
   - {fileID: 7540794650870235765}
   m_Father: {fileID: 7667011800684772357}
   m_RootOrder: 0
@@ -68,7 +69,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8483575364129036126}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -117,6 +118,82 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1.5
   m_Text: "\u6218\u6CD5\u7267\u662FMMORPG\u6218\u6597\u7CFB\u7EDF\u91CC\u7684\u6838\u5FC3\u804C\u4E1A\u4F53\u7CFB\uFF0C\u5176\u4E2D\u7684\u6CD5\u5E08\u56E0\u5176\u8FDC\u7A0B\u8F93\u51FA\u548C\u9AD8\u4F24\u5BB3\u7684\u7279\u70B9\u4E00\u76F4\u5F88\u53D7\u591A\u6570\u73A9\u5BB6\u7684\u559C\u7231\u3002\u563F\u563F\uFF0C\u8BF4\u5B9E\u8BDD\uFF0C\u5C0F\u7F16\u73A9MMO\u5C31\u5BF9\u6CD5\u5E08\u60C5\u6709\u72EC\u949F\uFF01\u4E0B\u9762\u6211\u4EEC\u5C31\u6765\u76D8\u70B9\u4E00\u4E0B\u90A3\u4E9BMMO\u91CC\u7ECF\u5178\u7684\u6CD5\u5E08\u804C\u4E1A\u5427\uFF01\u6218\u6CD5\u7267\u662FMMORPG\u6218\u6597\u7CFB\u7EDF\u91CC\u7684\u6838\u5FC3\u804C\u4E1A\u4F53\u7CFB\uFF0C\u5176\u4E2D\u7684\u6CD5\u5E08\u56E0\u5176\u8FDC\u7A0B\u8F93\u51FA\u548C\u9AD8\u4F24\u5BB3\u7684\u7279\u70B9\u4E00\u76F4\u5F88\u53D7\u591A\u6570\u73A9\u5BB6\u7684\u559C\u7231\u3002\n\n\u563F\u563F\uFF0C\u8BF4\u5B9E\u8BDD\uFF0C\u5C0F\u7F16\u73A9MMO\u5C31\u5BF9\u6CD5\u5E08\u60C5\u6709\u72EC\u949F\uFF01\u4E0B\u9762\u6211\u4EEC\u5C31\u6765\u76D8\u70B9\u4E00\u4E0B\u90A3\u4E9BMMO\u91CC\u7ECF\u5178\u7684\u6CD5\u5E08\u804C\u4E1A\u5427\uFF01\u6218\u6CD5\u7267\u662FMMORPG\u6218\u6597\u7CFB\u7EDF\u91CC\u7684\u6838\u5FC3\u804C\u4E1A\u4F53\u7CFB\uFF0C\u5176\u4E2D\u7684\u6CD5\u5E08\u56E0\u5176\u8FDC\u7A0B\u8F93\u51FA\u548C\u9AD8\u4F24\u5BB3\u7684\u7279\u70B9\u4E00\u76F4\u5F88\u53D7\u591A\u6570\u73A9\u5BB6\u7684\u559C\u7231\u3002\u563F\u563F\uFF0C\u8BF4\u5B9E\u8BDD\uFF0C\u5C0F\u7F16\u73A9MMO\u5C31\u5BF9\u6CD5\u5E08\u60C5\u6709\u72EC\u949F\uFF01\u4E0B\u9762\u6211\u4EEC\u5C31\u6765\u76D8\u70B9\u4E00\u4E0B\u90A3\u4E9BMMO\u91CC\u7ECF\u5178\u7684\u6CD5\u5E08\u804C\u4E1A\u5427\uFF01"
+--- !u!1 &7385923534447419875
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2853009994340095121}
+  - component: {fileID: 3725408080719905221}
+  - component: {fileID: 6218012360922260552}
+  m_Layer: 5
+  m_Name: bg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2853009994340095121
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7385923534447419875}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8483575364129036126}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &3725408080719905221
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7385923534447419875}
+  m_CullTransparentMesh: 1
+--- !u!114 &6218012360922260552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7385923534447419875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 72ecf4210c5a3734ca6785a5df658d24, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &7667011800684772356
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,8 +203,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7667011800684772357}
-  - component: {fileID: 7667011800684772355}
-  - component: {fileID: 7667011800684772354}
   m_Layer: 5
   m_Name: DailyReward_Content_2Wnd
   m_TagString: Untagged
@@ -156,41 +231,3 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -15, y: -15}
   m_Pivot: {x: 0, y: 1}
---- !u!222 &7667011800684772355
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7667011800684772356}
-  m_CullTransparentMesh: 0
---- !u!114 &7667011800684772354
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7667011800684772356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 72ecf4210c5a3734ca6785a5df658d24, type: 3}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
