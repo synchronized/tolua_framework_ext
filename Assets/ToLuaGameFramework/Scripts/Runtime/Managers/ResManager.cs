@@ -1,102 +1,205 @@
 using System;
+using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using YooAsset;
 using LuaInterface;
 
-using static ToLuaGameFramework.UIManager;
-using System.Collections.Generic;
-
 namespace ToLuaGameFramework
 {
     public static class ResManager
     {
-        #region 创建对象
+        class AssetHandlerUpdater {
 
-        interface IProgressHandler
-        {
-            void OnUpdate();
-        }
+            static readonly List<ResAsyncHandler> m_handlerList = new();
+            static readonly List<ResAsyncHandler> m_handlerRemoveList = new();
 
-        class SingleProgressHandler : IProgressHandler
-        {
-            public AssetHandle assetHandle;
-            public Action<float> onProgress;
-
-            public void OnUpdate() {
-                onProgress?.Invoke(assetHandle.Progress);
-            }
-        }
-
-        class MultiProgressHandler : IProgressHandler
-        {
-            private float progress;
-
-            public Action<float> onProgress;
-
-            public void SetProgress(float progress) {
-                this.progress = progress;
+            public static void AddHandler(ResAsyncHandler handler) {
+                m_handlerList.Add(handler);
             }
 
-            public void OnUpdate() {
-                onProgress?.Invoke(progress);
+            public static void RemoveHandler(ResAsyncHandler handler) {
+                m_handlerRemoveList.Add(handler);
             }
-        }
 
-        static List<IProgressHandler> m_progressHandles = new();
-
-        /// <summary>
-        /// 同步创建对象(prefabPath不带后缀名)
-        /// </summary>
-        public static GameObject SpawnPrefab(string prefabPath, Transform parent)
-        {
-            if (string.IsNullOrEmpty(prefabPath))
+            internal static void Update()
             {
-                Debug.LogError("prefabPath为空");
-                return null;
-            }
-            GameObject prefab = LoadAssetFromAssetBundleSyn<GameObject>(prefabPath);
-            GameObject go = GameObject.Instantiate(prefab);
-            if (parent) go.transform.SetParent(parent, false);
-            LuaBehaviour luaBehaviour = go.AddComponent<LuaBehaviour>();
-            luaBehaviour.prefabPath = prefabPath;
-            return luaBehaviour.gameObject;
-        }
-
-        /// <summary>
-        /// 异步创建对象(prefabPath不带后缀名)
-        /// </summary>
-        public static void SpawnPrefabAsyn(string prefabPath, Transform parent, LuaFunction callback)
-        {
-            Action<Exception, GameObject> cb = (Exception e, GameObject go) => {
-                if (callback != null)
+                foreach (var handler in m_handlerList)
                 {
-                    if (callback is M_LuaFunction function)
-                    {
-                        function.action.Invoke(e, go);
-                    }
-                    else
-                    {
-                        callback.Call(e, go);
-                    }
+                    handler.Update();
                 }
-            };
-            if (string.IsNullOrEmpty(prefabPath))
-            {
-                Debug.LogError("prefabPath为空");
-                throw new LuaException("prefabPath为空");
+                foreach (var handler in m_handlerRemoveList)
+                {
+                    m_handlerList.Remove(handler);
+                }
+                m_handlerRemoveList.Clear();
             }
-            LoadAssetFromAssetBundleAsyn(prefabPath, (Exception e, GameObject prefab) => {
-                if (e != null) {
-                    cb(e, null);
+        }
+
+        public abstract class ResAsyncHandler : IEnumerator, IDisposable
+        {
+
+            public object Current => null;
+
+            public Action<float> OnProgress;
+
+            public abstract bool IsDone { get; }
+
+            public abstract float Progress { get; }
+
+            public abstract string Error { get; }
+
+            public abstract void Dispose();
+
+            internal void Update() {
+                if (IsDone) {
+                    OnProgress?.Invoke(1.0f);
+                    OnProgress = null;
+
+                    AssetHandlerUpdater.RemoveHandler(this);
+                    this.Dispose();
                 } else {
-                    GameObject go = GameObject.Instantiate(prefab);
-                    if (parent) go.transform.SetParent(parent, false);
-                    LuaBehaviour luaBehaviour = go.AddComponent<LuaBehaviour>();
-                    luaBehaviour.prefabPath = prefabPath;
-                    cb(null, luaBehaviour.gameObject);
+                    OnProgress?.Invoke(Progress);
                 }
-            }, null).Forget();
+            }
+
+            public bool MoveNext() { return !IsDone; }
+
+            public void Reset() { }
+        }
+
+        public class YooAssetAsyncHandler : ResAsyncHandler
+        {
+            static Queue<YooAssetAsyncHandler> pool = new Queue<YooAssetAsyncHandler>();
+
+            public static YooAssetAsyncHandler Get()
+            {
+                if (pool.Count > 0) return pool.Dequeue();
+                else return new YooAssetAsyncHandler();
+            }
+
+            public static void Recycle(YooAssetAsyncHandler loader)
+            {
+                pool.Enqueue(loader);
+            }
+
+            private AssetHandle assetHandle;
+
+
+            private YooAssetAsyncHandler() { }
+
+            public void Init(AssetHandle assetHandle)
+            {
+                this.assetHandle = assetHandle;
+            }
+
+            public UnityEngine.Object AssetObject { get {
+                return assetHandle.AssetObject;
+            } }
+
+            public override bool IsDone
+            {
+                get { return assetHandle.Status != EOperationStatus.Processing; }
+            }
+
+            public override float Progress
+            {
+                get { return assetHandle.Progress;}
+            }
+
+            public override string Error
+            {
+                get { return assetHandle.Status == EOperationStatus.Failed ? assetHandle.LastError : null;}
+            }
+
+
+            public override void Dispose() {
+                assetHandle.Dispose();
+                Recycle(this);
+            }
+        }
+
+        public class YooAssetListAsyncHandler : ResAsyncHandler
+        {
+            static Queue<YooAssetListAsyncHandler> pool = new Queue<YooAssetListAsyncHandler>();
+
+            public static YooAssetListAsyncHandler Get()
+            {
+                YooAssetListAsyncHandler result;
+                if (pool.Count > 0) result = pool.Dequeue();
+                else result = new YooAssetListAsyncHandler();
+                return result;
+            }
+
+            public static void Recycle(YooAssetListAsyncHandler loader)
+            {
+                pool.Enqueue(loader);
+            }
+
+            private List<AssetHandle> m_assetHandleLsit;
+            private int m_doneNum;
+            private string m_lastError;
+
+            private YooAssetListAsyncHandler() { }
+
+            public void Init()
+            {
+                m_doneNum = 0;
+                m_lastError = null;
+                m_assetHandleLsit ??= new List<AssetHandle>();
+            }
+
+            public override bool IsDone
+            {
+                get { return m_doneNum == m_assetHandleLsit.Count; }
+            }
+
+            public override float Progress
+            {
+                get {
+                    if (m_assetHandleLsit.Count == 0 ) return 0;
+                    if (m_assetHandleLsit.Count == 1 ) return m_assetHandleLsit[0].Progress;
+                    m_doneNum = 0;
+                    foreach (var assetHandle in m_assetHandleLsit) {
+                        if (assetHandle.IsDone) m_doneNum++;
+                    }
+                    return 1.0f *m_doneNum / m_assetHandleLsit.Count;
+                }
+            }
+
+            public override string Error
+            {
+                get {
+                    if (m_lastError != null) return m_lastError;
+                    foreach (var assetHandle in m_assetHandleLsit) {
+                        if (assetHandle.IsDone && assetHandle.Status != EOperationStatus.Succeed) {
+                            m_lastError = assetHandle.LastError;
+                        }
+                    }
+                    return null;
+                }
+            }
+
+            public override void Dispose() {
+                foreach (var assetHandle in m_assetHandleLsit) {
+                    assetHandle.Dispose();
+                }
+                m_doneNum = 0;
+                m_lastError = null;
+                m_assetHandleLsit.Clear();
+                Recycle(this);
+            }
+
+            public void AddAssetHandler(AssetHandle assetHandle) {
+                m_assetHandleLsit.Add(assetHandle);
+            }
+        }
+
+        static string m_resPathPrefix;
+
+        public static void Initalize() {
+            m_resPathPrefix = LuaConfig.GameResPath;
         }
 
         /// <summary>
@@ -105,29 +208,71 @@ namespace ToLuaGameFramework
         [LuaByteBuffer]
         public static byte[] LLoadBinaryAssetSyn(string assetPath)
         {
-            TextAsset asset = LoadAssetSyn<TextAsset>(assetPath);
+            TextAsset asset = LoadAssetSync<TextAsset>(assetPath);
             if (asset == null) return null;
             return asset.bytes;
         }
 
-        public static T LoadAssetSyn<T>(string assetPath) where T : UnityEngine.Object
+        public static T LoadAssetSync<T>(string assetPath) where T : UnityEngine.Object
         {
-            return LoadAssetFromAssetBundleSyn<T>(assetPath);
+            return LoadAssetSync(typeof(T), assetPath) as T;
+        }
+
+        /// <summary>
+        /// 从AssetBundle里异步获取资源
+        /// </summary>
+        public static UnityEngine.Object LoadAssetSync(Type type, string assetPath)
+        {
+            var package = YooAssets.GetPackage(GlobalManager.DefaultPackage);
+            var assetFullPath = $"{m_resPathPrefix}/{assetPath}";
+            if (!package.CheckLocationValid(assetFullPath)) {
+                throw new ToLuaGameFrameworkException(
+                    $"无效的资源地址 path:{assetFullPath}");
+            }
+            AssetHandle assetHandle = package.LoadAssetSync(assetFullPath, type);
+            if (assetHandle.Status == EOperationStatus.Failed) {
+                throw new ToLuaGameFrameworkException(
+                    $"加载资源失败 err:{assetHandle.LastError} path:{assetFullPath}");
+            }
+            return assetHandle.AssetObject;
         }
 
         /// <summary>
         /// 异步获取资源(assetPath不带后缀名)
         /// </summary>
-        public static void LoadAssetAsyn<T>(string assetPath, Action<Exception, T> onComplete, Action<float> onProgress) where T : UnityEngine.Object
+        public static void LoadAssetAsync<T>(string assetPath, Action<Exception, T> onComplete, Action<float> onProgress) where T : UnityEngine.Object
         {
-            LoadAssetFromAssetBundleAsyn<T>(assetPath, onComplete, onProgress).Forget();
+            async UniTask WaitAsync()
+            {
+                var handler = LoadAsset<T>(assetPath);
+                handler.OnProgress += onProgress;
+                AssetHandlerUpdater.AddHandler(handler);
+                await handler;
+                if (handler.Error != null) {
+                    var e = new ToLuaGameFrameworkException(handler.Error);
+                    onComplete(e, null);
+                    return;
+                }
+                onComplete(null, handler.AssetObject as T);
+            }
+            WaitAsync().Forget();
         }
 
-        public static void LLoadAssetListAsyn(string[] assetPaths, LuaFunction onComplete, LuaFunction onProgress)
+        public static void LLoadAssetListAsync(string[] assetPaths, LuaFunction onComplete, LuaFunction onProgress)
         {
-            LoadAssetListFromAssetBundleAsyn(assetPaths,
-                (e) => onComplete?.Call(e?.Message),
-                (p) => onProgress?.Call(p)).Forget();
+            async UniTask WaitAsync()
+            {
+                var handler = LoadAssetList(assetPaths);
+                handler.OnProgress += (float progress) => { onProgress.Call(progress); };
+                AssetHandlerUpdater.AddHandler(handler);
+                await handler;
+                if (handler.Error != null) {
+                    onComplete.Call(handler.Error);
+                    return;
+                }
+                onComplete.Call<string>(null);
+            }
+            WaitAsync().Forget();
         }
 
         /// <summary>
@@ -140,129 +285,57 @@ namespace ToLuaGameFramework
             GC.Collect();
             LuaManager.Instance.LuaGC();
         }
-        #endregion
-
-        static T LoadAssetFromAssetBundleSyn<T>(string _assetPath) where T : UnityEngine.Object
-        {
-            var package = YooAssets.GetPackage(GlobalManager.DefaultPackage);
-            var assetPath = $"{LuaConfig.GameResPath}/{_assetPath}";
-            if (!package.CheckLocationValid(assetPath)) {
-                throw new ToLuaGameFrameworkException($"无效的资源地址 {_assetPath}");
-            }
-            AssetHandle assetHandle = package.LoadAssetSync<T>(assetPath);
-            if (assetHandle.Status != EOperationStatus.Succeed) {
-                throw new ToLuaGameFrameworkException($"加载资源失败:{_assetPath}");
-            }
-            return assetHandle.AssetObject as T;
-        }
 
         /// <summary>
-        /// 从AssetBundle里同步获取资源
+        /// 从AssetBundle里异步获取资源
         /// </summary>
-        static UnityEngine.Object LoadAssetFromAssetBundleSyn(Type type, string _assetPath)
+        public static YooAssetAsyncHandler LoadAsset(Type type, string assetPath)
         {
             var package = YooAssets.GetPackage(GlobalManager.DefaultPackage);
-            var assetPath = $"{LuaConfig.GameResPath}/{_assetPath}";
-            if (!package.CheckLocationValid(assetPath)) {
-                throw new ToLuaGameFrameworkException($"无效的资源地址 {_assetPath}");
+            var assetFullPath = $"{m_resPathPrefix}/{assetPath}";
+            if (!package.CheckLocationValid(assetFullPath)) {
+                throw new ToLuaGameFrameworkException(
+                    $"无效的资源地址 path:{assetFullPath}");
             }
-            AssetHandle assetHandle = package.LoadAssetSync(assetPath, type);
-            if (assetHandle.Status != EOperationStatus.Succeed) {
-                throw new ToLuaGameFrameworkException($"加载资源失败:{_assetPath}");
-            }
-            return assetHandle.AssetObject;
+            AssetHandle assetHandle = package.LoadAssetAsync(assetFullPath, type);
+            var hander = YooAssetAsyncHandler.Get();
+            hander.Init(assetHandle);
+            return hander;
         }
 
         /// <summary>
         /// 从AssetBundle里异步获取资源
         /// </summary>
-        static async UniTask LoadAssetFromAssetBundleAsyn(Type type, string _assetPath, Action<Exception, UnityEngine.Object> onComplete, Action<float> onProgress)
+        public static YooAssetAsyncHandler LoadAsset<T>(string assetPath) where T : UnityEngine.Object
         {
-            var package = YooAssets.GetPackage(GlobalManager.DefaultPackage);
-            var assetPath = $"{LuaConfig.GameResPath}/{_assetPath}";
-            if (!package.CheckLocationValid(assetPath)) {
-                var e = new ToLuaGameFrameworkException($"无效的资源地址 {_assetPath}");
-                onComplete?.Invoke(e, null);
-                return;
-            }
-            AssetHandle assetHandle = package.LoadAssetAsync(assetPath, type);
-            IProgressHandler handle = null;
-            if (onProgress != null) {
-                handle = new SingleProgressHandler
-                {
-                    assetHandle = assetHandle,
-                    onProgress = onProgress
-                };
-                m_progressHandles.Add(handle);
-            }
-            await assetHandle;
-            if (onProgress != null) {
-                m_progressHandles.Remove(handle);
-            }
-            if (assetHandle.Status != EOperationStatus.Succeed) {
-                var e = new ToLuaGameFrameworkException($"加载资源失败:{_assetPath}");
-                onComplete?.Invoke(e, null);
-                return;
-            }
-            onComplete?.Invoke(null, assetHandle.AssetObject);
+            return LoadAsset(typeof(T), assetPath);
         }
 
-        /// <summary>
-        /// 从AssetBundle里异步获取资源
-        /// </summary>
-        static async UniTask LoadAssetFromAssetBundleAsyn<T>(string _assetPath, Action<Exception, T> onComplete, Action<float> onProgress) where T : UnityEngine.Object
+        public static ResAsyncHandler LoadAssetList(string[] assetPaths)
         {
-            await LoadAssetFromAssetBundleAsyn(typeof(T), _assetPath,
-                (e, o) => {
-                    onComplete(e, o as T);
-                }, onProgress);
-        }
-
-        static async UniTask LoadAssetListFromAssetBundleAsyn(string[] assetPaths, Action<Exception> onComplete, Action<float> onProgress)
-        {
+            var handler = YooAssetListAsyncHandler.Get();
+            handler.Init();
             if (assetPaths.Length == 0) {
-                onComplete?.Invoke(null);
-                return;
+                return handler;
             }
             var package = YooAssets.GetPackage(GlobalManager.DefaultPackage);
             var assetInfos = new AssetInfo[assetPaths.Length];
             for (int i=0; i<assetPaths.Length; i++) {
-                var _assetPath = assetPaths[i];
-                var assetPath = $"{LuaConfig.GameResPath}/{_assetPath}";
-                if (!package.CheckLocationValid(assetPath)) {
-                    var e = new ToLuaGameFrameworkException($"无效的资源地址 {_assetPath}");
-                    onComplete?.Invoke(e);
-                    return;
+                var assetPath = assetPaths[i];
+                var assetFullPath = $"{m_resPathPrefix}/{assetPath}";
+                if (!package.CheckLocationValid(assetFullPath)) {
+                    throw new ToLuaGameFrameworkException(
+                        $"无效的资源地址 path:{assetFullPath}");
                 }
-                assetInfos[i] = package.GetAssetInfo(assetPath);
+                assetInfos[i] = package.GetAssetInfo(assetFullPath);
             }
-            if (assetInfos.Length == 1) {
-                await LoadAssetFromAssetBundleAsyn(
-                    assetInfos[0].AssetType, assetPaths[0],
-                    (e, go) => onComplete(e),
-                    onProgress);
-                return;
-            }
-            MultiProgressHandler progressHandle = new()
-            {
-                onProgress = onProgress
-            };
-            m_progressHandles.Add(progressHandle);
+
             for (var i=0; i<assetInfos.Length; i++) {
                 var assetInfo = assetInfos[i];
                 var assetHandle = package.LoadAssetAsync(assetInfo.Address, assetInfo.AssetType);
-                await assetHandle;
-                if (assetHandle.Status != EOperationStatus.Succeed) {
-                    var _assetPath = assetPaths[i];
-                    var e = new ToLuaGameFrameworkException($"加载资源失败:{_assetPath}");
-                    m_progressHandles.Remove(progressHandle);
-                    onComplete?.Invoke(e);
-                    return;
-                }
-                progressHandle.SetProgress(1.0f*(i+1)/assetInfos.Length);
+                handler.AddAssetHandler(assetHandle);
             }
-            m_progressHandles.Remove(progressHandle);
-            onComplete?.Invoke(null);
+            return handler;
         }
 
         /// <summary>
@@ -272,9 +345,7 @@ namespace ToLuaGameFramework
         /// <param name="realElapseSeconds">真实流逝时间，以秒为单位。</param>
         internal static void Update(float elapseSeconds, float realElapseSeconds)
         {
-            foreach (var progressHandle in m_progressHandles) {
-                progressHandle.OnUpdate();
-            }
+            AssetHandlerUpdater.Update();
         }
     }
 }

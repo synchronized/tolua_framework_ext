@@ -1,5 +1,5 @@
-local BaseMgr = require "Core.BaseMgr"
-local LoginMgr = Class("LoginMgr", BaseMgr)
+local UIModuleMgr = require "Framework.Core.UIModuleMgr"
+local LoginMgr = Class("LoginMgr", UIModuleMgr)
 
 require "Modules.Login.LoginPart"
 

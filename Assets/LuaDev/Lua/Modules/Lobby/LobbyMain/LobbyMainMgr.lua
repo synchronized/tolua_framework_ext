@@ -1,5 +1,5 @@
-local BaseMgr = require "Core.BaseMgr"
-local LobbyMainMgr = Class("LobbyMainMgr", BaseMgr)
+local UIModuleMgr = require "Framework.Core.UIModuleMgr"
+local LobbyMainMgr = Class("LobbyMainMgr", UIModuleMgr)
 
 function LobbyMainMgr:Ctor()
     self.super.Ctor(self)

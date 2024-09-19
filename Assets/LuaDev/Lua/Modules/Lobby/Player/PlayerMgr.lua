@@ -1,5 +1,5 @@
-local BaseMgr = require "Core.BaseMgr"
-local PlayerMgr = Class("PlayerMgr", BaseMgr)
+local UIModuleMgr = require "Framework.Core.UIModuleMgr"
+local PlayerMgr = Class("PlayerMgr", UIModuleMgr)
 
 function PlayerMgr:Ctor()
     self.super.Ctor(self)

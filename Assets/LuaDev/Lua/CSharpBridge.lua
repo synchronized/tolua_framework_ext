@@ -1,6 +1,6 @@
 --打开模块UI
-function OpenModuleUI(moduleName, uiKey, parent)
-    Modules[moduleName]:OpenUI(uiKey, parent)
+function OpenModuleUI(moduleName, uiKey)
+    Modules[moduleName]:OpenUI(uiKey)
 end
 
 --关闭模块UI

@@ -1,5 +1,5 @@
-local BaseUI = require "Core.BaseUI"
-local ProgressWnd = Class("ProgressWnd", BaseUI)
+local UIView = require "Framework.Core.UIView"
+local ProgressWnd = Class("ProgressWnd", UIView)
 
 function ProgressWnd:PrefabPath()
     return "Prefabs/Common/ProgressWnd"

@@ -154,6 +154,7 @@ namespace ToLuaGameFramework
         //如果Lua动态给本UI添加子物体，且子物体包含ParticleSystem或者Canvas组件，则在设置父级完成后需要调用本方法刷新
         public void RefreshSortObjects(Transform trans)
         {
+            sortObjects.Clear();
             Canvas canvas = trans.GetComponent<Canvas>();
             if (canvas)
             {
@@ -177,7 +178,7 @@ namespace ToLuaGameFramework
         {
             foreach (var lua in luas.Values)
             {
-                if (lua.onEnable != null) lua.onEnable.Call(lua.lua);
+                lua.onEnable?.Call(lua.lua);
             }
         }
 
@@ -185,7 +186,7 @@ namespace ToLuaGameFramework
         {
             foreach (var lua in luas.Values)
             {
-                if (lua.start != null) lua.start.Call(lua.lua);
+                lua.start?.Call(lua.lua);
             }
         }
 
@@ -193,7 +194,7 @@ namespace ToLuaGameFramework
         {
             foreach (var lua in luas.Values)
             {
-                if (lua.onDisable != null) lua.onDisable.Call(lua.lua);
+                lua.onDisable?.Call(lua.lua);
             }
             //还原sorting
             for (int i = 0; i < sortObjects.Count; i++)
@@ -207,7 +208,7 @@ namespace ToLuaGameFramework
         {
             foreach (var lua in luas.Values)
             {
-                if (lua.onAppFocus != null) lua.onAppFocus.Call(lua.lua, isFocus);
+                lua.onAppFocus?.Call(lua.lua, isFocus);
             }
         }
 
@@ -215,10 +216,8 @@ namespace ToLuaGameFramework
         {
             foreach (var lua in luas.Values)
             {
-                if (lua.onDestroy != null) lua.onDestroy.Call(lua.lua);
+                lua.onDestroy?.Call(lua.lua);
             }
-            UIManager.OnUIDestroy(this);
         }
-
     }
 }

@@ -90,7 +90,7 @@ Login.lua继承BaseUI:
 ```
 Ball.lua继承LuaBehaviour:  
 ```
-    local LuaBehaviour = require "Core.LuaBehaviour"  
+    local LuaBehaviour = require "Framework.Core.LuaBehaviour"  
     local Ball = Class("Ball", LuaBehaviour)  
     return Ball  
 ```

@@ -4699,7 +4699,7 @@ namespace LuaInterface
             return delegateList.Distinct().ToArray();
         }
 
-        public static void GenLuaBinder(string saveDir, string fileName = "LuaBinder")
+        public static void GenLuaBinder(string saveDir, string fileName = "LuaBinder", string namespacePrefix = null)
         {
 
             ToLuaTree<string> tree = InitTree();
@@ -4726,6 +4726,10 @@ namespace LuaInterface
             sb.AppendLineEx("\t{");
             sb.AppendLineEx("\t\tfloat t = Time.realtimeSinceStartup;");
             sb.AppendLineEx("\t\tL.BeginModule(null);");
+            if (namespacePrefix != null && namespacePrefix != "") {
+                sb.AppendLineFormat("\t\tL.BeginModule(\"{0}\");", namespacePrefix);
+            }
+
 
             GenRegisterInfo(null, sb, list, dtList);
 
@@ -4750,6 +4754,9 @@ namespace LuaInterface
 
             tree.DepthFirstTraversal(begin, end, tree.GetRoot());
             sb.AppendLineEx("\t\tL.EndModule();");
+            if (namespacePrefix != null && namespacePrefix != "") {
+                sb.AppendLineEx("\t\tL.EndModule();");
+            }
 
             var dynamicList = (from bTypeItem in Generator.LuaCallCSharp
                         where bTypeItem.IsDynamic

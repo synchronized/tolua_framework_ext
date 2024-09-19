@@ -1,5 +1,5 @@
-local BaseMgr = require "Core.BaseMgr"
-local CommonMgr = Class("CommonMgr", BaseMgr)
+local UIModuleMgr = require "Framework.Core.UIModuleMgr"
+local CommonMgr = Class("CommonMgr", UIModuleMgr)
 
 function CommonMgr:Ctor()
     self.super.Ctor(self)

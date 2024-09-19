@@ -1,6 +1,8 @@
 ---@class LuaBehaviour
 local LuaBehaviour = Class("LuaBehaviour")
 
+local UIManager = require "Framework.Core.UIManager"
+
 function LuaBehaviour:Ctor(parent)
     self:CreateGameObject(parent)
 end
@@ -117,9 +119,7 @@ end
 function LuaBehaviour:_OnDestroy()
     -- Log("OnDestroy", self.__cname)
     self:OnDestroy()
-    if self._luaClassId then
-        OnGameObjectDestroy(self._luaClassId)
-    end
+    UIManager.OnUIDestroy(self)
     ClearClass(self)
 end
 

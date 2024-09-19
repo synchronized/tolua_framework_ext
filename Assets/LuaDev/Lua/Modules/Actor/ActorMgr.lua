@@ -1,5 +1,5 @@
-local BaseMgr = require "Core.BaseMgr"
-local ActorMgr = Class("ActorMgr", BaseMgr)
+local UIModuleMgr = require "Framework.Core.UIModuleMgr"
+local ActorMgr = Class("ActorMgr", UIModuleMgr)
 
 
 

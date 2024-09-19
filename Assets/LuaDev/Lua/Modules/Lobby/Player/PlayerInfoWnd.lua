@@ -1,5 +1,5 @@
-local BaseUI = require "Core.BaseUI"
-local PlayerInfoWnd = Class("PlayerInfoWnd", BaseUI)
+local UIView = require "Framework.Core.UIView"
+local PlayerInfoWnd = Class("PlayerInfoWnd", UIView)
 
 function PlayerInfoWnd:PrefabPath()
     return "Prefabs/Lobby/Player/PlayerInfoWnd"
@@ -31,8 +31,8 @@ function PlayerInfoWnd:OnEnable()
     self.bg:DOAlpha(0, 0.5, 0.3, Ease.OutSine, false)
 
     --小对话框动画
-    --self.panel.anchoredPosition = Vector2(0, -200)
-    --self.panel:DOLocalMove(Vector3.one, 0.3):SetEase(Ease.OutBack)
+    self.transform.anchoredPosition = Vector2(0, -200)
+    self.transform:DOLocalMove(Vector3.one, 0.3):SetEase(Ease.OutBack)
 end
 
 return PlayerInfoWnd

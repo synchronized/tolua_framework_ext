@@ -1,5 +1,5 @@
-local BaseMgr = require "Core.BaseMgr"
-local BattleMgr = Class("BattleMgr", BaseMgr)
+local UIModuleMgr = require "Framework.Core.UIModuleMgr"
+local BattleMgr = Class("BattleMgr", UIModuleMgr)
 
 function BattleMgr:Ctor()
     self.super.Ctor(self)

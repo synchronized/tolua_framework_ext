@@ -55,8 +55,6 @@ namespace LuaInterface.Editor
 
                 //AssetBundle
                 EditorTools.AssetPathToAbsolutePath("Output/ToLua"),
-                LuaTools.GetPersistentABPath("ToLua"),
-                LuaTools.GetStreamingAssetsABPath("ToLua"),
             };
 
             foreach (string pathi in pathList) {
@@ -111,7 +109,7 @@ namespace LuaInterface.Editor
 
                 {
                     var fileName = "LuaBinder";
-                    ToLuaExport.GenLuaBinder(saveDir, fileName);
+                    ToLuaExport.GenLuaBinder(saveDir, fileName, "CS");
                     Debugger.Log("Generate LuaBinder over !");
 
                     tips = $"生成 {fileName}.cs";
@@ -230,34 +228,6 @@ namespace LuaInterface.Editor
                 return;
             }
             string abDestDir = EditorTools.AssetPathToAbsolutePath("Output/ToLua");
-            BuildLuaAsset(abDestDir, EditorUserBuildSettings.activeBuildTarget);
-
-            Debug.Log($"LuaBundle build to {abDestDir}");
-        }
-
-        [MenuItem("Lua/Build Lua AssetBundle/to Persistent Path", false, 53)]
-        public static void BuildLuaAssetToPersistent()
-        {
-            if (EditorApplication.isCompiling)
-            {
-                EditorUtility.DisplayDialog("警告", "请等待编辑器完成编译再执行此功能", "确定");
-                return;
-            }
-            string abDestDir = LuaTools.GetPersistentABPath("ToLua");
-            BuildLuaAsset(abDestDir, EditorUserBuildSettings.activeBuildTarget);
-
-            Debug.Log($"LuaBundle build to {abDestDir}");
-        }
-
-        [MenuItem("Lua/Build Lua AssetBundle/to Streaming Asset Path", false, 53)]
-        public static void BuildLuaAssetToStreamingAssetPath()
-        {
-            if (EditorApplication.isCompiling)
-            {
-                EditorUtility.DisplayDialog("警告", "请等待编辑器完成编译再执行此功能", "确定");
-                return;
-            }
-            string abDestDir = LuaTools.GetStreamingAssetsABPath("ToLua");
             BuildLuaAsset(abDestDir, EditorUserBuildSettings.activeBuildTarget);
 
             Debug.Log($"LuaBundle build to {abDestDir}");

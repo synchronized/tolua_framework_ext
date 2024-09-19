@@ -1,3 +1,0 @@
-CommandID = {
-    OpenUI = 1
-}

@@ -22,7 +22,7 @@ namespace ToLuaGameFramework
             }
             else
             {
-                clip = ResManager.LoadAssetSyn<AudioClip>(clipPath);
+                clip = ResManager.LoadAssetSync<AudioClip>(clipPath);
                 loadedClips.Add(clipPath, clip);
             }
             //魔力海洋暂用原有自带播放接口，以后纯lua用AudioSource

@@ -1,5 +1,5 @@
-local BaseUI = require "Core.BaseUI"
-local DailyReward_Content_1Wnd = Class("DailyReward_Content_1Wnd", BaseUI)
+local UIView = require "Framework.Core.UIView"
+local DailyReward_Content_1Wnd = Class("DailyReward_Content_1Wnd", UIView)
 
 function DailyReward_Content_1Wnd:PrefabPath()
     return "Prefabs/Activities/DailyReward/DailyReward_Content_1Wnd"

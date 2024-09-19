@@ -1,5 +1,5 @@
-local BaseUI = require "Core.BaseUI"
-local LoginWnd = Class("LoginWnd", BaseUI)
+local UIView = require "Framework.Core.UIView"
+local LoginWnd = Class("LoginWnd", UIView)
 
 local playerInfo = require "Entity.PlayerInfo"
 

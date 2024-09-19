@@ -35,13 +35,15 @@ namespace GameLogic.BootLogic
 
             PatchManager.Initalize(this);
 
-            LuaManager.Initalize(this);
-
             // 初始化事件系统
             UniEvent.Initalize();
 
             // 初始化资源系统
             YooAssets.Initialize();
+
+            ResManager.Initalize();
+
+            LuaManager.Instance.Initalize(this);
 
             // 加载更新页面
             var patchPrefabs = Resources.Load<GameObject>("PatchWindow");
@@ -63,10 +65,9 @@ namespace GameLogic.BootLogic
             }
 
             //添加启动完成后的清理逻辑
-            LuaManager.AddStartLuaListener(() => {
-                LuaManager.ClearStartLuaListener();
+            LuaManager.Instance.OnStartComplete += () => {
                 Destroy(pitchWnd);
-            });
+            };
         }
 
         void Update()

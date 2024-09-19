@@ -1,6 +1,6 @@
-local BaseUI = require "Core.BaseUI"
+local UIView = require "Framework.Core.UIView"
 
-local DialogWnd = Class("DialogWnd", BaseUI)
+local DialogWnd = Class("DialogWnd", UIView)
 
 function DialogWnd:PrefabPath()
     return "Prefabs/Common/DialogWnd"

@@ -12,11 +12,6 @@ namespace GameClient.Config
         //在这里添加你要导出注册到lua的类型列表
         public static BindType[] customTypeList =
         {
-            _GT(typeof(System.Net.Sockets.SocketError)),
-
-            _GT(typeof(GameFramework.Network.NetworkManager.NetworkChannelBase)),
-            _GT(typeof(GameFramework.Network.NetworkManager.TcpNetworkChannel)),
-            _GT(typeof(GameFramework.Network.ServiceType)),
 
             _GT(typeof(GameClient.Network.GameServerPacket)),
             _GT(typeof(GameClient.Network.GameServerPacketReq)),

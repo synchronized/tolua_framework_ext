@@ -23,30 +23,32 @@ namespace ToLuaGameFramework
         private LuaState lua;
         private LuaLooper loop = null;
 
-        private Action startLuaAction;
+        internal Action OnStartComplete;
 
         private LuaManager()
         {
             lua = new LuaState();
 
-            OpenLibs();
+            InitLuaEnv();
 
             lua.LuaSetTop(0);
         }
 
-        internal static void Initalize(MonoBehaviour behaviour){
-            Instance.doInitalize(behaviour);
-        }
-
-        private void doInitalize(MonoBehaviour behaviour){
+        internal void Initalize(MonoBehaviour behaviour){
             this.behaviour = behaviour;
             LuaCoroutine.Register(lua, behaviour);
+        }
+
+        //被Lua调用
+        public static void StartComplete() {
+            Instance.OnStartComplete?.Invoke();
+            Instance.OnStartComplete = null;
         }
 
         /// <summary>
         /// 初始化加载第三方库
         /// </summary>
-        void OpenLibs()
+        void InitLuaEnv()
         {
             lua.BeginPreLoad();
             lua.AddPreLoadLib("struct", new LuaCSFunction(LuaDLL.luaopen_struct));
@@ -87,19 +89,6 @@ namespace ToLuaGameFramework
             loop.luaState = lua;
         }
 
-        //被Lua调用
-        public static void OnStartLuaSuccess() {
-            Instance.startLuaAction?.Invoke();
-        }
-
-        internal static void AddStartLuaListener(Action cb) {
-            Instance.startLuaAction += cb;
-        }
-
-        internal static void ClearStartLuaListener() {
-            Instance.startLuaAction = null;
-        }
-
         public void DoFile(string filename)
         {
             lua.DoFile(filename);
@@ -110,7 +99,7 @@ namespace ToLuaGameFramework
         /// </summary>
         public void CallFunction(string funcName)
         {
-            lua.GetFunction(funcName).Call();
+            GetFunction(funcName).Call();
         }
 
         /// <summary>
@@ -118,7 +107,7 @@ namespace ToLuaGameFramework
         /// </summary>
         public void CallFunction(string funcName, object param)
         {
-            lua.GetFunction(funcName).Call(param);
+            GetFunction(funcName).Call(param);
         }
 
         /// <summary>
@@ -126,7 +115,7 @@ namespace ToLuaGameFramework
         /// </summary>
         public void CallFunction(string funcName, object param1, object param2)
         {
-            lua.GetFunction(funcName).Call(param1, param2);
+            GetFunction(funcName).Call(param1, param2);
         }
 
         /// <summary>
@@ -134,7 +123,7 @@ namespace ToLuaGameFramework
         /// </summary>
         public void CallFunction(string funcName, object param1, object param2, object param3)
         {
-            lua.GetFunction(funcName).Call(param1, param2, param3);
+            GetFunction(funcName).Call(param1, param2, param3);
         }
 
         /// <summary>
@@ -142,7 +131,7 @@ namespace ToLuaGameFramework
         /// </summary>
         public void CallFunction(string funcName, object param1, object param2, object param3, object param4)
         {
-            lua.GetFunction(funcName).Call(param1, param2, param3, param4);
+            GetFunction(funcName).Call(param1, param2, param3, param4);
         }
 
         /// <summary>
@@ -150,7 +139,7 @@ namespace ToLuaGameFramework
         /// </summary>
         public void CallFunction(string funcName, object param1, object param2, object param3, object param4, object param5)
         {
-            lua.GetFunction(funcName).Call(param1, param2, param3, param4, param5);
+            GetFunction(funcName).Call(param1, param2, param3, param4, param5);
         }
 
         /// <summary>

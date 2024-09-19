@@ -1,5 +1,5 @@
-local BaseUI = require "Core.BaseUI"
-local LobbyMainWnd = Class("LobbyMainWnd", BaseUI)
+local UIView = require "Framework.Core.UIView"
+local LobbyMainWnd = Class("LobbyMainWnd", UIView)
 
 function LobbyMainWnd:PrefabPath()
     return "Prefabs/Lobby/LobbyMain/LobbyMainWnd"

@@ -1,4 +1,3 @@
-#define USING_DOTWEENING
 using System;
 using System.Collections.Generic;
 using LuaInterface;
@@ -13,21 +12,11 @@ namespace ToLuaGameFramework.Config
         //在这里添加你要导出注册到lua的类型列表
         public static BindType[] customTypeList =
         {
-            //------------------------为例子导出--------------------------------
-            //_GT(typeof(TestEventListener)),
-            //_GT(typeof(TestProtol)),
-            //_GT(typeof(TestAccount)),
-            //_GT(typeof(Dictionary<int, TestAccount>)).SetLibName("AccountMap"),
-            //_GT(typeof(KeyValuePair<int, TestAccount>)),
-            //_GT(typeof(Dictionary<int, TestAccount>.KeyCollection)),
-            //_GT(typeof(Dictionary<int, TestAccount>.ValueCollection)),
-            //_GT(typeof(TestExport)),
-            //_GT(typeof(TestExport.Space)),
-            //-------------------------------------------------------------------
 
             _GT(typeof(LuaInterface.LuaInjectionStation)),
             _GT(typeof(LuaInterface.InjectType)),
-            _GT(typeof(LuaInterface.Debugger)).SetNameSpace(null),
+            _GT(typeof(LuaInterface.Debugger)),
+            _GT(typeof(LuaInterface.LuaProfiler)),
 
             _GT(typeof(UnityEngine.Application)).SetStatic(true),
             _GT(typeof(UnityEngine.Time)).SetStatic(true),
@@ -38,10 +27,7 @@ namespace ToLuaGameFramework.Config
             _GT(typeof(UnityEngine.Physics)).SetStatic(true),
             _GT(typeof(UnityEngine.RenderSettings)).SetStatic(true),
             _GT(typeof(UnityEngine.QualitySettings)).SetStatic(true),
-            //_GT(typeof(UnityEngine.GL)).SetStatic(true),
-            //_GT(typeof(UnityEngine.Graphics)).SetStatic(true),
 
-    #if USING_DOTWEENING
             _GT(typeof(DG.Tweening.DOTween)),
             _GT(typeof(DG.Tweening.Tween)).SetBaseType(typeof(System.Object)).AddExtendType(typeof(DG.Tweening.TweenExtensions)),
             _GT(typeof(DG.Tweening.Sequence)).AddExtendType(typeof(DG.Tweening.TweenSettingsExtensions)),
@@ -50,6 +36,9 @@ namespace ToLuaGameFramework.Config
             _GT(typeof(DG.Tweening.PathMode)),
             _GT(typeof(DG.Tweening.PathType)),
             _GT(typeof(DG.Tweening.RotateMode)),
+            _GT(typeof(DG.Tweening.Ease)),
+            _GT(typeof(DG.Tweening.Plugins.Options.ColorOptions)),
+            _GT(typeof(DG.Tweening.Core.TweenerCore<UnityEngine.Color,UnityEngine.Color,DG.Tweening.Plugins.Options.ColorOptions>)),
 
             _GT(typeof(UnityEngine.Component)).AddExtendType(typeof(DG.Tweening.ShortcutExtensions)),
             _GT(typeof(UnityEngine.Transform)).AddExtendType(typeof(DG.Tweening.ShortcutExtensions)).AddExtendType(typeof(DG.Tweening.DOTweenExtend)).AddExtendType(typeof(ToLuaGameFramework.LButtonExtend)),
@@ -58,20 +47,8 @@ namespace ToLuaGameFramework.Config
             _GT(typeof(UnityEngine.Rigidbody)).AddExtendType(typeof(DG.Tweening.ShortcutExtensions)).SetDynamic(true),
             _GT(typeof(UnityEngine.Camera)).AddExtendType(typeof(DG.Tweening.ShortcutExtensions)),
             _GT(typeof(UnityEngine.AudioSource)).AddExtendType(typeof(DG.Tweening.ShortcutExtensions)),
-            //_GT(typeof(UnityEngine.LineRenderer)).AddExtendType(typeof(DG.Tweening.ShortcutExtensions)),
-            //_GT(typeof(UnityEngine.TrailRenderer)).AddExtendType(typeof(DG.Tweening.ShortcutExtensions)),
-    #else
-
-            _GT(typeof(UnityEngine.Component)),
-            _GT(typeof(UnityEngine.Transform)),
-            _GT(typeof(UnityEngine.Material)),
-            _GT(typeof(UnityEngine.Light)),
-            _GT(typeof(UnityEngine.Rigidbody)).SetDynamic(true),
-            _GT(typeof(UnityEngine.Camera)),
-            _GT(typeof(UnityEngine.AudioSource)),
-            //_GT(typeof(UnityEngine.LineRenderer))
-            //_GT(typeof(UnityEngine.TrailRenderer))
-    #endif
+            _GT(typeof(UnityEngine.LineRenderer)).AddExtendType(typeof(DG.Tweening.ShortcutExtensions)),
+            _GT(typeof(UnityEngine.TrailRenderer)).AddExtendType(typeof(DG.Tweening.ShortcutExtensions)),
 
             _GT(typeof(UnityEngine.Behaviour)),
             _GT(typeof(UnityEngine.MonoBehaviour)),
@@ -91,7 +68,7 @@ namespace ToLuaGameFramework.Config
             _GT(typeof(UnityEngine.AudioClip)),
             _GT(typeof(UnityEngine.AssetBundle)),
             _GT(typeof(UnityEngine.ParticleSystem)),
-            _GT(typeof(UnityEngine.AsyncOperation)).SetBaseType(typeof(System.Object)),
+            _GT(typeof(UnityEngine.AsyncOperation)),
             _GT(typeof(UnityEngine.LightType)),
     #if UNITY_5_3_OR_NEWER && !UNITY_5_6_OR_NEWER
             _GT(typeof(UnityEngine.Experimental.Director.DirectorPlayer)),
@@ -119,20 +96,13 @@ namespace ToLuaGameFramework.Config
 
             _GT(typeof(UnityEngine.SkinWeights)).SetDynamic(true),
             _GT(typeof(UnityEngine.RenderTexture)).SetDynamic(true),
-            _GT(typeof(LuaInterface.LuaProfiler)),
 
             //ToLuaGameFramework 新增
             _GT(typeof(UnityEngine.PlayerPrefs)),
 
             //UGUI
-    #if USING_DOTWEENING
-            _GT(typeof(DG.Tweening.Plugins.Options.ColorOptions)),
-            _GT(typeof(DG.Tweening.Core.TweenerCore<UnityEngine.Color,UnityEngine.Color,DG.Tweening.Plugins.Options.ColorOptions>)),
-            _GT(typeof(DG.Tweening.Ease)),
             _GT(typeof(UnityEngine.RectTransform)).AddExtendType(typeof(DG.Tweening.DOTweenModuleUI)),
-    #else
-            _GT(typeof(UnityEngine.RectTransform)),
-    #endif
+
             _GT(typeof(UnityEngine.Canvas)),
             _GT(typeof(UnityEngine.EventSystems.EventTrigger)),
             _GT(typeof(UnityEngine.Events.UnityEvent)),
@@ -154,11 +124,18 @@ namespace ToLuaGameFramework.Config
             _GT(typeof(TMPro.TMP_Text)),
             _GT(typeof(TMPro.TextMeshProUGUI)),
 
+            //GameFramework
+            _GT(typeof(System.Net.Sockets.SocketError)),
+            _GT(typeof(GameFramework.Network.NetworkManager.NetworkChannelBase)),
+            _GT(typeof(GameFramework.Network.NetworkManager.TcpNetworkChannel)),
+            _GT(typeof(GameFramework.Network.ServiceType)),
+
             //ToLuaGameFramework
             _GT(typeof(ToLuaGameFramework.GlobalManager)),
             _GT(typeof(ToLuaGameFramework.LuaManager)),
             _GT(typeof(ToLuaGameFramework.ResManager)),
-            _GT(typeof(ToLuaGameFramework.UIManager)),
+            _GT(typeof(ToLuaGameFramework.ResManager.YooAssetAsyncHandler)),
+            _GT(typeof(ToLuaGameFramework.ResManager.YooAssetListAsyncHandler)),
             _GT(typeof(ToLuaGameFramework.SoundManager)),
             _GT(typeof(ToLuaGameFramework.HttpManager)),
             _GT(typeof(ToLuaGameFramework.LuaBehaviour)),
@@ -170,7 +147,6 @@ namespace ToLuaGameFramework.Config
             _GT(typeof(ToLuaGameFramework.LMD5)),
             _GT(typeof(ToLuaGameFramework.LAES)),
             _GT(typeof(ToLuaGameFramework.LButtonClick)),
-
             _GT(typeof(ToLuaGameFramework.NetManager)),
         };
 
@@ -183,8 +159,6 @@ namespace ToLuaGameFramework.Config
             typeof(System.Action<int>),
             typeof(System.Comparison<int>),
             typeof(System.Func<int, int>),
-            //typeof(TestEventListener.OnClick),
-            //typeof(TestEventListener.VoidDelegate),
         };
 
         //黑名单

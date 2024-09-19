@@ -28,15 +28,31 @@ local function mainThreadUpdate()
                     end
                 elseif paramsCount == 2 then
                     if value.self then
-                        value.listener(value.self, command.params[1], command.params[2])
+                        value.listener(
+                            value.self,
+                            command.params[1],
+                            command.params[2]
+                        )
                     else
-                        value.listener(command.params[1], command.params[2])
+                        value.listener(
+                            command.params[1],
+                            command.params[2]
+                        )
                     end
                 elseif paramsCount == 3 then
                     if value.self then
-                        value.listener(value.self, command.params[1], command.params[2], command.params[3])
+                        value.listener(
+                            value.self,
+                            command.params[1],
+                            command.params[2],
+                            command.params[3]
+                        )
                     else
-                        value.listener(command.params[1], command.params[2], command.params[3])
+                        value.listener(
+                            command.params[1],
+                            command.params[2],
+                            command.params[3]
+                        )
                     end
                 elseif paramsCount == 4 then
                     if value.self then
@@ -48,7 +64,12 @@ local function mainThreadUpdate()
                             command.params[4]
                         )
                     else
-                        value.listener(command.params[1], command.params[2], command.params[3], command.params[4])
+                        value.listener(
+                            command.params[1],
+                            command.params[2],
+                            command.params[3],
+                            command.params[4]
+                        )
                     end
                 elseif paramsCount == 5 then
                     if value.self then

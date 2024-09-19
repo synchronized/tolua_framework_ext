@@ -1,5 +1,5 @@
-local BaseUI = require "Core.BaseUI"
-local DailyRewardWnd = Class("DailyRewardWnd", BaseUI)
+local UIView = require "Framework.Core.UIView"
+local DailyRewardWnd = Class("DailyRewardWnd", UIView)
 
 function DailyRewardWnd:PrefabPath()
     return "Prefabs/Activities/DailyReward/DailyRewardWnd"
@@ -42,11 +42,11 @@ function DailyRewardWnd:OnEnable()
     self.super.OnEnable(self)
 
     --黑色蒙版动画
-    self.bg:DOAlpha(0, 0.5, 0.3, Ease.OutSine, false)
+    self.bg:DOAlpha(0, 0.3, Ease.OutSine, true):From()
 
     --小对话框动画
-    self.mianPanel.anchoredPosition = Vector2(0, -200)
-    self.mianPanel:DOLocalMove(Vector3.one, 0.3):SetEase(Ease.OutBack)
+    self.transform.anchoredPosition = Vector2(0, -200)
+    self.transform:DOLocalMove(Vector3.one, 0.3):SetEase(Ease.OutBack)
 
     self.menus[1].btn.isOn = false
 end
@@ -56,8 +56,11 @@ function DailyRewardWnd:onMenuSelect(index)
 
     if not self.contents[index] then
         local contentIndexInModule = index
-        self.contents[self.currSelectIndex] = self.module:OpenUI(contentIndexInModule, self.contentRoot)
-        UIManager.RefreshSortObjects(self.transform)
+        self.contents[self.currSelectIndex] = self.module:OpenUI(contentIndexInModule)
+        local luaBehaviour = self.transform:GetComponent("LuaBehaviour")
+        if luaBehaviour then
+            luaBehaviour:RefreshSortObjects(self.transform)
+        end
     end
     for i = 1, #self.menus do
         local content = self.contents[i]
@@ -65,6 +68,10 @@ function DailyRewardWnd:onMenuSelect(index)
             content.gameObject:SetActive(i == self.currSelectIndex)
         end
     end
+end
+
+function DailyRewardWnd:AddChild(subUI)
+    subUI.transform:SetParent(self.contentRoot, false)
 end
 
 return DailyRewardWnd
