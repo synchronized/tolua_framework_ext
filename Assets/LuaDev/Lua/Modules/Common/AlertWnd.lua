@@ -17,7 +17,7 @@ function AlertWnd:Awake()
     local panCenter = self.transform:Find("UIWindow/panCenter")
     local txtTips = self.transform:Find("UIWindow/panCenter/txtTips")
     self.txtContent = txtTips:GetComponent(typeof(TMPro.TMP_Text))
-    self.animTips = panCenter:GetComponent("Animation")
+    self.animTips = panCenter:GetComponent(typeof(UnityEngine.Animation))
     self.clip = self.animTips:GetClip("AlertWndAnim")
     --self.closeTime = 0
     self.isActive = false

@@ -30,7 +30,7 @@ function LuaBehaviour:OnGameObjectSpawn(go)
         self:OnEnable()
         self.hasCallAwake = true
     end
-    self.csharpBehaviour = go:GetComponent("LuaBehaviour")
+    self.csharpBehaviour = go:GetComponent(typeof(ToLuaGameFramework.LuaBehaviour))
     self.csharpBehaviour:AddLuaClass(self, self._OnEnable, self._Start, self._OnDisable, self._OnApplicationFocus, self._OnDestroy)
 end
 

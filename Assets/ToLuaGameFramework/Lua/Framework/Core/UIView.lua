@@ -40,9 +40,10 @@ function UIView:DialogMoveIn(dialog, black, duration)
     end
 
     --防止点击穿透
-    local eventTrigger = dialog:GetComponent("EventTrigger")
+    local eventTriggerType = typeof(UnityEngine.EventSystems.EventTrigger)
+    local eventTrigger = dialog:GetComponent(eventTriggerType)
     if not eventTrigger then
-        dialog.gameObject:AddComponent(typeof(EventTrigger))
+        dialog.gameObject:AddComponent(eventTriggerType)
     end
 end
 
@@ -58,9 +59,10 @@ function UIView:DialogScaleIn(dialog, black, duration)
     end
 
     --防止点击穿透
-    local eventTrigger = dialog:GetComponent("EventTrigger")
+    local eventTriggerType = typeof(UnityEngine.EventSystems.EventTrigger)
+    local eventTrigger = dialog:GetComponent(eventTriggerType)
     if not eventTrigger then
-        dialog.gameObject:AddComponent(typeof(EventTrigger))
+        dialog.gameObject:AddComponent(eventTriggerType)
     end
 end
 

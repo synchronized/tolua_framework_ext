@@ -166,4 +166,10 @@ function UIManager.OnUIDestroy(ui)
     end
 end
 
-return UIManager
+function UIManager.Shutdown()
+    for k, ui in pairs(spawnedUIMap) do
+        Destroy(ui.gameObject)
+    end
+end
+
+return UIManager:new()

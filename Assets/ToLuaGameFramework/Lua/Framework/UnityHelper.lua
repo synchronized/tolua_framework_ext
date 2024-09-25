@@ -18,7 +18,7 @@ function AddLuaComponent(transform, luaCalss)
         LogError("必须继承 LuaBehaviour 或 UIView 才能使用 AddLuaComponent() 方法")
         return
     end
-    local csharpBehaviour = transform:GetComponent("LuaBehaviour")
+    local csharpBehaviour = transform:GetComponent(typeof(ToLuaGameFramework.LuaBehaviour))
     if IsNil(csharpBehaviour) then
         csharpBehaviour = transform.gameObject:AddComponent(typeof(ToLuaGameFramework.LuaBehaviour))
     end
@@ -44,7 +44,7 @@ function RemoveLuaComponent(transform, luaCalss)
         LogError("luaCalss 为 nil")
         return
     end
-    local csharpBehaviour = transform:GetComponent("LuaBehaviour")
+    local csharpBehaviour = transform:GetComponent(typeof(ToLuaGameFramework.LuaBehaviour))
     if not IsNil(csharpBehaviour) then
         csharpBehaviour:RemoveLuaClass(luaCalss)
     end

@@ -12,7 +12,7 @@ end
 function DailyReward_Content_1Wnd:Awake()
     self.super.Awake(self)
 
-    local btnAlert = self.transform:Find("UIWindow/btnAlert"):GetComponent("Button")
+    local btnAlert = self.transform:Find("UIWindow/btnAlert"):GetComponent(typeof(UnityEngine.UI.Button))
     btnAlert.onClick:AddListener( function()
         local dialog = Modules.Common:OpenUI("Dialog")
         dialog:SetContent("这是一个弹出框,可以放下大段文本")

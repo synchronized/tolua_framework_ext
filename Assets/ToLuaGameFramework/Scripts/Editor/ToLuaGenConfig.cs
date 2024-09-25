@@ -39,6 +39,8 @@ namespace ToLuaGameFramework.Config
             _GT(typeof(DG.Tweening.Ease)),
             _GT(typeof(DG.Tweening.Plugins.Options.ColorOptions)),
             _GT(typeof(DG.Tweening.Core.TweenerCore<UnityEngine.Color,UnityEngine.Color,DG.Tweening.Plugins.Options.ColorOptions>)),
+            _GT(typeof(DG.Tweening.Core.TweenerCore<UnityEngine.Vector3,UnityEngine.Vector3,DG.Tweening.Plugins.Options.VectorOptions>)),
+            _GT(typeof(DG.Tweening.Core.TweenerCore<UnityEngine.Vector2,UnityEngine.Vector2,DG.Tweening.Plugins.Options.VectorOptions>)),
 
             _GT(typeof(UnityEngine.Component)).AddExtendType(typeof(DG.Tweening.ShortcutExtensions)),
             _GT(typeof(UnityEngine.Transform)).AddExtendType(typeof(DG.Tweening.ShortcutExtensions)).AddExtendType(typeof(DG.Tweening.DOTweenExtend)).AddExtendType(typeof(ToLuaGameFramework.LButtonExtend)),
@@ -86,9 +88,9 @@ namespace ToLuaGameFramework.Config
             _GT(typeof(UnityEngine.CharacterController)).SetDynamic(true),
             _GT(typeof(UnityEngine.CapsuleCollider)).SetDynamic(true),
 
-            _GT(typeof(UnityEngine.Animation)).SetDynamic(true),
-            _GT(typeof(UnityEngine.AnimationClip)).SetBaseType(typeof(UnityEngine.Object)).SetDynamic(true),
-            _GT(typeof(UnityEngine.AnimationState)).SetDynamic(true),
+            _GT(typeof(UnityEngine.Animation)),
+            _GT(typeof(UnityEngine.AnimationClip)).SetBaseType(typeof(UnityEngine.Object)),
+            _GT(typeof(UnityEngine.AnimationState)),
             _GT(typeof(UnityEngine.AnimationBlendMode)),
             _GT(typeof(UnityEngine.QueueMode)),
             _GT(typeof(UnityEngine.PlayMode)),

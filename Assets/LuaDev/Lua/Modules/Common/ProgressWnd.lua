@@ -7,9 +7,9 @@ end
 
 function ProgressWnd:Awake()
     self.super.Awake(self)
-    self.slider = self.transform:Find("UIWindow/Slider"):GetComponent("Slider")
-    self.txtTips = self.transform:Find("UIWindow/txtTips"):GetComponent("TMP_Text")
-    self.txtProgress = self.transform:Find("UIWindow/Slider/txtProgress"):GetComponent("TMP_Text")
+    self.slider = self.transform:Find("UIWindow/Slider"):GetComponent(typeof(UnityEngine.UI.Slider))
+    self.txtTips = self.transform:Find("UIWindow/txtTips"):GetComponent(typeof(TMPro.TMP_Text))
+    self.txtProgress = self.transform:Find("UIWindow/Slider/txtProgress"):GetComponent(typeof(TMPro.TMP_Text))
 
     self:internalReset()
 end

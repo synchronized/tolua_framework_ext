@@ -16,9 +16,9 @@ end
 function DialogWnd:Awake()
     self.super.Awake(self)
 
-    self.txtContent = self.transform:Find("panMain/txtContent"):GetComponent("TMP_Text")
-    self.btnOk = self.transform:Find("panMain/panBottom/btnOk"):GetComponent("Button")
-    self.btnCancel = self.transform:Find("panMain/panBottom/btnCancel"):GetComponent("Button")
+    self.txtContent = self.transform:Find("panMain/txtContent"):GetComponent(typeof(TMPro.TMP_Text))
+    self.btnOk = self.transform:Find("panMain/panBottom/btnOk"):GetComponent(typeof(UnityEngine.UI.Button))
+    self.btnCancel = self.transform:Find("panMain/panBottom/btnCancel"):GetComponent(typeof(UnityEngine.UI.Button))
 end
 
 --设置内容

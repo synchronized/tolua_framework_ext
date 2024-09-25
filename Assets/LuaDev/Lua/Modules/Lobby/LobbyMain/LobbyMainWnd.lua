@@ -8,7 +8,7 @@ end
 function LobbyMainWnd:Awake()
     self.super.Awake(self)
 
-    local btnLogout = self.transform:Find("UIWindow/btnLogout"):GetComponent("Button")
+    local btnLogout = self.transform:Find("UIWindow/btnLogout"):GetComponent(typeof(UnityEngine.UI.Button))
     btnLogout.onClick:AddListener(
         function()
             Modules.Login:OpenUI("Login")
@@ -17,7 +17,7 @@ function LobbyMainWnd:Awake()
         end
     )
 
-    local btnAlert = self.transform:Find("UIWindow/btnAlert"):GetComponent("Button")
+    local btnAlert = self.transform:Find("UIWindow/btnAlert"):GetComponent(typeof(UnityEngine.UI.Button))
     btnAlert.onClick:AddListener(
         function()
             local alert = Modules.Common:OpenUI("Alert")
@@ -25,7 +25,7 @@ function LobbyMainWnd:Awake()
         end
     )
 
-    local btnPlayerInfo = self.transform:Find("UIWindow/panBottom/btnPlayerInfo"):GetComponent("Button")
+    local btnPlayerInfo = self.transform:Find("UIWindow/panBottom/btnPlayerInfo"):GetComponent(typeof(UnityEngine.UI.Button))
     btnPlayerInfo.onClick:AddListener(
         function()
             Modules.Player:OpenUI("PlayerInfo")
@@ -34,14 +34,14 @@ function LobbyMainWnd:Awake()
         end
     )
 
-    local btnDailyReward = self.transform:Find("UIWindow/panBottom/btnDailyReward"):GetComponent("Button")
+    local btnDailyReward = self.transform:Find("UIWindow/panBottom/btnDailyReward"):GetComponent(typeof(UnityEngine.UI.Button))
     btnDailyReward.onClick:AddListener(
         function()
             Modules.DailyReward:OpenUI("DailyReward")
         end
     )
 
-    local btnBtnShop = self.transform:Find("UIWindow/panBottom/btnProgress"):GetComponent("Button")
+    local btnBtnShop = self.transform:Find("UIWindow/panBottom/btnProgress"):GetComponent(typeof(UnityEngine.UI.Button))
     btnBtnShop.onClick:AddListener(
         function()
             local progress = Modules.Common:OpenUI("Progress")

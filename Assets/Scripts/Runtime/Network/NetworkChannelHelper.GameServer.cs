@@ -111,6 +111,15 @@ namespace GameClient.Network
             NetManager.RemoveNetworkError(channel, OnNetworkChannelError);
             networkChannel = null;
             m_MsgHandler = null;
+
+            luaOnReceiveServerData?.Dispose();
+            luaOnReceiveServerData = null;
+            luaOnNetworkConnected?.Dispose();
+            luaOnNetworkConnected = null;
+            luaOnNetworkClose?.Dispose();
+            luaOnNetworkClose = null;
+            luaOnNetworkError?.Dispose();
+            luaOnNetworkError = null;
         }
 
         /// <summary>

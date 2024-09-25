@@ -19,10 +19,13 @@ require "Framework.Common.CommandManager"
 require "Framework.UnityHelper"
 require "Framework.BTween"
 
+local UIManager = require "Framework.Core.UIManager"
+
 function Main()
     local StartGame = require "StartGame"
     StartGame.Run()
 end
 
 function OnApplicationQuit()
+    UIManager.Shutdown()
 end

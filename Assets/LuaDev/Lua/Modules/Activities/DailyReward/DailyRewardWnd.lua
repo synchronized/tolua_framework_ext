@@ -20,7 +20,7 @@ function DailyRewardWnd:Awake()
         local menuItem = {}
         self.menus[i] = menuItem
         menuItem.trans = self.transform:Find("UIWindow/Menus/Menu" .. i)
-        menuItem.btn = menuItem.trans:GetComponent("Toggle")
+        menuItem.btn = menuItem.trans:GetComponent(typeof(UnityEngine.UI.Toggle))
         menuItem.btn:OnValueChanged(function()
             if menuItem.btn.isOn then
                 self:onMenuSelect(i)
@@ -32,7 +32,7 @@ function DailyRewardWnd:Awake()
     self.contentRoot = self.transform:Find("UIWindow/ContentRoot")
     self.contents = {}
 
-    local btnClose = self.transform:Find("UIWindow/btnClose"):GetComponent("Button")
+    local btnClose = self.transform:Find("UIWindow/btnClose"):GetComponent(typeof(UnityEngine.UI.Button))
     btnClose.onClick:AddListener( function()
         self:CloseUI()
     end)
@@ -57,7 +57,7 @@ function DailyRewardWnd:onMenuSelect(index)
     if not self.contents[index] then
         local contentIndexInModule = index
         self.contents[self.currSelectIndex] = self.module:OpenUI(contentIndexInModule)
-        local luaBehaviour = self.transform:GetComponent("LuaBehaviour")
+        local luaBehaviour = self.transform:GetComponent(typeof(ToLuaGameFramework.LuaBehaviour))
         if luaBehaviour then
             luaBehaviour:RefreshSortObjects(self.transform)
         end
