@@ -1,9 +1,10 @@
 ---@class UIModuleMgr
-local UIModuleMgr = Class("UIModuleMgr")
+local class = require "30log"
+local UIModuleMgr = class("UIModuleMgr")
 
 local UIManager = require "Framework.Core.UIManager"
 
-function UIModuleMgr:Ctor()
+function UIModuleMgr:init()
     CommandManager.Add(CommandID.OpenUI, self.OnReceiveOpenUICmd, self)
     CommandManager.Add(CommandID.CloseUI, self.OnReceiveCloseUICmd, self)
 end
@@ -17,7 +18,7 @@ function UIModuleMgr:AddUI(uiKey, uiClazz, parentKey)
             LogError("key(" .. uiKey .. ")已存在", "AddUI")
             return
         elseif uiClazzItem == uiClazz then
-            LogError("ui(" .. uiClazz.__cname .. ")已存在", "AddUI")
+            LogError("ui(" .. uiClazz.name .. ")已存在", "AddUI")
             return
         end
     end
@@ -27,13 +28,13 @@ function UIModuleMgr:AddUI(uiKey, uiClazz, parentKey)
 end
 
 function UIModuleMgr:OnReceiveOpenUICmd(moduleName, uiKey)
-    if moduleName == self.__cname then
+    if moduleName == self.class.name then
         self:OpenUI(uiKey)
     end
 end
 
 function UIModuleMgr:OnReceiveCloseUICmd(moduleName, uiKey)
-    if moduleName == self.__cname then
+    if moduleName == self.class.name then
         self:CloseUI(uiKey)
     end
 end
@@ -75,7 +76,7 @@ function UIModuleMgr:OpenUI(uiKey)
 
     local uiClazz = uiClazzInfo.uiClazz
     local parentUI = uiClazzInfo.parentKey and UIManager.GetUI(self:GetUIClassId(uiClazzInfo.parentKey))
-    ui = uiClazz:New()
+    ui = uiClazz:new()
     ui = UIManager.CreateUI(_luaClassId, ui, parentUI)
     return ui
 end
@@ -114,7 +115,7 @@ function UIModuleMgr:OpenUIAsync(uiKey, callback)
 end
 
 function UIModuleMgr:GetUIClassId(uiKey)
-    return self.__cname .. "_" .. tostring(uiKey)
+    return self.class.name .. "_" .. tostring(uiKey)
 end
 
 function UIModuleMgr:CloseUI(uiKey)

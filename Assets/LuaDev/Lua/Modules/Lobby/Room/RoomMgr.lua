@@ -1,8 +1,4 @@
 local UIModuleMgr = require "Framework.Core.UIModuleMgr"
-local RoomMgr = Class("RoomMgr", UIModuleMgr)
-
-function RoomMgr:Ctor()
-    self.super.Ctor(self)
-end
+local RoomMgr = UIModuleMgr:extend("RoomMgr")
 
 return RoomMgr

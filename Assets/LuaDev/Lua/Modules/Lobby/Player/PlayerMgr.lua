@@ -1,8 +1,9 @@
 local UIModuleMgr = require "Framework.Core.UIModuleMgr"
-local PlayerMgr = Class("PlayerMgr", UIModuleMgr)
+local PlayerMgr = UIModuleMgr:extend("PlayerMgr")
 
-function PlayerMgr:Ctor()
-    self.super.Ctor(self)
+function PlayerMgr:init()
+    self.super.init(self)
+
     self:AddUI("PlayerInfo", require "Modules.Lobby.Player.PlayerInfoWnd")
 end
 

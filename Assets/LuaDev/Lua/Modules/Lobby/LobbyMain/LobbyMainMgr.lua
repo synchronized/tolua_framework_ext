@@ -1,8 +1,9 @@
 local UIModuleMgr = require "Framework.Core.UIModuleMgr"
-local LobbyMainMgr = Class("LobbyMainMgr", UIModuleMgr)
+local LobbyMainMgr = UIModuleMgr:extend("LobbyMainMgr")
 
-function LobbyMainMgr:Ctor()
-    self.super.Ctor(self)
+function LobbyMainMgr:init()
+    self.super.init(self)
+
     self:AddUI("LobbyMain", require "Modules.Lobby.LobbyMain.LobbyMainWnd")
 end
 

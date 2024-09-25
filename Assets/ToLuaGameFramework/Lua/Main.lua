@@ -11,7 +11,6 @@ require "event"
 require "System.Timer"
 require "System.coroutine"
 
-require "Framework.Core.Class"
 require "Framework.Common.LuaUtil"
 require "Framework.Common.StringUtil"
 require "Framework.Common.TableUtil"

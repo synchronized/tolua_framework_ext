@@ -1,5 +1,5 @@
 local UIView = require "Framework.Core.UIView"
-local DailyRewardWnd = Class("DailyRewardWnd", UIView)
+local DailyRewardWnd = UIView:extend("DailyRewardWnd")
 
 function DailyRewardWnd:PrefabPath()
     return "Prefabs/Activities/DailyReward/DailyRewardWnd"

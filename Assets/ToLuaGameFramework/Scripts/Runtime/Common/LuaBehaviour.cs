@@ -127,7 +127,7 @@ namespace ToLuaGameFramework
         /// </summary>
         public void AddLuaClass(LuaTable lua, LuaFunction onEnable, LuaFunction start, LuaFunction onDisable, LuaFunction onAppFocus, LuaFunction onDestroy)
         {
-            string className = lua.GetStringField("__cname");
+            string className = lua.GetStringField("name");
             if (!luas.ContainsKey(className))
             {
                 luas.Add(className, new Functions(lua, onEnable, start, onDisable, onAppFocus, onDestroy));
@@ -139,7 +139,7 @@ namespace ToLuaGameFramework
         /// </summary>
         public void RemoveLuaClass(LuaTable lua)
         {
-            string className = lua.GetStringField("__cname");
+            string className = lua.GetStringField("name");
             if (luas.ContainsKey(className))
             {
                 luas.Remove(className);

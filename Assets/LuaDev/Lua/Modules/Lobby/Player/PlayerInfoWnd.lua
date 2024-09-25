@@ -1,5 +1,5 @@
 local UIView = require "Framework.Core.UIView"
-local PlayerInfoWnd = Class("PlayerInfoWnd", UIView)
+local PlayerInfoWnd = UIView:extend("PlayerInfoWnd")
 
 function PlayerInfoWnd:PrefabPath()
     return "Prefabs/Lobby/Player/PlayerInfoWnd"

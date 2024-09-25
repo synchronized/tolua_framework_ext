@@ -1,8 +1,8 @@
-local LuaBehaviour = require "Framework.Core.LuaBehaviour"
 ---@class UIView : LuaBehaviour
-local UIView = Class("UIView", LuaBehaviour)
+local LuaBehaviour = require "Framework.Core.LuaBehaviour"
+local UIView = LuaBehaviour:extend("UIView")
 
-function UIView:Ctor()
+function UIView:init()
 end
 
 --由子类重写，是否加入Ui栈策略

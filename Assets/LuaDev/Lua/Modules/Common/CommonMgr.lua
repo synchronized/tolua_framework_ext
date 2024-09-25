@@ -1,8 +1,9 @@
 local UIModuleMgr = require "Framework.Core.UIModuleMgr"
-local CommonMgr = Class("CommonMgr", UIModuleMgr)
+local CommonMgr = UIModuleMgr:extend("CommonMgr")
 
-function CommonMgr:Ctor()
-    self.super.Ctor(self)
+function CommonMgr:init()
+    self.super.init(self)
+
     self:AddUI("Alert", require "Modules.Common.AlertWnd")
     self:AddUI("Progress", require "Modules.Common.ProgressWnd")
     self:AddUI("Dialog", require "Modules.Common.DialogWnd")

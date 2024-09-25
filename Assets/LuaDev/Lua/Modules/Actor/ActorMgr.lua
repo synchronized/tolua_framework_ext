@@ -1,5 +1,5 @@
 local UIModuleMgr = require "Framework.Core.UIModuleMgr"
-local ActorMgr = Class("ActorMgr", UIModuleMgr)
+local ActorMgr = UIModuleMgr:extend("ActorMgr")
 
 
 

@@ -2,7 +2,8 @@ local protobuf = require "pb"
 local cjsonutil = require "cjson.util"
 local crypt = require "crypt"
 
-LNetMgr = LNetMgr or Class("LNetMgr")
+local class = require "30log"
+LNetMgr = class("LNetMgr")
 
 local NetChannel;
 

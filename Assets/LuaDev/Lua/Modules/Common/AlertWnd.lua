@@ -1,6 +1,5 @@
 local UIView = require "Framework.Core.UIView"
-
-local AlertWnd = Class("AlertWnd", UIView)
+local AlertWnd = UIView:extend("AlertWnd")
 
 local tipsQue = Queue.New();
 

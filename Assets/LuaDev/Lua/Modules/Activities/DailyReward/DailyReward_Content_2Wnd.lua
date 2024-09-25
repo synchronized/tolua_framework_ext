@@ -1,5 +1,5 @@
 local UIView = require "Framework.Core.UIView"
-local DailyReward_Content_2Wnd = Class("DailyReward_Content_2Wnd", UIView)
+local DailyReward_Content_2Wnd = UIView:extend("DailyReward_Content_2Wnd")
 
 function DailyReward_Content_2Wnd:PrefabPath()
     return "Prefabs/Activities/DailyReward/DailyReward_Content_2Wnd"

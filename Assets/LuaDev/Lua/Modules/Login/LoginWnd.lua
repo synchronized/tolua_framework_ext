@@ -1,5 +1,5 @@
 local UIView = require "Framework.Core.UIView"
-local LoginWnd = Class("LoginWnd", UIView)
+local LoginWnd = UIView:extend("LoginWnd")
 
 local playerInfo = require "Entity.PlayerInfo"
 

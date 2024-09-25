@@ -1,5 +1,7 @@
 local uidPool = 0
 
+local LuaBehaviour = require "Framework.Core.LuaBehaviour"
+
 --例：AddLuaComponent(self.gameObject, require "Modules.Common.WealthListener")
 --luaCalss：传require对象而不是直接传字符串路径，是为了方便写完可以用Ctrl+光标检测路径的可用性
 function AddLuaComponent(transform, luaCalss)
@@ -11,14 +13,7 @@ function AddLuaComponent(transform, luaCalss)
         LogError("luaCalss 为 nil")
         return
     end
-    local haveLuaBahavious = luaCalss.super.__cname == "LuaBehaviour"
-    if not haveLuaBahavious then
-        local parent = luaCalss.super
-        while parent.super and parent.super.__cname == "LuaBehaviour" do
-            haveLuaBahavious = true
-            break
-        end
-    end
+    local haveLuaBahavious = LuaBehaviour:classof(luaCalss)
     if not haveLuaBahavious then
         LogError("必须继承 LuaBehaviour 或 UIView 才能使用 AddLuaComponent() 方法")
         return

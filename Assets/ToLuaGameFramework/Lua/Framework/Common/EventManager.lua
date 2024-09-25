@@ -14,7 +14,8 @@ local tinsert = table.insert
 local tremove = table.remove
 local traceback = tolua.traceback
 
-local EventManager = Class("EventManager");
+local class = require "30log"
+local EventManager = class("EventManager");
 
 function EventManager:Ctor(safe)
     self.idCounter = 0

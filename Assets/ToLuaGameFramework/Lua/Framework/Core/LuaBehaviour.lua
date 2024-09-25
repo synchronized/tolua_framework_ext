@@ -1,9 +1,10 @@
 ---@class LuaBehaviour
-local LuaBehaviour = Class("LuaBehaviour")
+local class = require "30log"
+local LuaBehaviour = class("LuaBehaviour")
 
 local UIManager = require "Framework.Core.UIManager"
 
-function LuaBehaviour:Ctor(parent)
+function LuaBehaviour:init(parent)
     self:CreateGameObject(parent)
 end
 
@@ -55,13 +56,11 @@ end
 
 ---@private
 function LuaBehaviour:_Awake()
-    --Log("Awake", self.__cname)
     self:Awake()
 end
 
 ---@private
 function LuaBehaviour:_OnEnable()
-    --Log("OnEnable", self.__cname)
     self.enabled = true
     self:OnEnable()
     if self.updateHandler then
@@ -77,7 +76,6 @@ end
 
 ---@private
 function LuaBehaviour:_Start()
-    --Log("Start", self.__cname)
     self:Start()
     if self.Update and not self.updateHandler then
         self.updateHandler = UpdateBeat:CreateListener(self.Update, self)
@@ -95,7 +93,6 @@ end
 
 ---@private
 function LuaBehaviour:_OnDisable()
-    -- Log("OnDisable", self.__cname)
     if self.updateHandler then
         UpdateBeat:RemoveListener(self.updateHandler)
     end
@@ -111,16 +108,13 @@ end
 
 ---@private
 function LuaBehaviour:_OnApplicationFocus(isFocus)
-    -- Log("OnApplicationFocus", self.__cname)
     self:OnApplicationFocus(isFocus)
 end
 
 ---@private
 function LuaBehaviour:_OnDestroy()
-    -- Log("OnDestroy", self.__cname)
     self:OnDestroy()
     UIManager.OnUIDestroy(self)
-    ClearClass(self)
 end
 
 function LuaBehaviour:Awake()

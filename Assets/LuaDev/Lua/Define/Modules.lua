@@ -14,5 +14,5 @@ Modules = {
 
 --实例化全部模块
 for key, _module in pairs(Modules) do
-    Modules[key] = _module:New()
+    Modules[key] = _module:new()
 end

@@ -1,7 +1,7 @@
 local tinsert = table.insert
 local tremove = table.remove
-
-local UIManager = Class("UIManager")
+local class = require "30log"
+local UIManager = class("UIManager")
 
 local uiStack = {} --ui栈
 local spawnedUIMap = {} --已经创建的UI的Map
@@ -30,7 +30,7 @@ end
 function UIManager.CreateUI(luaClassId, ui, parentUI)
     local prefabPath = ui:PrefabPath()
     if not prefabPath or prefabPath == "" then
-        error(string.format("请重写PrefabPath()方法并指定Prefab路径 uiClass: %s", uiClazz.__cname))
+        error(string.format("请重写PrefabPath()方法并指定Prefab路径 luaClassId: %s", luaClassId))
     end
     local prefab = ResManager.LoadAssetSync(typeof(UnityEngine.GameObject), prefabPath)
     UIManager.SpawnUI(luaClassId, ui, prefab, parentUI)
@@ -41,7 +41,7 @@ end
 function UIManager.CreateUICo(luaClassId, ui, parentUI)
     local prefabPath = ui:PrefabPath()
     if not prefabPath or prefabPath == "" then
-        error(string.format("请重写PrefabPath()方法并指定Prefab路径 uiClass: %s", uiClazz.__cname))
+        error(string.format("请重写PrefabPath()方法并指定Prefab路径 luaClassId: %s", luaClassId))
     end
     local loader = ResManager.LoadAsset(typeof(UnityEngine.GameObject), prefabPath)
     coroutine.waitdone(loader)

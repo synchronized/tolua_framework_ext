@@ -1,8 +1,9 @@
 local UIModuleMgr = require "Framework.Core.UIModuleMgr"
-local DailyRewardMgr = Class("DailyRewardMgr", UIModuleMgr)
+local DailyRewardMgr = UIModuleMgr:extend("DailyRewardMgr")
 
-function DailyRewardMgr:Ctor()
-    self.super.Ctor(self)
+function DailyRewardMgr:init()
+    self.super.init(self)
+
     self:AddUI("DailyReward", require "Modules.Activities.DailyReward.DailyRewardWnd")
     self:AddUI(1, require "Modules.Activities.DailyReward.DailyReward_Content_1Wnd", "DailyReward")
     self:AddUI(2, require "Modules.Activities.DailyReward.DailyReward_Content_2Wnd", "DailyReward")

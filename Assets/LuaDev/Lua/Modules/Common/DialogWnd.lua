@@ -1,6 +1,5 @@
 local UIView = require "Framework.Core.UIView"
-
-local DialogWnd = Class("DialogWnd", UIView)
+local DialogWnd = UIView:extend("DialogWnd")
 
 function DialogWnd:PrefabPath()
     return "Prefabs/Common/DialogWnd"

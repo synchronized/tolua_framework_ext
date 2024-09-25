@@ -3,7 +3,8 @@ local cjsonutil = require "cjson.util"
 local crypt = require "crypt"
 local errcode = require "Error.errcode"
 
-LoginPart = Class("LoginPart")
+local class = require "30log"
+LoginPart = class("LoginPart")
 
 LoginPart.LoginFailNum = 0
 
