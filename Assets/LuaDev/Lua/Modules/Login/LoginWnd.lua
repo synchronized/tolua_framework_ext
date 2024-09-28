@@ -34,13 +34,6 @@ function LoginWnd:Awake()
     self.btnLogin.onClick:AddListener(self.onLoginBtnClick)
 end
 
---由模块触发调用
-function LoginWnd:RefrshUI()
-    --在UI里方法模块管理器的方法
-    local serverData = self.module:getServerData()
-    Log(serverData)
-end
-
 function LoginWnd:OnDestroy()
     self.btnLogin.onClick:RemoveListener(self.onLoginBtnClick)
 end

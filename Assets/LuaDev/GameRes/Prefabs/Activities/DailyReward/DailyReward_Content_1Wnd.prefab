@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 4979728451822923986}
   - component: {fileID: 2438015800639324386}
   m_Layer: 5
-  m_Name: btnAlert
+  m_Name: btnMessageBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

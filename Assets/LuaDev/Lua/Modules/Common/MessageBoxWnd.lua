@@ -1,19 +1,19 @@
 local UIView = require "Framework.Core.UIView"
-local DialogWnd = UIView:extend("DialogWnd")
+local MessageBoxWnd = UIView:extend("MessageBoxWnd")
 
-function DialogWnd:PrefabPath()
-    return "Prefabs/Common/DialogWnd"
+function MessageBoxWnd:PrefabPath()
+    return "Prefabs/Common/MessageBoxWnd"
 end
 
-function DialogWnd:IsFloat()
+function MessageBoxWnd:IsFloat()
     return true
 end
 
-function DialogWnd:IsUIStack()
+function MessageBoxWnd:IsUIStack()
     return false
 end
 
-function DialogWnd:Awake()
+function MessageBoxWnd:Awake()
     self.super.Awake(self)
 
     self.txtContent = self.transform:Find("panMain/txtContent"):GetComponent(typeof(TMPro.TMP_Text))
@@ -22,11 +22,11 @@ function DialogWnd:Awake()
 end
 
 --设置内容
-function DialogWnd:SetContent(text)
+function MessageBoxWnd:SetContent(text)
     self.txtContent.text = text
 end
 
-function DialogWnd:OnOk(cb)
+function MessageBoxWnd:OnOk(cb)
     if cb then
         if not self.btnOk.gameObject.activeSelf then
             self.btnOk.gameObject:SetActive(true)
@@ -38,7 +38,7 @@ function DialogWnd:OnOk(cb)
     end
 end
 
-function DialogWnd:OnCancel(cb)
+function MessageBoxWnd:OnCancel(cb)
     if cb then
         if not self.btnCancel.gameObject.activeSelf then
             self.btnCancel.gameObject:SetActive(true)
@@ -50,4 +50,4 @@ function DialogWnd:OnCancel(cb)
     end
 end
 
-return DialogWnd
+return MessageBoxWnd

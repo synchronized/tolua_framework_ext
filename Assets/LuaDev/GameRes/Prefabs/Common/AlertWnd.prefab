@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8119288986477653520}
   - component: {fileID: 4423732254638074767}
-  - component: {fileID: 2715666142021765395}
   - component: {fileID: 9173970333756039706}
   m_Layer: 5
   m_Name: panCenter
@@ -48,22 +47,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1901512504986549451}
   m_CullTransparentMesh: 1
---- !u!111 &2715666142021765395
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1901512504986549451}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: fd2531d06ddac3841a8c63a4f2d19584, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: fd2531d06ddac3841a8c63a4f2d19584, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!114 &9173970333756039706
 MonoBehaviour:
   m_ObjectHideFlags: 0

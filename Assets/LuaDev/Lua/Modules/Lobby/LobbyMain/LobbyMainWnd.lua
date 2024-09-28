@@ -41,8 +41,8 @@ function LobbyMainWnd:Awake()
         end
     )
 
-    local btnBtnShop = self.transform:Find("UIWindow/panBottom/btnProgress"):GetComponent(typeof(UnityEngine.UI.Button))
-    btnBtnShop.onClick:AddListener(
+    local btnProgress = self.transform:Find("UIWindow/panBottom/btnProgress"):GetComponent(typeof(UnityEngine.UI.Button))
+    btnProgress.onClick:AddListener(
         function()
             local progress = Modules.Common:OpenUI("Progress")
             progress:SetProgress(2)
@@ -52,6 +52,31 @@ function LobbyMainWnd:Awake()
             end)
             --或
             --CommandManager.Execute(CommandID.OpenUI, "ShopMgr")
+        end
+    )
+
+    local btnMessageBox = self.transform:Find("UIWindow/panBottom/btnMessageBox"):GetComponent(typeof(UnityEngine.UI.Button))
+    btnMessageBox.onClick:AddListener(function()
+        local messageBox = Modules.Common:OpenUI("MessageBox")
+        messageBox:SetContent("这是一个弹出框,可以放下大段文本")
+        messageBox:OnOk(function ()
+            local alert = Modules.Common:OpenUI("Alert")
+            alert:SetContent("弹出框点击Ok")
+        end)
+        messageBox:OnCancel(function ()
+            local alert = Modules.Common:OpenUI("Alert")
+            alert:SetContent("弹出框点击Cancel按钮")
+        end)
+    end)
+
+    local btnLoading = self.transform:Find("UIWindow/panBottom/btnLoading"):GetComponent(typeof(UnityEngine.UI.Button))
+    btnLoading.onClick:AddListener(
+        function()
+            coroutine.start(function()
+                local loading = Modules.Common:OpenUI("Loading")
+                coroutine.wait(3)
+                loading:CloseUI()
+            end)
         end
     )
 
